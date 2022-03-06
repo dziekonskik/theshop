@@ -21,15 +21,13 @@ const ProductsPageCSR = () => {
     getPproducts(currentPage - 1)
   );
 
-  const {
-    query: { page },
-  } = useRouter();
+  const { query } = useRouter();
 
   useEffect(() => {
-    if (page !== undefined && typeof page === "string") {
-      setCurrentPage(parseInt(page));
+    if (query.page !== undefined && typeof query.page === "string") {
+      setCurrentPage(parseInt(query.page));
     }
-  }, [page]);
+  }, [query]);
 
   if (isLoading) {
     return <div>Loading...</div>;
