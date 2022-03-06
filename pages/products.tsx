@@ -7,6 +7,7 @@ interface StoreApiResponse {
   description: string;
   category: string;
   image: string;
+  longDescription: string;
   rating: {
     rate: number;
     count: number;
@@ -18,7 +19,7 @@ const ProductsPage = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <section>
-      <ul className="grid grid-cols-1 md:grid-cols-2 : xl:grid-cols-3 gap-4">
+      <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {data.map((item) => (
           <li key={item.id} className="shadow-lg">
             <ProductLstItem

@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
+import { ProductLstItem } from "../components/Product";
 
 const getPproducts = async () => {
-  const res = await fetch("https://fakestoreapi.com/products");
+  const res = await fetch("https://naszsklep-api.vercel.app/api/products");
   const data: StoreApiResponse[] = await res.json();
   return data;
 };
@@ -19,12 +20,17 @@ const ProductsPageCSR = () => {
 
   return (
     <section>
-      <ul>
+      <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {data.map((item) => (
-          <li key={item.id}>
-            <img src={item.image} alt="dupa" />
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
+          <li key={item.id} className="shadow-lg">
+            <ProductLstItem
+              data={{
+                id: item.id,
+                title: item.title,
+                thumbnailAlt: item.title,
+                thumbnailUrl: item.image,
+              }}
+            />
           </li>
         ))}
       </ul>
