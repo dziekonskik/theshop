@@ -15,7 +15,9 @@ const ProductIdPage = ({
   return (
     <div>
       <Link href={"/products"}>
-        <a>Wróć na stronę główną</a>
+        <a className="shadow-sm border-indigo-500 bg-indigo-600 text-white p-4 mb-14">
+          Wróć na stronę główną
+        </a>
       </Link>
       <ProductDetails
         data={{
