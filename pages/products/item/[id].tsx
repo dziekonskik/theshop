@@ -36,12 +36,16 @@ const ProductIdPage = ({
 export default ProductIdPage;
 
 export const getStaticPaths = async () => {
-  const res = await fetch("https://naszsklep-api.vercel.app/api/products");
+  const res = await fetch(
+    "https://naszsklep-api.vercel.app/api/products?take=25&offset=250"
+  );
   const data: StoreApiResponse[] = await res.json();
+
+  const paths = Array.from({ length: data.at(-1)?.id || 0 }, (_, i) => ({
+    params: { id: (i + 1).toString() },
+  }));
   return {
-    paths: data.map((product) => ({
-      params: { id: product.id.toString() },
-    })),
+    paths,
     fallback: false,
   };
 };
