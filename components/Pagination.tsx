@@ -3,13 +3,23 @@ import Link from "next/link";
 interface Props {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  numberOfPages: number;
 }
 
-export const Pagination = ({ currentPage, setCurrentPage }: Props) => {
+export const Pagination = ({
+  currentPage,
+  setCurrentPage,
+  numberOfPages,
+}: Props) => {
   return (
     <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
-      <div className="hidden md:-mt-px md:flex">
-        {Array.from({ length: 10 }, (_, i) => (
+      <div className="hidden md:-mt-px md:flex items-baseline">
+        <Link href={`/products${currentPage > 1 ? `/${currentPage - 1}` : ""}`}>
+          <a className="mr-4 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md p-2 disabled:bg-indigo-300">
+            Prev
+          </a>
+        </Link>
+        {Array.from({ length: numberOfPages }, (_, i) => (
           <Link href={`/products/${i + 1}`} key={i}>
             <a
               onClick={() => setCurrentPage(i + 1)}
@@ -23,6 +33,11 @@ export const Pagination = ({ currentPage, setCurrentPage }: Props) => {
             </a>
           </Link>
         ))}
+        <Link href={`/products/${Math.min(currentPage + 1, numberOfPages)}`}>
+          <a className="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md p-2">
+            Next
+          </a>
+        </Link>
       </div>
     </nav>
   );

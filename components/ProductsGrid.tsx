@@ -53,7 +53,11 @@ export const ProductsGrid = ({ data }: ProductGridProps) => {
         ))}
       </ul>
       <div className="flex justify-center mb-7 mt-14">
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          numberOfPages={10}
+        />
       </div>
     </section>
   );
