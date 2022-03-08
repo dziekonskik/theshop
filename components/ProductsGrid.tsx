@@ -34,7 +34,6 @@ export const ProductsGrid = ({ data }: ProductGridProps) => {
     ) {
       setCurrentPage(parseInt(query.pageNumber));
     }
-    console.log({ query });
   }, [query]);
 
   return (

@@ -58,7 +58,7 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
           height={9}
         />
       </div>
-      <Link href={`/products/${data.id}`}>
+      <Link href={`/products/item/${data.id}`}>
         <a>
           <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
         </a>
