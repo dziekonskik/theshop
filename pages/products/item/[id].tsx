@@ -41,9 +41,12 @@ export const getStaticPaths = async () => {
   );
   const data: StoreApiResponse[] = await res.json();
 
-  const paths = Array.from({ length: data.at(-1)?.id || 0 }, (_, i) => ({
-    params: { id: (i + 1).toString() },
-  }));
+  const paths = Array.from(
+    { length: data[data.length - 1]?.id || 0 },
+    (_, i) => ({
+      params: { id: (i + 1).toString() },
+    })
+  );
   return {
     paths,
     fallback: false,
