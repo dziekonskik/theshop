@@ -1,10 +1,17 @@
 import { InferGetStaticPropsType } from "next";
+import { useRouter } from "next/router";
+
 import { ProductsGrid } from "../../components/ProductsGrid";
 import type { InferGetStaticPaths, StoreApiResponse } from "../../util/types";
 
 const ProductsPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <div>Loading...</div>;
+  }
   return <ProductsGrid data={data} />;
 };
 
@@ -14,7 +21,7 @@ export const getStaticPaths = async () => {
   }));
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 

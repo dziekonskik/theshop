@@ -1,5 +1,6 @@
 import { InferGetStaticPropsType } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ProductDetails } from "../../../components/Product";
 import type {
   InferGetStaticPaths,
@@ -9,6 +10,11 @@ import type {
 const ProductIdPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <div>Loading...</div>;
+  }
   if (!data) {
     return <div>Ups coś poszło nie tak...</div>;
   }
@@ -49,7 +55,7 @@ export const getStaticPaths = async () => {
   );
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 
