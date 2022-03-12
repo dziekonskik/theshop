@@ -25,13 +25,19 @@ export const DottedPagination = ({
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-        <PaginationDots condition={currentPage > 3} />
+        <PaginationDots
+          condition={currentPage > 3}
+          setCurrentPage={setCurrentPage}
+        />
         <PaginationArray
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           numberOfPages={numberOfPages}
         />
-        <PaginationDots condition={currentPage < numberOfPages - 2} />
+        <PaginationDots
+          condition={currentPage < numberOfPages - 2}
+          setCurrentPage={setCurrentPage}
+        />
         <PaginationItem
           pageNumber={numberOfPages}
           currentPage={currentPage}
@@ -46,21 +52,3 @@ export const DottedPagination = ({
     </nav>
   );
 };
-//  <PaginationItem
-//           pageNumber={1}
-//           currentPage={currentPage}
-//           setCurrentPage={setCurrentPage}
-//           predicate
-//         />
-//         <PaginationItem
-//           pageNumber={1}
-//           currentPage={currentPage}
-//           setCurrentPage={setCurrentPage}
-//           predicate
-//         />
-//         <PaginationItem
-//           pageNumber={1}
-//           currentPage={currentPage}
-//           setCurrentPage={setCurrentPage}
-//           predicate
-//         />
