@@ -54,13 +54,3 @@ export const PaginationArray = ({
     </>
   );
 };
-
-//  if (currentPage === 1) {
-//    pageDisplayed = currentPage + 1;
-//  } else if (currentPage > 1 && currentPage < 4) {
-//    pageDisplayed = currentPage + i;
-//  } else if (currentPage > numberOfPages - currentPage - i) {
-//    pageDisplayed = currentPage - (i + 1);
-//  } else {
-//    pageDisplayed = currentPage - 1 + i;
-//  }
