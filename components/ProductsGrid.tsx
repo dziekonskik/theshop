@@ -1,22 +1,8 @@
 import { useEffect, useState } from "react";
-
-import { ProductLstItem } from "./Product";
-import { Pagination } from "./Pagination";
 import { useRouter } from "next/router";
-
-interface StoreApiResponse {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  longDescription: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
+import { ProductLstItem } from "./Product";
+import { DottedPagination, Pagination } from "./Pagination";
+import { StoreApiResponse } from "../util/types";
 
 interface ProductGridProps {
   data: StoreApiResponse[];
@@ -56,7 +42,14 @@ export const ProductsGrid = ({ data }: ProductGridProps) => {
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          numberOfPages={10}
+          numberOfPages={20}
+        />
+      </div>
+      <div className="flex justify-center mb-7 mt-14">
+        <DottedPagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          numberOfPages={20}
         />
       </div>
     </section>
