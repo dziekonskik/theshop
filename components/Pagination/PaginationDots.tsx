@@ -41,7 +41,7 @@ export const PaginationDots = ({ condition, setCurrentPage }: TheDotsProps) => {
       <input
         ref={inputRef}
         onMouseOut={() => setShowInput(false)}
-        className="w-8 text-indigo-600 p-1 shadow-md transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 outline-0"
+        className="w-8 text-indigo-600 p-1 shadow-md transition ease-in-out hover:scale-110 duration-300 outline-0"
         placeholder="nr"
         type="text"
         value={inputValue}
