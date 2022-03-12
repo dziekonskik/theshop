@@ -6,9 +6,10 @@ import { StoreApiResponse } from "../util/types";
 
 interface ProductGridProps {
   data: StoreApiResponse[];
+  pagesTotal: number;
 }
 
-export const ProductsGrid = ({ data }: ProductGridProps) => {
+export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { query } = useRouter();
@@ -49,7 +50,7 @@ export const ProductsGrid = ({ data }: ProductGridProps) => {
         <DottedPagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          numberOfPages={20}
+          numberOfPages={pagesTotal}
         />
       </div>
     </section>
