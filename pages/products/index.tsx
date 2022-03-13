@@ -4,8 +4,9 @@ import type { StoreApiResponse } from "../../util/types";
 
 const ProductsPage = ({
   data,
+  pagesTotal,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return <ProductsGrid data={data} />;
+  return <ProductsGrid data={data} pagesTotal={pagesTotal} />;
 };
 
 export const getStaticProps = async () => {
@@ -13,10 +14,15 @@ export const getStaticProps = async () => {
     "https://naszsklep-api.vercel.app/api/products?take=25&offset=0"
   );
   const data: StoreApiResponse[] = await res.json();
+  const allItemsQuery = await fetch(
+    `https://naszsklep-api.vercel.app/api/products?take=10000000&offset=0`
+  );
+  const allItemsData: StoreApiResponse[] = await allItemsQuery.json();
 
   return {
     props: {
       data,
+      pagesTotal: Math.round(allItemsData.length / 25),
     },
   };
 };
