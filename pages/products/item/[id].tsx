@@ -1,28 +1,29 @@
-import {
-  GetStaticPathsResult,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from "next";
+import { InferGetStaticPropsType } from "next";
 import Link from "next/link";
-import { ParsedUrlQuery } from "querystring";
-import { ProductDetails } from "../../components/Product";
-
-export type InferGetStaticPaths<T> = T extends () => Promise<{
-  paths: Array<{ params: infer R }>;
-}>
-  ? { params?: R }
-  : never;
+import { useRouter } from "next/router";
+import { ProductDetails } from "../../../components/Product";
+import type {
+  InferGetStaticPaths,
+  StoreApiResponse,
+} from "../../../util/types";
 
 const ProductIdPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <div>Loading...</div>;
+  }
   if (!data) {
     return <div>Ups coś poszło nie tak...</div>;
   }
   return (
     <div>
       <Link href={"/products"}>
-        <a>Wróć na stronę główną</a>
+        <a className="shadow-sm border-indigo-500 bg-indigo-600 text-white p-4 mb-14">
+          Wróć na stronę główną
+        </a>
       </Link>
       <ProductDetails
         data={{
@@ -40,27 +41,21 @@ const ProductIdPage = ({
 
 export default ProductIdPage;
 
-interface StoreApiResponse {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
-
 export const getStaticPaths = async () => {
-  const res = await fetch("https://fakestoreapi.com/products");
+  const res = await fetch(
+    "https://naszsklep-api.vercel.app/api/products?take=25&offset=250"
+  );
   const data: StoreApiResponse[] = await res.json();
+
+  const paths = Array.from(
+    { length: data[data.length - 1]?.id || 0 },
+    (_, i) => ({
+      params: { id: (i + 1).toString() },
+    })
+  );
   return {
-    paths: data.map((product) => ({
-      params: { id: product.id.toString() },
-    })),
-    fallback: false,
+    paths,
+    fallback: "blocking",
   };
 };
 
@@ -73,7 +68,9 @@ export const getStaticProps = async ({
       notFound: true,
     };
   }
-  const res = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+  const res = await fetch(
+    `https://naszsklep-api.vercel.app/api/products/${params.id}`
+  );
   const data: StoreApiResponse | null = await res.json();
 
   return {
