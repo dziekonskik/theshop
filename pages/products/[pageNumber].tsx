@@ -18,12 +18,12 @@ const ProductsPage = ({
 };
 
 export const getStaticPaths = async () => {
-  const paths = Array.from({ length: 20 }, (_, i) => ({
+  const paths = Array.from({ length: 168 }, (_, i) => ({
     params: { pageNumber: (i + 1).toString() },
   }));
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };
 
