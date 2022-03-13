@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ProductLstItem } from "./Product";
-import { DottedPagination, Pagination } from "./Pagination";
+import { DottedPagination } from "./Pagination";
 import { StoreApiResponse } from "../util/types";
 
 interface ProductGridProps {
