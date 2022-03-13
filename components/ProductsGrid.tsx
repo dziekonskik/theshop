@@ -40,13 +40,6 @@ export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
         ))}
       </ul>
       <div className="flex justify-center mb-7 mt-14">
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          numberOfPages={20}
-        />
-      </div>
-      <div className="flex justify-center mb-7 mt-14">
         <DottedPagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
