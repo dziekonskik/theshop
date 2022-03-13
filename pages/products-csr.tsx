@@ -1,14 +1,33 @@
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+import { PaginationCSR } from "../components/PaginationCSR";
 import { ProductLstItem } from "../components/Product";
 
-const getPproducts = async () => {
-  const res = await fetch("https://naszsklep-api.vercel.app/api/products");
+const getPproducts = async (pageNumber: number) => {
+  const productsPerPage = 25;
+  const res = await fetch(
+    `https://naszsklep-api.vercel.app/api/products?take=25&offset=${
+      pageNumber * productsPerPage
+    }`
+  );
   const data: StoreApiResponse[] = await res.json();
   return data;
 };
 
 const ProductsPageCSR = () => {
-  const { isLoading, error, data } = useQuery("products", getPproducts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { isLoading, error, data } = useQuery(["products", currentPage], () =>
+    getPproducts(currentPage - 1)
+  );
+
+  const { query } = useRouter();
+
+  useEffect(() => {
+    if (query.page !== undefined && typeof query.page === "string") {
+      setCurrentPage(parseInt(query.page));
+    }
+  }, [query]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -34,6 +53,12 @@ const ProductsPageCSR = () => {
           </li>
         ))}
       </ul>
+      <div className="flex justify-center mb-7 mt-14">
+        <PaginationCSR
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </section>
   );
 };
