@@ -1,6 +1,7 @@
 import { InferGetStaticPropsType } from "next";
 import { ProductsGrid } from "../../components/ProductsGrid";
-import type { StoreApiResponse } from "../../util/types";
+import { fetchProductsData } from "../../util/functions";
+import { PRODUCTS_PER_PAGE } from "../../util/constants";
 
 const ProductsPage = ({
   data,
@@ -10,14 +11,7 @@ const ProductsPage = ({
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch(
-    "https://naszsklep-api.vercel.app/api/products?take=25&offset=0"
-  );
-  const data: StoreApiResponse[] = await res.json();
-  const allItemsQuery = await fetch(
-    `https://naszsklep-api.vercel.app/api/products?take=10000000&offset=0`
-  );
-  const allItemsData: StoreApiResponse[] = await allItemsQuery.json();
+  const { data, allItemsData } = await fetchProductsData(0, PRODUCTS_PER_PAGE);
 
   return {
     props: {

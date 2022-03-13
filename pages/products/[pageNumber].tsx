@@ -1,8 +1,9 @@
 import { InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
-
 import { ProductsGrid } from "../../components/ProductsGrid";
-import type { InferGetStaticPaths, StoreApiResponse } from "../../util/types";
+import { PRODUCTS_PER_PAGE } from "../../util/constants";
+import { fetchProductsData } from "../../util/functions";
+import type { InferGetStaticPaths } from "../../util/types";
 
 const ProductsPage = ({
   data,
@@ -30,18 +31,11 @@ export const getStaticProps = async ({
   params,
 }: InferGetStaticPaths<typeof getStaticPaths>) => {
   const currentPage = +(params?.pageNumber || 0);
-  const productsPerPage = 25;
 
-  const res = await fetch(
-    `https://naszsklep-api.vercel.app/api/products?take=${productsPerPage}&offset=${
-      currentPage * productsPerPage
-    }`
+  const { data, allItemsData } = await fetchProductsData(
+    currentPage,
+    PRODUCTS_PER_PAGE
   );
-  const allItemsQuery = await fetch(
-    `https://naszsklep-api.vercel.app/api/products?take=10000000&offset=0`
-  );
-  const data: StoreApiResponse[] = await res.json();
-  const allItemsData: StoreApiResponse[] = await allItemsQuery.json();
 
   return {
     props: {
