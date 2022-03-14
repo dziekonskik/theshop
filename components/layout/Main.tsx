@@ -6,7 +6,7 @@ interface MainProps {
 
 export const Main = ({ children }: MainProps) => {
   return (
-    <main className="bg-teal flex-grow max-w-2xl mx-auto grid p-6 gap-6 sm: grid-cols-2">
+    <main className="relative flex-grow h-screen mx-auto grid gap-6">
       {children}
     </main>
   );
