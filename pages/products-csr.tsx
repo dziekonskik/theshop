@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { PaginationCSR } from "../components/PaginationCSR";
 import { ProductLstItem } from "../components/Product";
+import type { StoreApiResponse } from "../util/types";
 
 const getPproducts = async (pageNumber: number) => {
   const productsPerPage = 25;
@@ -63,16 +64,4 @@ const ProductsPageCSR = () => {
   );
 };
 
-interface StoreApiResponse {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
 export default ProductsPageCSR;

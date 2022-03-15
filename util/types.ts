@@ -1,3 +1,5 @@
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+
 export type InferGetStaticPaths<T> = T extends () => Promise<{
   paths: Array<{ params: infer R }>;
 }>
@@ -17,3 +19,5 @@ export interface StoreApiResponse {
     count: number;
   };
 }
+
+export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
