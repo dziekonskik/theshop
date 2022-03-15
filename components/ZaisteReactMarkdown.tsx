@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote";
+import { MarkdownResult } from "../util/types";
 
 export const ZaisteReactMarkdown = ({
   children,
 }: {
-  children: MDXRemoteSerializeResult<Record<string, unknown>>;
+  children: MarkdownResult;
 }) => {
   return (
     <MDXRemote
