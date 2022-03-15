@@ -1,6 +1,7 @@
 import { InferGetStaticPropsType } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { serialize } from "next-mdx-remote/serialize";
 import { ProductDetails } from "../../../components/Product";
 import type {
   InferGetStaticPaths,
@@ -32,6 +33,7 @@ const ProductIdPage = ({
           thumbnailAlt: data.title,
           thumbnailUrl: data.image,
           description: data.description,
+          longDescription: data.longDescription,
           rating: data.rating.rate,
         }}
       />
@@ -71,11 +73,21 @@ export const getStaticProps = async ({
   const res = await fetch(
     `https://naszsklep-api.vercel.app/api/products/${params.id}`
   );
-  const data: StoreApiResponse | null = await res.json();
+  const data: StoreApiResponse = await res.json();
+
+  if (!data) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      data,
+      data: {
+        ...data,
+        longDescription: await serialize(data.longDescription),
+      },
     },
   };
 };
