@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
+import { NextSeo } from "next-seo";
 import { Rating } from "./Rating";
+import { ZaisteReactMarkdown } from "./ZaisteReactMarkdown";
+import type { MarkdownResult } from "../util/types";
 
 interface ProductDetails {
   id: number;
@@ -9,6 +11,7 @@ interface ProductDetails {
   description: string;
   thumbnailUrl: string;
   thumbnailAlt: string;
+  longDescription: MarkdownResult;
   rating: number;
 }
 
@@ -24,6 +27,24 @@ interface ProductProps {
 export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <>
+      <NextSeo
+        title={data.title}
+        description={data.description}
+        canonical={`https://theshop-nu.vercel.app/products/${data.id}`}
+        openGraph={{
+          url: `https://theshop-nu.vercel.app/products/${data.id}`,
+          title: data.title,
+          description: data.description,
+          images: [
+            {
+              url: data.thumbnailUrl,
+              alt: data.thumbnailAlt,
+              type: "image/jpeg",
+            },
+          ],
+          site_name: "The Shop",
+        }}
+      />
       <div className="bg-white p-4">
         <Image
           src={data.thumbnailUrl}
@@ -36,7 +57,12 @@ export const ProductDetails = ({ data }: ProductProps) => {
       </div>
       <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
       <p className="p-4">{data.description}</p>
-      <Rating rating={data.rating} />
+      <article className="p-4 prose lg:prose-xl">
+        <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
+      </article>
+      <div className="p-4">
+        <Rating rating={data.rating} />
+      </div>
     </>
   );
 };
