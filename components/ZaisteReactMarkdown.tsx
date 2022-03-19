@@ -12,12 +12,31 @@ export const ZaisteReactMarkdown = ({
       {...children}
       components={{
         a: ({ href, ...props }) => {
+          console.log({ ...props });
           if (!href) {
-            return <a {...props}></a>;
+            return (
+              <a
+                {...props}
+                className="cursor-pointer text-indigo-600 no-underline"
+              ></a>
+            );
+          }
+          if (href.startsWith("http")) {
+            return (
+              <a
+                {...props}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="cursor-pointer text-indigo-600 no-underline"
+              ></a>
+            );
           }
           return (
             <Link href={href}>
-              <a {...props}></a>
+              <a
+                {...props}
+                className="cursor-pointer text-indigo-600 no-underline"
+              ></a>
             </Link>
           );
         },
