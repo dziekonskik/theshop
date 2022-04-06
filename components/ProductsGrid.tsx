@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ProductLstItem } from "./Product";
 import { DottedPagination } from "./Pagination";
-import { StoreApiResponse } from "../util/types";
+import { GetProductListQuery } from "../generated/graphql";
 
 interface ProductGridProps {
-  data: StoreApiResponse[];
+  data: GetProductListQuery;
   pagesTotal: number;
 }
 
@@ -26,14 +26,15 @@ export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
   return (
     <section>
       <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {data.map((item) => (
+        {data.products.map((item) => (
           <li key={item.id} className="shadow-lg">
             <ProductLstItem
               data={{
                 id: item.id,
-                title: item.title,
-                thumbnailAlt: item.title,
-                thumbnailUrl: item.image,
+                name: item.name,
+                thumbnailAlt: item.name,
+                thumbnailUrl: item.images[0].url,
+                slug: item.slug,
               }}
             />
           </li>

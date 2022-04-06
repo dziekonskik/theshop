@@ -7,7 +7,7 @@ import {
 } from "react";
 
 interface CartItem {
-  readonly id: number;
+  readonly id: string;
   readonly title: string;
   readonly price: number;
   readonly count: number;
