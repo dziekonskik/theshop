@@ -2,8 +2,12 @@ import { InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { ProductsGrid } from "../../components/ProductsGrid";
 import { PRODUCTS_PER_PAGE } from "../../util/constants";
-import { fetchProductsData } from "../../util/functions";
 import type { InferGetStaticPaths } from "../../util/types";
+import {
+  GetProductListByPageDocument,
+  GetProductListByPageQuery,
+} from "../../generated/graphql";
+import { apolloClient } from "../../graphql/apolloClient";
 
 const ProductsPage = ({
   data,
@@ -11,16 +15,21 @@ const ProductsPage = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter();
 
+  if (!data || !pagesTotal) {
+    return <div>Something went wrong...</div>;
+  }
+
   if (isFallback) {
     return <div>Loading...</div>;
   }
-  return <ProductsGrid data={data} pagesTotal={pagesTotal} />;
+  return <ProductsGrid data={data} pagesTotal={100} />;
 };
 
 export const getStaticPaths = async () => {
   const paths = Array.from({ length: 20 }, (_, i) => ({
     params: { pageNumber: (i + 1).toString() },
   }));
+
   return {
     paths,
     fallback: "blocking",
@@ -30,17 +39,24 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({
   params,
 }: InferGetStaticPaths<typeof getStaticPaths>) => {
-  const currentPage = +(params?.pageNumber || 0);
-
-  const { data, allItemsData } = await fetchProductsData(
-    currentPage,
-    PRODUCTS_PER_PAGE
-  );
+  if (!params?.pageNumber) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
+  const skipCount = +params.pageNumber * PRODUCTS_PER_PAGE;
+  const { data } = await apolloClient.query<GetProductListByPageQuery>({
+    query: GetProductListByPageDocument,
+    variables: {
+      skipCount,
+    },
+  });
 
   return {
     props: {
       data,
-      pagesTotal: Math.ceil(allItemsData.length / 25) - 1,
+      pagesTotal: null,
     },
   };
 };

@@ -7,17 +7,21 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
   : never;
 
 export interface StoreApiResponse {
-  id: number;
-  title: string;
+  products: Product[];
+}
+
+interface Product {
+  name: string;
   price: number;
-  description: string;
-  category: string;
-  image: string;
-  longDescription: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  id: string;
+  slug: string;
+  images: Image[];
+}
+
+interface Image {
+  height: number;
+  url: string;
+  width: number;
 }
 
 export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;

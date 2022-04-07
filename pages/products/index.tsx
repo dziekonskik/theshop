@@ -1,7 +1,11 @@
 import { InferGetStaticPropsType } from "next";
 import { ProductsGrid } from "../../components/ProductsGrid";
-import { fetchProductsData } from "../../util/functions";
 import { PRODUCTS_PER_PAGE } from "../../util/constants";
+import { apolloClient } from "../../graphql/apolloClient";
+import {
+  GetProductListDocument,
+  GetProductListQuery,
+} from "../../generated/graphql";
 
 const ProductsPage = ({
   data,
@@ -11,12 +15,14 @@ const ProductsPage = ({
 };
 
 export const getStaticProps = async () => {
-  const { data, allItemsData } = await fetchProductsData(0, PRODUCTS_PER_PAGE);
+  const { data } = await apolloClient.query<GetProductListQuery>({
+    query: GetProductListDocument,
+  });
 
   return {
     props: {
       data,
-      pagesTotal: Math.round(allItemsData.length / 25),
+      pagesTotal: Math.ceil(data.products.length / PRODUCTS_PER_PAGE),
     },
   };
 };

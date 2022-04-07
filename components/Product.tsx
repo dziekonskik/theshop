@@ -7,18 +7,19 @@ import { useCartState } from "./Cart/CartContext";
 import type { MarkdownResult } from "../util/types";
 
 interface ProductDetails {
-  id: number;
-  title: string;
+  id: string;
+  name: string;
   description: string;
   thumbnailUrl: string;
   thumbnailAlt: string;
   longDescription: MarkdownResult;
   rating: number;
+  slug: string;
 }
 
 type ProductListItem = Pick<
   ProductDetails,
-  "title" | "thumbnailUrl" | "thumbnailAlt" | "id"
+  "name" | "thumbnailUrl" | "thumbnailAlt" | "id" | "slug"
 >;
 
 interface ProductProps {
@@ -29,12 +30,12 @@ export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <>
       <NextSeo
-        title={data.title}
+        title={data.name}
         description={data.description}
         canonical={`https://theshop-nu.vercel.app/products/${data.id}`}
         openGraph={{
           url: `https://theshop-nu.vercel.app/products/${data.id}`,
-          title: data.title,
+          title: data.name,
           description: data.description,
           images: [
             {
@@ -56,7 +57,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
           height={9}
         />
       </div>
-      <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
+      <h2 className="p-4 text-3xl font-bold">{data.name}</h2>
       <p className="p-4">{data.description}</p>
       <article className="p-4 prose lg:prose-xl">
         <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
@@ -74,6 +75,7 @@ interface ProductListItemProps {
 
 export const ProductLstItem = ({ data }: ProductListItemProps) => {
   const { addItemToCart } = useCartState();
+
   return (
     <>
       <div className="bg-white p-4">
@@ -87,9 +89,9 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
         />
       </div>
       <div className="flex items-center">
-        <Link href={`/products/item/${data.id}`}>
+        <Link href={`/products/item/${data.slug}`}>
           <a>
-            <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
+            <h2 className="p-4 text-3xl font-bold">{data.name}</h2>
           </a>
         </Link>
         <button
@@ -97,7 +99,7 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
             addItemToCart({
               id: data.id,
               price: 77.17,
-              title: data.title,
+              title: data.name,
               count: 1,
             })
           }
