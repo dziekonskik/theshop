@@ -32,9 +32,9 @@ export const ProductDetails = ({ data }: ProductProps) => {
       <NextSeo
         title={data.name}
         description={data.description}
-        canonical={`https://theshop-nu.vercel.app/products/${data.id}`}
+        canonical={`https://theshop-nu.vercel.app/products/${data.slug}`}
         openGraph={{
-          url: `https://theshop-nu.vercel.app/products/${data.id}`,
+          url: `https://theshop-nu.vercel.app/products/${data.slug}`,
           title: data.name,
           description: data.description,
           images: [
