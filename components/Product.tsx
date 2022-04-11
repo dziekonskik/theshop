@@ -32,9 +32,9 @@ export const ProductDetails = ({ data }: ProductProps) => {
       <NextSeo
         title={data.name}
         description={data.description}
-        canonical={`https://theshop-nu.vercel.app/products/${data.id}`}
+        canonical={`https://theshop-nu.vercel.app/products/${data.slug}`}
         openGraph={{
-          url: `https://theshop-nu.vercel.app/products/${data.id}`,
+          url: `https://theshop-nu.vercel.app/products/${data.slug}`,
           title: data.name,
           description: data.description,
           images: [
@@ -101,6 +101,8 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
               price: 77.17,
               title: data.name,
               count: 1,
+              thumbnailUrl: data.thumbnailUrl,
+              thumbnailAlt: data.thumbnailAlt,
             })
           }
           className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"

@@ -1,0 +1,36 @@
+import { gql } from "@apollo/client";
+import { faker } from "@faker-js/faker";  
+  
+  const productName = faker.commerce.productName();
+  const variables = {
+    name: productName,
+    slug: productName.toLowerCase().replaceAll(" ", "-"),
+    price: Number(faker.commerce.price()),
+    description: faker.commerce.productDescription(),
+  };
+  const { data: mutationData } = await apolloClient.mutate({
+    mutation: gql`
+      mutation CreateSingleProduct(
+        $name: String!
+        $slug: String!
+        $price: Int!
+        $description: String!
+      ) {
+        createProduct(
+          data: {
+            name: $name
+            slug: $slug
+            price: $price
+            description: $description
+          }
+        ) {
+          id
+          name
+          slug
+          price
+          description
+        }
+      }
+    `,
+    variables,
+  });
