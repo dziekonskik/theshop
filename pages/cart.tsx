@@ -1,46 +1,48 @@
+import Image from "next/image";
 import { useCartState } from "../components/Cart/CartContext";
 
 const CartContent = () => {
   const { items, removeItemsFromCart } = useCartState();
   return (
     <div className="col-span-2">
-      <ul className="divide-y divide-grey-200 divide-dashed">
-        {items.map(({ title, price, count, id }, index) => (
-          <li className="flex justify-between p-3" key={`${index}-${title}`}>
-            <div>
-              {count} x {title}
-            </div>
-            <div className="flex">
-              {price}
-              <div
-                className="ml-2 text-red-500 cursor-pointer"
-                onClick={() => removeItemsFromCart(id)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  aria-label="Usuń element"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="h-full overflow-y-auto">
+        <div className="flex flex-col">
+          <h2>Summary</h2>
+          <ul>
+            {items.map((cartItem) => {
+              return (
+                <li className="flex items-center h-32 w-full" key={cartItem.id}>
+                  <div className="h-full w-32">
+                    <Image
+                      src={cartItem.thumbnailUrl}
+                      alt={cartItem.thumbnailAlt}
+                      layout="responsive"
+                      width={5}
+                      height={5}
+                    />
+                  </div>
+                  <div className="ml-8 flex items-center">
+                    <h3>{cartItem.title}</h3>
+                    <p className="">$ {cartItem.price}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
 
-const CartSummary = () => <div>Podsumowanie koszyka</div>;
+const CartSummary = () => (
+  <div>
+    <p>Total</p>
+    <h4>
+      <span>$</span>
+    </h4>
+  </div>
+);
 
 const CartPage = () => {
   const { items } = useCartState();
