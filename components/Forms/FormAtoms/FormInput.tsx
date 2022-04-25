@@ -29,15 +29,29 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         {label}
       </label>
 
-      <input
-        id={label}
-        type={type}
-        className="rounded border-none w-full p-3 shadow-sm"
-        placeholder={placeholder}
-        {...register(label)}
-      />
+      {type === "textarea" ? (
+        <textarea
+          id={label}
+          className="rounded border-none w-full p-3 shadow-sm"
+          rows={5}
+          cols={50}
+          placeholder={placeholder}
+          {...register(label)}
+        />
+      ) : (
+        <input
+          id={label}
+          type={type}
+          className="rounded border-none w-full p-3 shadow-sm"
+          placeholder={placeholder}
+          {...register(label)}
+        />
+      )}
 
-      <span role="alert" className="text-red-500 mt-0 text-xs font-bold h-3">
+      <span
+        role="alert"
+        className="text-red-500 mt-1 text-xs font-bold h-2 block"
+      >
         {errors[label]?.message}
       </span>
     </div>

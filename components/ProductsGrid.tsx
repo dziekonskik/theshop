@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ProductLstItem } from "./Product";
+import { ProductLstItem } from "./ProductListItem";
 import { DottedPagination } from "./Pagination";
 import { GetProductListQuery } from "../generated/graphql";
 

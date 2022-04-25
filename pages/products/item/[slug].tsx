@@ -2,7 +2,7 @@ import { InferGetStaticPropsType } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { serialize } from "next-mdx-remote/serialize";
-import { ProductDetails } from "../../../components/Product";
+import { ProductDetails } from "../../../components/ProductDetails";
 import { apolloClient } from "../../../graphql/apolloClient";
 import type { InferGetStaticPaths } from "../../../util/types";
 import {
