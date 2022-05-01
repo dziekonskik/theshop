@@ -2,7 +2,7 @@
 import type { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
-  const { email } = req.body;
+  const { email } = JSON.parse(req.body);
   if (req.method !== "POST") {
     // Status Code: 405 Method Not Allowed
     return res.status(405).setHeader("Allow", "POST").json({});
@@ -15,9 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
   const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
 
   if (!MAILERLITE_API_KEY || !MAILERLITE_GROUP_ID) {
-    return res
-      .status(500)
-      .json({ error: "Nie podano zmiennych środowiskowych" });
+    return res.status(500).json({ error: "Env variables not provided" });
   }
   const response = await fetch(
     `https://api.mailerlite.com/api/v2/groups/${MAILERLITE_GROUP_ID}/subscribers`,
@@ -30,22 +28,25 @@ const handler: NextApiHandler = async (req, res) => {
         "X-MailerLite-ApiKey": `${MAILERLITE_API_KEY}`,
       },
       body: JSON.stringify({
-        email: "null",
+        email,
         resubscribe: false,
         autoresponders: true,
-        type: "null",
+        type: "active",
       }),
     }
   );
 
   // mozna te sprawdzić czy response >= 400
   if (!response.ok) {
-    return res.status(400).json({ error: "There was a problem with singnup" });
+    console.log();
+    return res.status(400).json({
+      error: `There was a problem with singnup, reason: ${response.statusText}`,
+    });
   }
   //data nas juz nie interesuje bo jak jest ok to jest zapisany i ok
   // const data = response.json();
 
   // status code 201. Created.
-  res.status(201).json({});
+  res.status(201).json({ message: "success!" });
 };
 export default handler;

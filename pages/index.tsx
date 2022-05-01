@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { Main } from "../components/layout/Main";
+import { NewsletterForm } from "../components/Forms/NewsletterForm";
 
 const Home = () => {
   return (
     <Main>
-      <div style={{ height: "70%" }} className="relative">
-        <Image src={"/assets/hero.png"} alt="image of the shop" layout="fill" />
-      </div>
+      <NewsletterForm />
     </Main>
   );
 };
