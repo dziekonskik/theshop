@@ -9,32 +9,39 @@ const reviewFormSchema = yup.object({
   name: yup.string().required(),
   headline: yup.string().required(),
   content: yup.string().required(),
+  rating: yup.number().min(1).max(5).required(),
 });
 
 type FormData = yup.InferType<typeof reviewFormSchema>;
 
 interface ProductReviewProps {
-  product: string;
+  slug: string;
 }
 
-export const ProductReviewForm = (product: ProductReviewProps) => {
+export const ProductReviewForm = (slug: ProductReviewProps) => {
   const [createReview, { data }] = useCreateProductReviewMutation();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(reviewFormSchema),
     mode: "onBlur",
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const review = { ...data, product };
     createReview({
       variables: {
-        review: data,
+        review: {
+          ...data,
+          product: {
+            connect: slug,
+          },
+        },
       },
     });
+    reset();
   });
   return (
     <form onSubmit={onSubmit}>
@@ -44,6 +51,13 @@ export const ProductReviewForm = (product: ProductReviewProps) => {
         register={register}
         errors={errors}
         placeholder="Email"
+      />
+      <FormInput
+        label="rating"
+        type="number"
+        register={register}
+        errors={errors}
+        placeholder="Rating"
       />
       <FormInput
         label="name"
