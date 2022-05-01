@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { NextSeo } from "next-seo";
-import { Rating } from "./Rating";
-import { ProductReviewForm } from "./Forms/ProductReviewForm";
-import { ZaisteReactMarkdown } from "./ZaisteReactMarkdown";
-import type { MarkdownResult } from "../util/types";
+import { Rating } from "./ProductRating";
+import { ProductReviewForm } from "../Forms/ProductReviewForm";
+import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
+import type { MarkdownResult } from "../../util/types";
 
 export interface ProductDetails {
   id: string;
@@ -58,7 +58,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
       </article>
       <div className="p-4 max-w-sm">
         <Rating rating={data.rating} />
-        <ProductReviewForm />
+        <ProductReviewForm product={data.slug} />
       </div>
     </>
   );

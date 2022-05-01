@@ -1,6 +1,6 @@
 import { InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
-import { ProductsGrid } from "../../components/ProductsGrid";
+import { ProductsGrid } from "../../components/Product/ProductsGrid";
 import { PRODUCTS_PER_PAGE } from "../../util/constants";
 import type { InferGetStaticPaths } from "../../util/types";
 import {

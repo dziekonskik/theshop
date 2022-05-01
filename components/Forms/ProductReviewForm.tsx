@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
 import { FormInput } from "../Forms/FormAtoms/FormInput";
 import { useCreateProductReviewMutation } from "../../generated/graphql";
 
@@ -14,7 +13,11 @@ const reviewFormSchema = yup.object({
 
 type FormData = yup.InferType<typeof reviewFormSchema>;
 
-export const ProductReviewForm = () => {
+interface ProductReviewProps {
+  product: string;
+}
+
+export const ProductReviewForm = (product: ProductReviewProps) => {
   const [createReview, { data }] = useCreateProductReviewMutation();
   const {
     register,
@@ -26,6 +29,7 @@ export const ProductReviewForm = () => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
+    const review = { ...data, product };
     createReview({
       variables: {
         review: data,
