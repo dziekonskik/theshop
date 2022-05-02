@@ -1,0 +1,7 @@
+query GetReviewsForProductSlug($slug: String!) {
+  product(where: { slug: $slug }) {
+    reviews {
+      ...reviewContent
+    }
+  }
+}
