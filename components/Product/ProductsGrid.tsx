@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ProductLstItem } from "./ProductListItem";
-import { DottedPagination } from "./Pagination";
-import { GetProductListQuery } from "../generated/graphql";
+import { DottedPagination } from "../Pagination";
+import { GetProductListQuery } from "../../generated/graphql";
 
 interface ProductGridProps {
   data: GetProductListQuery;

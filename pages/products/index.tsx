@@ -1,5 +1,5 @@
 import { InferGetStaticPropsType } from "next";
-import { ProductsGrid } from "../../components/ProductsGrid";
+import { ProductsGrid } from "../../components/Product/ProductsGrid";
 import { PRODUCTS_PER_PAGE } from "../../util/constants";
 import { apolloClient } from "../../graphql/apolloClient";
 import {

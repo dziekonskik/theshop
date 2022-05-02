@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useCartState } from "./Cart/CartContext";
+import { useCartState } from "../Cart/CartContext";
 import type { ProductDetails } from "./ProductDetails";
 
 type ProductListItem = Pick<

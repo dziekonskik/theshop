@@ -1,0 +1,5 @@
+mutation PublishReviewById($reviewId: ReviewWhereUniqueInput!) {
+  publishReview(where: $reviewId, to: [PUBLISHED]) {
+    ...reviewContent
+  }
+}
