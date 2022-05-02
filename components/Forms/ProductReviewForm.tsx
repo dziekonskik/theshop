@@ -2,7 +2,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FormInput } from "../Forms/FormAtoms/FormInput";
-import { useCreateProductReviewMutation } from "../../generated/graphql";
+import {
+  useCreateProductReviewMutation,
+  usePublishReviewByIdMutation,
+  GetReviewsForProductSlugDocument,
+  GetReviewsForProductSlugQuery,
+} from "../../generated/graphql";
 
 const reviewFormSchema = yup.object({
   email: yup.string().email().required(),
@@ -19,7 +24,40 @@ interface ProductReviewProps {
 }
 
 export const ProductReviewForm = (slug: ProductReviewProps) => {
-  const [createReview, { data }] = useCreateProductReviewMutation();
+  const [createReview, createdReview] = useCreateProductReviewMutation();
+  const [publishReview, { error }] = usePublishReviewByIdMutation({
+    // refetchQueries: [
+    //   { query: GetReviewsForProductSlugDocument, variables: slug },
+    // ],
+    update(cache, result) {
+      const publishedReviewsQuery =
+        cache.readQuery<GetReviewsForProductSlugQuery>({
+          query: GetReviewsForProductSlugDocument,
+          variables: slug,
+        });
+
+      if (!publishedReviewsQuery || !publishedReviewsQuery.product?.reviews) {
+        return;
+      }
+
+      const updatedPublishedReviewsQuery = {
+        ...publishedReviewsQuery,
+        product: {
+          ...publishedReviewsQuery.product,
+          reviews: [
+            ...publishedReviewsQuery.product?.reviews,
+            result.data?.publishReview,
+          ],
+        },
+      };
+
+      cache.writeQuery({
+        query: GetReviewsForProductSlugDocument,
+        variables: slug,
+        data: updatedPublishedReviewsQuery,
+      });
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -31,7 +69,7 @@ export const ProductReviewForm = (slug: ProductReviewProps) => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    createReview({
+    const { data: reviewData } = await createReview({
       variables: {
         review: {
           ...data,
@@ -41,8 +79,24 @@ export const ProductReviewForm = (slug: ProductReviewProps) => {
         },
       },
     });
+    //if !reviewData?.createReview?.id to co ? np ustawić zmienną stanową i wyświetlić ui, czy nasłuchiwać na error?
+    publishReview({
+      variables: { reviewId: { id: reviewData?.createReview?.id } },
+      optimisticResponse: {
+        publishReview: {
+          __typename: "Review",
+          ...data,
+          id: `-${Math.random()}`,
+        },
+      },
+    });
+    //kiedy wyskakuje error w np publishReview bo jak podaje zle id to jest poprostu publish null
     reset();
   });
+
+  if (error) {
+    return <div>error</div>;
+  }
   return (
     <form onSubmit={onSubmit}>
       <FormInput

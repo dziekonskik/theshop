@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import { Rating } from "./ProductRating";
-import { ProductReviewForm } from "../Forms/ProductReviewForm";
+import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer";
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
 import type { MarkdownResult } from "../../util/types";
 
@@ -56,10 +56,8 @@ export const ProductDetails = ({ data }: ProductProps) => {
       <article className="p-4 prose lg:prose-xl">
         <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
       </article>
-      <div className="p-4 max-w-sm">
-        <Rating rating={data.rating} />
-        <ProductReviewForm product={data.slug} />
-      </div>
+      <Rating rating={data.rating} />
+      <ProductReviewContainer slug={data.slug} />
     </>
   );
 };
