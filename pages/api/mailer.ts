@@ -38,7 +38,6 @@ const handler: NextApiHandler = async (req, res) => {
 
   // mozna te sprawdzić czy response >= 400
   if (!response.ok) {
-    console.log();
     return res.status(400).json({
       error: `There was a problem with singnup, reason: ${response.statusText}`,
     });

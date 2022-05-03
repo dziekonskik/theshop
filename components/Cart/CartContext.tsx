@@ -8,6 +8,7 @@ import {
 
 interface CartItem {
   readonly id: string;
+  readonly slug: string;
   readonly title: string;
   readonly price: number;
   readonly count: number;
@@ -19,6 +20,7 @@ interface CartState {
   readonly items: CartItem[];
   readonly addItemToCart: (item: CartItem) => void;
   readonly removeItemsFromCart: (id: CartItem["id"]) => void;
+  readonly calculateCartTotal: () => string;
 }
 
 const CartContext = createContext<CartState | null>(null);
@@ -87,6 +89,14 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
               return el;
             });
           }),
+        calculateCartTotal() {
+          const pricesTotal = cartItems.map(
+            (item) => item.count * (item.price * 100)
+          );
+          return (
+            pricesTotal.reduce((current, total) => current + total, 0) / 100
+          ).toFixed(2);
+        },
       }}
     >
       {children}

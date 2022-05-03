@@ -29,7 +29,7 @@ export const CheckoutForm = () => {
     resolver: yupResolver(checkoutFormSchema),
     mode: "onBlur",
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => data);
   return (
     <div className="container md:max-h-screen justify-center">
       <form onSubmit={onSubmit} className="px-6">
