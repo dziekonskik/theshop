@@ -10387,6 +10387,8 @@ export type CreateProductReviewMutationVariables = Exact<{
 
 export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string } | null };
 
+export type ProductDetailsFragment = { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> };
+
 export type ReviewContentFragment = { __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null };
 
 export type GetProductBySlugQueryVariables = Exact<{
@@ -10399,7 +10401,7 @@ export type GetProductBySlugQuery = { __typename?: 'Query', product?: { __typena
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, slug: string, name: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> }> };
+export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
 export type GetProductListByPageQueryVariables = Exact<{
   skipCount?: InputMaybe<Scalars['Int']>;
@@ -10427,6 +10429,18 @@ export type PublishReviewByIdMutationVariables = Exact<{
 
 export type PublishReviewByIdMutation = { __typename?: 'Mutation', publishReview?: { __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null } | null };
 
+export const ProductDetailsFragmentDoc = gql`
+    fragment productDetails on Product {
+  description
+  id
+  name
+  price
+  slug
+  images(first: 1) {
+    url
+  }
+}
+    `;
 export const ReviewContentFragmentDoc = gql`
     fragment reviewContent on Review {
   id
@@ -10585,18 +10599,10 @@ export type GetProductBySlugQueryResult = Apollo.QueryResult<GetProductBySlugQue
 export const GetProductListDocument = gql`
     query GetProductList {
   products {
-    id
-    slug
-    name
-    price
-    images(first: 1) {
-      url
-      width
-      height
-    }
+    ...productDetails
   }
 }
-    `;
+    ${ProductDetailsFragmentDoc}`;
 
 /**
  * __useGetProductListQuery__
