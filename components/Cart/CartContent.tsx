@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CartContentListItem } from "./CartContentListItem";
 import { useCartState } from "./CartContext";
 
 export const CartContent = () => {
@@ -8,32 +8,17 @@ export const CartContent = () => {
     <div className="col-span-2">
       <div className="h-full max-h-[500px] overflow-y-auto">
         <div className="flex flex-col">
-          <h2>Summary</h2>
+          <h2 className="font-hubballi text-3xl">Summary</h2>
           <ul>
             {items.map((cartItem) => {
               return (
-                <li className="flex items-center h-32 w-full" key={cartItem.id}>
-                  <div className="h-full w-32">
-                    <Image
-                      src={cartItem.images[0].url}
-                      alt={cartItem.name}
-                      layout="responsive"
-                      width={5}
-                      height={5}
-                    />
-                  </div>
-                  <div className="ml-8 flex items-center">
-                    <h3>{cartItem.name}</h3>
-                    <p className="">
-                      $ {cartItem.price} x {cartItem.count}
-                    </p>
-                  </div>
-                </li>
+                <CartContentListItem cartItem={cartItem} key={cartItem.id} />
               );
             })}
           </ul>
         </div>
       </div>
+      <div className="h-20 bg-gradient-to-b from-transparent to-gray-50 -translate-y-20"></div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ interface CartState {
   readonly items: CartItem[];
   readonly addItemToCart: (item: CartItem) => void;
   readonly removeItemsFromCart: (id: CartItem["id"]) => void;
-  readonly calculateCartTotal: () => string;
+  readonly calculateCartTotal: () => number;
 }
 
 const CartContext = createContext<CartState | null>(null);
@@ -83,12 +83,8 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
             });
           }),
         calculateCartTotal() {
-          const pricesTotal = cartItems.map(
-            (item) => item.count * (item.price * 100)
-          );
-          return (
-            pricesTotal.reduce((current, total) => current + total, 0) / 100
-          ).toFixed(2);
+          const pricesTotal = cartItems.map((item) => item.count * item.price);
+          return pricesTotal.reduce((current, total) => current + total, 0);
         },
       }}
     >
