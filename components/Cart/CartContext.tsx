@@ -8,6 +8,7 @@ import {
 
 interface CartItem {
   readonly id: string;
+  readonly slug: string;
   readonly title: string;
   readonly price: number;
   readonly count: number;

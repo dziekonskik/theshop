@@ -23,14 +23,8 @@ const CartPage = () => {
       body: JSON.stringify(
         items.map((cartItem) => {
           return {
-            price_data: {
-              currency: "PLN",
-              unit_amount: Math.round(cartItem.price * 100),
-              product_data: {
-                name: cartItem.title,
-              },
-            },
-            quantity: cartItem.count,
+            slug: cartItem.slug,
+            count: cartItem.count,
           };
         })
       ),
