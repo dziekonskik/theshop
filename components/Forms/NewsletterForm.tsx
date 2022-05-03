@@ -21,7 +21,6 @@ export const NewsletterForm = () => {
   });
 
   const handleNewsletterSignupMutation = async (data: { email: string }) => {
-    console.log(data);
     await fetch("http://localhost:3000/api/mailer", {
       method: "POST",
       headers: {

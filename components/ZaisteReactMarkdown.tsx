@@ -12,7 +12,6 @@ export const ZaisteReactMarkdown = ({
       {...children}
       components={{
         a: ({ href, ...props }) => {
-          console.log({ ...props });
           if (!href) {
             return (
               <a
