@@ -10390,7 +10390,7 @@ export type CreateProductReviewMutation = { __typename?: 'Mutation', createRevie
 export type ReviewContentFragment = { __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null };
 
 export type GetProductBySlugQueryVariables = Exact<{
-  slug?: InputMaybe<Scalars['String']>;
+  slug: Scalars['String'];
 }>;
 
 
@@ -10536,7 +10536,7 @@ export type CreateProductReviewMutationHookResult = ReturnType<typeof useCreateP
 export type CreateProductReviewMutationResult = Apollo.MutationResult<CreateProductReviewMutation>;
 export type CreateProductReviewMutationOptions = Apollo.BaseMutationOptions<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
 export const GetProductBySlugDocument = gql`
-    query GetProductBySlug($slug: String) {
+    query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
     id
     name
@@ -10571,7 +10571,7 @@ export const GetProductBySlugDocument = gql`
  *   },
  * });
  */
-export function useGetProductBySlugQuery(baseOptions?: Apollo.QueryHookOptions<GetProductBySlugQuery, GetProductBySlugQueryVariables>) {
+export function useGetProductBySlugQuery(baseOptions: Apollo.QueryHookOptions<GetProductBySlugQuery, GetProductBySlugQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetProductBySlugQuery, GetProductBySlugQueryVariables>(GetProductBySlugDocument, options);
       }
