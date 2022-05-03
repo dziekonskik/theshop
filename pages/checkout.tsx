@@ -1,7 +1,7 @@
 import { CheckoutForm } from "../components/Forms/CheckoutForm";
 
-const checkoutPage = () => {
+const CheckoutPage = () => {
   return <CheckoutForm />;
 };
 
-export default checkoutPage;
+export default CheckoutPage;
