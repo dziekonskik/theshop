@@ -4,16 +4,11 @@ import { Rating } from "./ProductRating";
 import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer";
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
 import type { MarkdownResult } from "../../util/types";
+import { ProductDetailsFragment } from "../../generated/graphql";
 
-export interface ProductDetails {
-  id: string;
-  name: string;
-  description: string;
-  thumbnailUrl: string;
-  thumbnailAlt: string;
+export interface ProductDetails extends ProductDetailsFragment {
   longDescription: MarkdownResult;
   rating: number;
-  slug: string;
 }
 
 interface ProductProps {
@@ -33,8 +28,8 @@ export const ProductDetails = ({ data }: ProductProps) => {
           description: data.description,
           images: [
             {
-              url: data.thumbnailUrl,
-              alt: data.thumbnailAlt,
+              url: data.images[0].url,
+              alt: data.name,
               type: "image/jpeg",
             },
           ],
@@ -43,8 +38,8 @@ export const ProductDetails = ({ data }: ProductProps) => {
       />
       <div className="bg-white p-4">
         <Image
-          src={data.thumbnailUrl}
-          alt={data.thumbnailAlt}
+          src={data.images[0].url}
+          alt={data.name}
           layout="responsive"
           objectFit="contain"
           width={16}

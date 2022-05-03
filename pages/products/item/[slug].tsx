@@ -36,12 +36,12 @@ const ProductIdPage = ({
         data={{
           id: data.product.id,
           name: data.product.name,
-          thumbnailAlt: data.product.name,
-          thumbnailUrl: data.product.images[0].url,
+          images: data.product.images,
           description: data.product.description,
+          price: data.product.price,
+          slug: data.product.slug,
           longDescription: data.longDescription,
           rating: 5,
-          slug: data.product.slug,
         }}
       />
     </div>

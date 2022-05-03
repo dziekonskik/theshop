@@ -5,16 +5,9 @@ import {
   useState,
   useEffect,
 } from "react";
+import type { ProductDetailsFragment } from "../../generated/graphql";
 
-interface CartItem {
-  readonly id: string;
-  readonly slug: string;
-  readonly title: string;
-  readonly price: number;
-  readonly count: number;
-  readonly thumbnailUrl: string;
-  readonly thumbnailAlt: string;
-}
+type CartItem = Omit<ProductDetailsFragment, "description"> & { count: number };
 
 interface CartState {
   readonly items: CartItem[];

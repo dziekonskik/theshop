@@ -15,15 +15,15 @@ export const CartContent = () => {
                 <li className="flex items-center h-32 w-full" key={cartItem.id}>
                   <div className="h-full w-32">
                     <Image
-                      src={cartItem.thumbnailUrl}
-                      alt={cartItem.thumbnailAlt}
+                      src={cartItem.images[0].url}
+                      alt={cartItem.name}
                       layout="responsive"
                       width={5}
                       height={5}
                     />
                   </div>
                   <div className="ml-8 flex items-center">
-                    <h3>{cartItem.title}</h3>
+                    <h3>{cartItem.name}</h3>
                     <p className="">
                       $ {cartItem.price} x {cartItem.count}
                     </p>

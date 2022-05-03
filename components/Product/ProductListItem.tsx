@@ -1,14 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCartState } from "../Cart/CartContext";
-import type { ProductDetails } from "./ProductDetails";
+import type { ProductDetailsFragment } from "../../generated/graphql";
 
-type ProductListItem = Pick<
-  ProductDetails,
-  "name" | "thumbnailUrl" | "thumbnailAlt" | "id" | "slug"
->;
 interface ProductListItemProps {
-  data: ProductListItem;
+  data: Omit<ProductDetailsFragment, "description">;
 }
 
 export const ProductLstItem = ({ data }: ProductListItemProps) => {
@@ -18,8 +14,8 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
     <>
       <div className="bg-white p-4">
         <Image
-          src={data.thumbnailUrl}
-          alt={data.thumbnailAlt}
+          src={data.images[0].url}
+          alt={data.name}
           layout="responsive"
           objectFit="contain"
           width={16}
@@ -36,12 +32,11 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
           onClick={() =>
             addItemToCart({
               id: data.id,
-              price: 77.17,
-              title: data.name,
+              price: data.price,
+              name: data.name,
               count: 1,
-              thumbnailUrl: data.thumbnailUrl,
-              thumbnailAlt: data.thumbnailAlt,
               slug: data.slug,
+              images: data.images,
             })
           }
           className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"

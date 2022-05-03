@@ -2,7 +2,6 @@ import { NextApiHandler } from "next";
 import type { StripeWebhookEvents } from "../../stripeEvents";
 
 const stripeWebhookHandler: NextApiHandler = (req, res) => {
-  console.log(req.body);
   const event = req.body as StripeWebhookEvents;
 
   switch (event.type) {
