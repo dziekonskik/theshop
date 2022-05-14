@@ -2,11 +2,11 @@ import Link from "next/link";
 import { useCartState } from "./CartContext";
 
 export const Cart = () => {
-  const { items } = useCartState();
+  const { cartState } = useCartState();
   return (
     <Link href={"/cart"}>
       <a className="flex items">
-        <span className="mr-1">{items.length}</span>
+        <span className="mr-1">{cartState.length > 0 && cartState.length}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-slate-900"
