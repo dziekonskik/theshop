@@ -1,0 +1,12 @@
+fragment orderDetails on Order {
+  id
+  total
+  stripeCheckoutId
+  orderItems {
+    id
+    quantity
+    product {
+      ...productDetails
+    }
+  }
+}

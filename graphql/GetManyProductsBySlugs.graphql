@@ -1,0 +1,5 @@
+query GetManyProductsBySlugs($slug_in: [String!]!) {
+  products(where: { slug_in: $slug_in }) {
+    ...productDetails
+  }
+}
