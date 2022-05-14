@@ -1,5 +1,6 @@
+import type { MarkOptional } from "ts-essentials";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import { ProductDetailsFragment } from "../generated/graphql";
+import type { ProductDetailsFragment } from "../generated/graphql";
 
 export type InferGetStaticPaths<T> = T extends () => Promise<{
   paths: Array<{ params: infer R }>;
@@ -8,6 +9,9 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
   : never;
 
 export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
-export type CartItem = Omit<ProductDetailsFragment, "description"> & {
-  count: number;
-};
+
+export interface CartItem {
+  id?: string;
+  quantity: number;
+  product: MarkOptional<ProductDetailsFragment, "id">;
+}
