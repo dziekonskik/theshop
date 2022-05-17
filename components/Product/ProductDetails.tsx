@@ -18,7 +18,17 @@ interface ProductProps {
 }
 
 export const ProductDetails = ({ data }: ProductProps) => {
-  const { addItemToCart } = useCartState();
+  const { mutateOrder, handledItemSlug } = useCartState();
+  const orderItem = {
+    quantity: 1,
+    product: {
+      name: data.name,
+      price: data.price,
+      slug: data.slug,
+      images: data.images,
+      description: data.description,
+    },
+  };
   return (
     <>
       <NextSeo
@@ -57,16 +67,8 @@ export const ProductDetails = ({ data }: ProductProps) => {
               <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
             </article>
             <AddToCartButton
-              onClick={() =>
-                addItemToCart({
-                  id: data.id,
-                  price: data.price,
-                  name: data.name,
-                  count: 1,
-                  slug: data.slug,
-                  images: data.images,
-                })
-              }
+              onClick={() => mutateOrder(orderItem)}
+              disabled={handledItemSlug === orderItem.product.slug}
             />
           </div>
         </div>

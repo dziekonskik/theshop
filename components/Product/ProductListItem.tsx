@@ -5,11 +5,22 @@ import { AddToCartButton } from "../AddToCartButton";
 import type { ProductDetailsFragment } from "../../generated/graphql";
 
 interface ProductListItemProps {
-  data: Omit<ProductDetailsFragment, "description">;
+  data: ProductDetailsFragment;
 }
 
 export const ProductLstItem = ({ data }: ProductListItemProps) => {
-  const { addItemToCart } = useCartState();
+  const { mutateOrder, handledItemSlug } = useCartState();
+
+  const orderItem = {
+    quantity: 1,
+    product: {
+      name: data.name,
+      price: data.price,
+      slug: data.slug,
+      images: data.images,
+      description: data.description,
+    },
+  };
 
   return (
     <>
@@ -37,16 +48,8 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
         <div className="flex items-center mb-4">
           <div className="mr-3 text-xl">{data.price / 100} $</div>
           <AddToCartButton
-            onClick={() =>
-              addItemToCart({
-                id: data.id,
-                price: data.price,
-                name: data.name,
-                count: 1,
-                slug: data.slug,
-                images: data.images,
-              })
-            }
+            disabled={handledItemSlug === orderItem.product.slug}
+            onClick={() => mutateOrder(orderItem)}
           />
         </div>
       </div>
