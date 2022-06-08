@@ -8,7 +8,7 @@ const stripePromise = loadStripe(
 );
 
 const CartPage = () => {
-  const { items } = useCartState();
+  const { cartState } = useCartState();
 
   const pay = async () => {
     const stripe = await stripePromise;
@@ -21,10 +21,10 @@ const CartPage = () => {
         "Content-Type": "application-json",
       },
       body: JSON.stringify(
-        items.map((cartItem) => {
+        cartState.map((cartItem) => {
           return {
-            slug: cartItem.slug,
-            count: cartItem.count,
+            slug: cartItem.product.slug,
+            count: cartItem.quantity,
           };
         })
       ),

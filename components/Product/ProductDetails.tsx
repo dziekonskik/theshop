@@ -6,6 +6,7 @@ import { useCartState } from "../Cart/CartContext";
 import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer";
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
 import { ProductDetailsFragment } from "../../generated/graphql";
+import { addToQuantity } from "../../util/cartHelpers";
 import type { MarkdownResult } from "../../util/types";
 
 export interface ProductDetails extends ProductDetailsFragment {
@@ -22,6 +23,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
   const orderItem = {
     quantity: 1,
     product: {
+      id: data.id,
       name: data.name,
       price: data.price,
       slug: data.slug,
@@ -67,7 +69,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
               <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
             </article>
             <AddToCartButton
-              onClick={() => mutateOrder(orderItem)}
+              onClick={() => mutateOrder(orderItem)(addToQuantity)}
               disabled={handledItemSlug === orderItem.product.slug}
             />
           </div>

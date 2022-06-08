@@ -4,8 +4,8 @@ interface CartSummaryProps {
   handlePayment: () => void;
 }
 export const CartSummary = ({ handlePayment }: CartSummaryProps) => {
-  const { calculateCartTotal } = useCartState();
-  const cartTotal = calculateCartTotal();
+  const { calculateCartTotal, cartState } = useCartState();
+  const cartTotal = calculateCartTotal(cartState);
   return (
     <div>
       <h3 className="font-hubballi text-3xl">Total: {cartTotal / 100} $</h3>

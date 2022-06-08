@@ -35,6 +35,7 @@ export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
                 slug: item.slug,
                 price: item.price,
                 images: item.images,
+                description: item.description,
               }}
             />
           </li>

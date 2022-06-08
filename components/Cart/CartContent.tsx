@@ -2,17 +2,20 @@ import { CartContentListItem } from "./CartContentListItem";
 import { useCartState } from "./CartContext";
 
 export const CartContent = () => {
-  const { items } = useCartState();
-
+  const { cartState, mutateOrder } = useCartState();
   return (
     <div className="col-span-2">
       <div className="h-full max-h-[500px] overflow-y-auto">
         <div className="flex flex-col">
           <h2 className="font-hubballi text-3xl">Summary</h2>
           <ul>
-            {items.map((cartItem) => {
+            {cartState.map((cartItem) => {
               return (
-                <CartContentListItem cartItem={cartItem} key={cartItem.id} />
+                <CartContentListItem
+                  cartItem={cartItem}
+                  mutateOrder={mutateOrder}
+                  key={cartItem.product.id}
+                />
               );
             })}
           </ul>

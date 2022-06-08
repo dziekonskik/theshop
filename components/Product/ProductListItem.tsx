@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCartState } from "../Cart/CartContext";
 import { AddToCartButton } from "../AddToCartButton";
+import { addToQuantity } from "../../util/cartHelpers";
 import type { ProductDetailsFragment } from "../../generated/graphql";
 
 interface ProductListItemProps {
@@ -14,6 +15,7 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
   const orderItem = {
     quantity: 1,
     product: {
+      id: data.id,
       name: data.name,
       price: data.price,
       slug: data.slug,
@@ -49,7 +51,7 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
           <div className="mr-3 text-xl">{data.price / 100} $</div>
           <AddToCartButton
             disabled={handledItemSlug === orderItem.product.slug}
-            onClick={() => mutateOrder(orderItem)}
+            onClick={() => mutateOrder(orderItem)(addToQuantity)}
           />
         </div>
       </div>
