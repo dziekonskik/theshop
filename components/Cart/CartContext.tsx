@@ -1,45 +1,57 @@
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+  GetWorkingOrderByIdDocument,
+  GetWorkingOrderByIdQuery,
+  GetWorkingOrderByIdQueryVariables,
+} from "../../generated/graphql";
+import { apolloClient } from "../../graphql/apolloClient";
 import {
   calculateCartTotal,
-  getCartItemsFromStorage,
-  setCartItemsInStorage,
-  addItemToCart,
-  removeItemsFromCart,
+  getCartIdFromStorage,
 } from "../../util/cartHelpers";
-import type { CartItem } from "../../util/types";
+import { useOrder } from "../../util/useOrder";
+import type { CartItem, MutateOrder } from "../../util/types";
 
 interface CartState {
-  readonly items: CartItem[];
-  readonly addItemToCart: (item: CartItem) => void;
-  readonly removeItemsFromCart: (id: CartItem["id"]) => void;
+  readonly cartState: CartItem[];
   readonly calculateCartTotal: (cartItems: CartItem[]) => number;
+  readonly mutateOrder: MutateOrder;
+  readonly handledItemSlug: string;
 }
 
 const CartContext = createContext<CartState | null>(null);
 
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { mutateOrder, setCartItems, cartItems, handledItemSlug } = useOrder();
 
   useEffect(() => {
-    setCartItems(getCartItemsFromStorage());
-  }, []);
-  useEffect(() => {
-    setCartItemsInStorage(cartItems);
-  }, [cartItems]);
+    async function getCartItemsFromCms() {
+      const idFromStroage = getCartIdFromStorage();
+      if (idFromStroage) {
+        const { data } = await apolloClient.query<
+          GetWorkingOrderByIdQuery,
+          GetWorkingOrderByIdQueryVariables
+        >({
+          query: GetWorkingOrderByIdDocument,
+          variables: {
+            id: idFromStroage,
+          },
+        });
+        if (data && data.order) {
+          setCartItems(data.order?.orderItems as CartItem[]);
+        }
+      }
+    }
+    getCartItemsFromCms();
+  }, [setCartItems]);
 
   return (
     <CartContext.Provider
       value={{
-        items: cartItems,
-        addItemToCart: (item) => addItemToCart(item)(setCartItems),
-        removeItemsFromCart: (id) => removeItemsFromCart(id)(setCartItems),
+        cartState: cartItems,
         calculateCartTotal,
+        mutateOrder,
+        handledItemSlug,
       }}
     >
       {children}
