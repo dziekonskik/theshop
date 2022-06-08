@@ -1,4 +1,3 @@
-import type { MarkOptional } from "ts-essentials";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { ProductDetailsFragment } from "../generated/graphql";
 
@@ -13,5 +12,14 @@ export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
 export interface CartItem {
   id?: string;
   quantity: number;
-  product: MarkOptional<ProductDetailsFragment, "id">;
+  product: ProductDetailsFragment;
 }
+
+export type MutateOrder = (
+  currentItem: CartItem
+) => (calculator: CalculatorFn) => void;
+
+export type CalculatorFn = (
+  cartItemQuantity: number,
+  currentItemQuantity: number
+) => number;
