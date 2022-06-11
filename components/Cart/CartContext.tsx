@@ -15,14 +15,14 @@ import type { CartItem, MutateOrder } from "../../util/types";
 interface CartState {
   readonly cartState: CartItem[];
   readonly calculateCartTotal: (cartItems: CartItem[]) => number;
-  readonly mutateOrder: MutateOrder;
+  readonly handleOrder: MutateOrder;
   readonly handledItemSlug: string;
 }
 
 const CartContext = createContext<CartState | null>(null);
 
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
-  const { mutateOrder, setCartItems, cartItems, handledItemSlug } = useOrder();
+  const { handleOrder, setCartItems, cartItems, handledItemSlug } = useOrder();
 
   useEffect(() => {
     async function getCartItemsFromCms() {
@@ -50,7 +50,7 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
       value={{
         cartState: cartItems,
         calculateCartTotal,
-        mutateOrder,
+        handleOrder,
         handledItemSlug,
       }}
     >

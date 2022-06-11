@@ -19,7 +19,7 @@ interface ProductProps {
 }
 
 export const ProductDetails = ({ data }: ProductProps) => {
-  const { mutateOrder, handledItemSlug } = useCartState();
+  const { handleOrder, handledItemSlug } = useCartState();
   const orderItem = {
     quantity: 1,
     product: {
@@ -69,7 +69,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
               <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
             </article>
             <AddToCartButton
-              onClick={() => mutateOrder(orderItem)(addToQuantity)}
+              onClick={() => handleOrder(orderItem)(addToQuantity)}
               disabled={handledItemSlug === orderItem.product.slug}
             />
           </div>

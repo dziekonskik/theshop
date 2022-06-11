@@ -10,7 +10,7 @@ interface ProductListItemProps {
 }
 
 export const ProductLstItem = ({ data }: ProductListItemProps) => {
-  const { mutateOrder, handledItemSlug } = useCartState();
+  const { handleOrder, handledItemSlug } = useCartState();
 
   const orderItem = {
     quantity: 1,
@@ -51,7 +51,7 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
           <div className="mr-3 text-xl">{data.price / 100} $</div>
           <AddToCartButton
             disabled={handledItemSlug === orderItem.product.slug}
-            onClick={() => mutateOrder(orderItem)(addToQuantity)}
+            onClick={() => handleOrder(orderItem)(addToQuantity)}
           />
         </div>
       </div>

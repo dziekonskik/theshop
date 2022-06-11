@@ -4,12 +4,12 @@ import type { CartItem, MutateOrder } from "../../util/types";
 
 interface CartContentListItemProps {
   cartItem: CartItem;
-  mutateOrder: MutateOrder;
+  handleOrder: MutateOrder;
 }
 
 export const CartContentListItem = ({
   cartItem,
-  mutateOrder,
+  handleOrder,
 }: CartContentListItemProps) => {
   return (
     <li className="flex items-center h-32 w-full" key={cartItem.product.slug}>
@@ -32,7 +32,7 @@ export const CartContentListItem = ({
         <div className="ml-4 p-2">
           <button
             onClick={() =>
-              mutateOrder(cartItem)(() => addToQuantity(cartItem.quantity, 1))
+              handleOrder(cartItem)(() => addToQuantity(cartItem.quantity, 1))
             }
             className="rounded-full h-5 w-5 bg-sky-700 text-white grid place-content-center mb-1"
           >
@@ -40,7 +40,7 @@ export const CartContentListItem = ({
           </button>
           <button
             onClick={() =>
-              mutateOrder(cartItem)(() =>
+              handleOrder(cartItem)(() =>
                 subtractFromQuantity(cartItem.quantity, 1)
               )
             }

@@ -2,7 +2,7 @@ import { CartContentListItem } from "./CartContentListItem";
 import { useCartState } from "./CartContext";
 
 export const CartContent = () => {
-  const { cartState, mutateOrder } = useCartState();
+  const { cartState, handleOrder } = useCartState();
   return (
     <div className="col-span-2">
       <div className="h-full max-h-[500px] overflow-y-auto">
@@ -13,7 +13,7 @@ export const CartContent = () => {
               return (
                 <CartContentListItem
                   cartItem={cartItem}
-                  mutateOrder={mutateOrder}
+                  handleOrder={handleOrder}
                   key={cartItem.product.id}
                 />
               );

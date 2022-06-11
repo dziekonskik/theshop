@@ -20,12 +20,8 @@ export const setCartIdInStorage = (cartId: string) => {
   localStorage.setItem("ZAISTE_SHOPPING_CART", cartId);
 };
 
-export const findCartItemBySlug = (slug: string, cartItems: CartItem[]) => {
+export const findCartItemIdBySlug = (slug: string, cartItems: CartItem[]) => {
   const cartItem = cartItems.find((item) => item.product.slug === slug);
-  console.log({
-    foundCartItemSlug: cartItem?.product.slug,
-    foundCartItemId: cartItem?.id,
-  });
   return cartItem ? cartItem.id : "";
 };
 
