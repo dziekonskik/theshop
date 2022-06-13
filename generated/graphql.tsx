@@ -10999,7 +10999,7 @@ export type GetProductListByPageQueryVariables = Exact<{
 }>;
 
 
-export type GetProductListByPageQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, slug: string, name: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> }> };
+export type GetProductListByPageQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
 export type GetProductSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11329,18 +11329,10 @@ export type GetProductListQueryResult = Apollo.QueryResult<GetProductListQuery, 
 export const GetProductListByPageDocument = gql`
     query GetProductListByPage($skipCount: Int) {
   products(skip: $skipCount) {
-    id
-    slug
-    name
-    price
-    images {
-      url
-      width
-      height
-    }
+    ...productDetails
   }
 }
-    `;
+    ${ProductDetailsFragmentDoc}`;
 
 /**
  * __useGetProductListByPageQuery__
