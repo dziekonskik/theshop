@@ -4,11 +4,10 @@ import { useCartState } from "./CartContext";
 export const CartContent = () => {
   const { cartState, handleOrder } = useCartState();
   return (
-    <div className="col-span-2">
-      <div className="h-full max-h-[500px] overflow-y-auto">
+    <div className="col-span-12 lg:col-span-6 w-full">
+      <div className="h-full lg:max-h-[550px] overflow-y-auto scrollbar w-full py-4">
         <div className="flex flex-col">
-          <h2 className="font-hubballi text-3xl">Summary</h2>
-          <ul>
+          <ul className="w-full">
             {cartState.map((cartItem) => {
               return (
                 <CartContentListItem
