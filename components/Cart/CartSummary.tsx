@@ -1,20 +1,34 @@
+import { BigLink } from "../BigLink";
 import { useCartState } from "./CartContext";
 
-interface CartSummaryProps {
-  handlePayment: () => void;
-}
-export const CartSummary = ({ handlePayment }: CartSummaryProps) => {
+export const CartSummary = () => {
   const { calculateCartTotal, cartState } = useCartState();
   const cartTotal = calculateCartTotal(cartState);
   return (
-    <div>
-      <h3 className="font-hubballi text-3xl">Total: {cartTotal / 100} $</h3>
-      <button
-        onClick={handlePayment}
-        className="inline-block mt-4 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-      >
-        Potwierdź zamówienie
-      </button>
-    </div>
+    <section className="hidden col-span-6 lg:flex justify-end relative">
+      <div className="mr-16 h-1/2 w-full bg-bermuda -skew-y-12 -z-10 border-4 border-midnight translate-y-5 flex justify-end relative">
+        <div className="h-full skew-y-12 w-44 bg-sunny bg-opacity-90 absolute -right-16 top-10 scale-y-110"></div>
+        <article className="skew-y-12 mt-12 flex flex-col absolute right-11 w-44">
+          <h2 className="font-acme z-50 text-2xl capitalize">Summary:</h2>
+          <div className="flex justify-between mt-8 font-acme z-50">
+            <span className="capitalize">Items:</span>
+            <span>{cartState.length}</span>
+          </div>
+          <div className="flex justify-between mt-8 font-acme z-50">
+            <span className="capitalize">Discount:</span>
+            <span>$ 0</span>
+          </div>
+          <div className="flex justify-between mt-8 font-acme z-50">
+            <span className="uppercase">Total:</span>
+            <span>$ {cartTotal / 100}</span>
+          </div>
+        </article>
+      </div>
+      <div className="absolute bottom-[40%] right-32 ">
+        <BigLink bgColor="#6C63FF" href="/checkout">
+          checkout
+        </BigLink>
+      </div>
+    </section>
   );
 };
