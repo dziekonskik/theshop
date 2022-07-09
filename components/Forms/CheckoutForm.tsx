@@ -2,16 +2,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import cardValid from "card-validator";
+
 import { UserDetails, PaymentDetails } from "./CheckoutFormComponents";
 
 let checkoutFormSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
-  cardnumber: yup
-    .string()
-    .test((value) => cardValid.number(value).isValid)
-    .required(),
+  cardnumber: yup.string().required(),
   cardholder: yup.string().required(),
   expiration: yup.string().required(),
   cvc: yup.string().required(),
