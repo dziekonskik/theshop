@@ -1,0 +1,5 @@
+query GetOrderTotalById($id: ID!) {
+  order(where: { id: $id }) {
+    total
+  }
+}

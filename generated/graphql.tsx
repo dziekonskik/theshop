@@ -13,18 +13,13 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date string, such as 2007-12-03 (YYYY-MM-DD), compliant with ISO 8601 standard for representation of dates using the Gregorian calendar. */
   Date: any;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the date-timeformat outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representationof dates and times using the Gregorian calendar. */
   DateTime: any;
   Hex: any;
-  /** Raw JSON value */
   Json: any;
-  /** The Long scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
   Long: any;
   RGBAHue: any;
   RGBATransparency: any;
-  /** Slate-compatible RichText AST */
   RichTextAST: any;
 };
 
@@ -10982,6 +10977,13 @@ export type GetManyProductsBySlugsQueryVariables = Exact<{
 
 export type GetManyProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
+export type GetOrderTotalByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetOrderTotalByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', total: number } | null };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -11245,6 +11247,41 @@ export function useGetManyProductsBySlugsLazyQuery(baseOptions?: Apollo.LazyQuer
 export type GetManyProductsBySlugsQueryHookResult = ReturnType<typeof useGetManyProductsBySlugsQuery>;
 export type GetManyProductsBySlugsLazyQueryHookResult = ReturnType<typeof useGetManyProductsBySlugsLazyQuery>;
 export type GetManyProductsBySlugsQueryResult = Apollo.QueryResult<GetManyProductsBySlugsQuery, GetManyProductsBySlugsQueryVariables>;
+export const GetOrderTotalByIdDocument = gql`
+    query GetOrderTotalById($id: ID!) {
+  order(where: {id: $id}) {
+    total
+  }
+}
+    `;
+
+/**
+ * __useGetOrderTotalByIdQuery__
+ *
+ * To run a query within a React component, call `useGetOrderTotalByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderTotalByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrderTotalByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetOrderTotalByIdQuery(baseOptions: Apollo.QueryHookOptions<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>(GetOrderTotalByIdDocument, options);
+      }
+export function useGetOrderTotalByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>(GetOrderTotalByIdDocument, options);
+        }
+export type GetOrderTotalByIdQueryHookResult = ReturnType<typeof useGetOrderTotalByIdQuery>;
+export type GetOrderTotalByIdLazyQueryHookResult = ReturnType<typeof useGetOrderTotalByIdLazyQuery>;
+export type GetOrderTotalByIdQueryResult = Apollo.QueryResult<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>;
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
