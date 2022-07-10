@@ -26,7 +26,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         htmlFor={label}
         className="font-anonymous capitalize text-grey-700 mb-2 block"
       >
-        {label}
+        {label.replace(/([A-Z])/g, " $1").trim()}
       </label>
 
       {type === "textarea" ? (
@@ -42,7 +42,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         <input
           id={label}
           type={type}
-          className="rounded w-full p-3 shadow-sm bg-transparent border border-b-purple border-l-purple"
+          className="w-full p-3 shadow-sm bg-transparent border border-b-purple border-l-purple"
           placeholder={placeholder}
           {...register(label)}
         />
