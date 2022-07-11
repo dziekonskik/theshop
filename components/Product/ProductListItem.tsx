@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCartState } from "../Cart/CartContext";
-import { AddToCartButton } from "../AddToCartButton";
+import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
 import { addToQuantity } from "../../util/cartHelpers";
 import type { ProductDetailsFragment } from "../../generated/graphql";
 

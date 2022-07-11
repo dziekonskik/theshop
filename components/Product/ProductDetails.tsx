@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import { Rating } from "./ProductRating";
-import { AddToCartButton } from "../AddToCartButton";
+import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
 import { useCartState } from "../Cart/CartContext";
 import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer";
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";

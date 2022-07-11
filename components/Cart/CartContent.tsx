@@ -1,4 +1,4 @@
-import { BigLink } from "../BigLink";
+import { BigLink } from "../ButtonsAndLinks/BigLink";
 import { CartContentListItem } from "./CartContentListItem";
 import { useCartState } from "./CartContext";
 import type { CartItem } from "../../util/types";

@@ -1,4 +1,4 @@
-import { BigLink } from "../BigLink";
+import { BigLink } from "../ButtonsAndLinks/BigLink";
 import { useCartState } from "./CartContext";
 
 export const CartSummary = () => {
