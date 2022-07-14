@@ -16,7 +16,9 @@ const CheckoutPage = () => {
       method: "POST",
       body: cartIdFromStrage,
     }).then((response) => {
-      console.log(response);
+      response.json().then(({ secret }) => {
+        setClientSecret(secret);
+      });
     });
   }, []);
   const stripeElementsConfig: StripeElementsOptions = {

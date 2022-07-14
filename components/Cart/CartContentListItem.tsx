@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SvgIcon } from "../SvgIcon";
+import { ArrowDownIcon, ArrowUpIcon, CloseIcon } from "../Svg";
 import { addToQuantity, subtractFromQuantity } from "../../util/cartHelpers";
 import type { CartItem, MutateOrder } from "../../util/types";
 
@@ -41,13 +41,7 @@ export const CartContentListItem = ({
       </div>
       <div className="col-span-1 md:col-span-2 backdrop-blur-md grid place-content-center -translate-y-4 ">
         <button className="cursor-pointer">
-          <SvgIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </SvgIcon>
+          <CloseIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6" />
         </button>
       </div>
     </li>
@@ -75,13 +69,7 @@ const QuantityButtons = ({
             className="grid place-content-center"
           >
             <span className="cursor-pointer">
-              <SvgIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7 11l5-5m0 0l5 5m-5-5v12"
-                />
-              </SvgIcon>
+              <ArrowUpIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6" />
             </span>
           </button>
           <span className="text-purple font-acme text-sm md:text-lg">
@@ -96,13 +84,10 @@ const QuantityButtons = ({
             className="grid place-content-center"
           >
             <span className="-translate-y-px cursor-pointer">
-              <SvgIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                />
-              </SvgIcon>
+              <ArrowDownIcon
+                strokeWidth={2}
+                className="h-4 w-4 md:h-6 md:w-6"
+              />
             </span>
           </button>
         </div>

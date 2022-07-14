@@ -1,5 +1,4 @@
 import { useState, ButtonHTMLAttributes } from "react";
-import { SvgIcon } from "../SvgIcon";
 
 interface ButtonWithIconProps {
   children: React.ReactNode;
@@ -31,19 +30,19 @@ export const ButtonWithIcon = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {side === "left" && (
-        <SvgIcon
+        <span
           className={`mr-3 text-lg ${isHovered ? "animate-wiggleOnce" : ""}`}
         >
           {svgMarkup}
-        </SvgIcon>
+        </span>
       )}
       {children}
       {side === "right" && (
-        <SvgIcon
+        <span
           className={`ml-3 text-lg ${isHovered ? "animate-wiggleOnce" : ""}`}
         >
           {svgMarkup}
-        </SvgIcon>
+        </span>
       )}
     </button>
   );
