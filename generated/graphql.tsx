@@ -10977,12 +10977,12 @@ export type GetManyProductsBySlugsQueryVariables = Exact<{
 
 export type GetManyProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
-export type GetOrderTotalByIdQueryVariables = Exact<{
+export type GetOrderTotalAndItemsByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetOrderTotalByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', total: number } | null };
+export type GetOrderTotalAndItemsByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', total: number, orderItems: Array<{ __typename?: 'OrderItem', quantity: number, product?: { __typename?: 'Product', slug: string, price: number } | null }> } | null };
 
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -11247,41 +11247,48 @@ export function useGetManyProductsBySlugsLazyQuery(baseOptions?: Apollo.LazyQuer
 export type GetManyProductsBySlugsQueryHookResult = ReturnType<typeof useGetManyProductsBySlugsQuery>;
 export type GetManyProductsBySlugsLazyQueryHookResult = ReturnType<typeof useGetManyProductsBySlugsLazyQuery>;
 export type GetManyProductsBySlugsQueryResult = Apollo.QueryResult<GetManyProductsBySlugsQuery, GetManyProductsBySlugsQueryVariables>;
-export const GetOrderTotalByIdDocument = gql`
-    query GetOrderTotalById($id: ID!) {
+export const GetOrderTotalAndItemsByIdDocument = gql`
+    query GetOrderTotalAndItemsById($id: ID!) {
   order(where: {id: $id}) {
     total
+    orderItems {
+      quantity
+      product {
+        slug
+        price
+      }
+    }
   }
 }
     `;
 
 /**
- * __useGetOrderTotalByIdQuery__
+ * __useGetOrderTotalAndItemsByIdQuery__
  *
- * To run a query within a React component, call `useGetOrderTotalByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrderTotalByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetOrderTotalAndItemsByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderTotalAndItemsByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetOrderTotalByIdQuery({
+ * const { data, loading, error } = useGetOrderTotalAndItemsByIdQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetOrderTotalByIdQuery(baseOptions: Apollo.QueryHookOptions<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>) {
+export function useGetOrderTotalAndItemsByIdQuery(baseOptions: Apollo.QueryHookOptions<GetOrderTotalAndItemsByIdQuery, GetOrderTotalAndItemsByIdQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>(GetOrderTotalByIdDocument, options);
+        return Apollo.useQuery<GetOrderTotalAndItemsByIdQuery, GetOrderTotalAndItemsByIdQueryVariables>(GetOrderTotalAndItemsByIdDocument, options);
       }
-export function useGetOrderTotalByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>) {
+export function useGetOrderTotalAndItemsByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderTotalAndItemsByIdQuery, GetOrderTotalAndItemsByIdQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>(GetOrderTotalByIdDocument, options);
+          return Apollo.useLazyQuery<GetOrderTotalAndItemsByIdQuery, GetOrderTotalAndItemsByIdQueryVariables>(GetOrderTotalAndItemsByIdDocument, options);
         }
-export type GetOrderTotalByIdQueryHookResult = ReturnType<typeof useGetOrderTotalByIdQuery>;
-export type GetOrderTotalByIdLazyQueryHookResult = ReturnType<typeof useGetOrderTotalByIdLazyQuery>;
-export type GetOrderTotalByIdQueryResult = Apollo.QueryResult<GetOrderTotalByIdQuery, GetOrderTotalByIdQueryVariables>;
+export type GetOrderTotalAndItemsByIdQueryHookResult = ReturnType<typeof useGetOrderTotalAndItemsByIdQuery>;
+export type GetOrderTotalAndItemsByIdLazyQueryHookResult = ReturnType<typeof useGetOrderTotalAndItemsByIdLazyQuery>;
+export type GetOrderTotalAndItemsByIdQueryResult = Apollo.QueryResult<GetOrderTotalAndItemsByIdQuery, GetOrderTotalAndItemsByIdQueryVariables>;
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
