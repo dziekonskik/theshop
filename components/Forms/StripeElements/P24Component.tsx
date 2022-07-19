@@ -1,9 +1,17 @@
 import { P24BankElement } from "@stripe/react-stripe-js";
+import type { PaymentState } from "../../../util/stripeElementsHelpers";
 
-export const P24Component = () => {
+interface P24ComponentProps {
+  setPaymentState: React.Dispatch<React.SetStateAction<PaymentState>>;
+}
+
+export const P24Component = ({ setPaymentState }: P24ComponentProps) => {
   return (
     <section className="w-full">
       <P24BankElement
+        onChange={({ complete }) => {
+          complete && setPaymentState({ type: "ReadyToSubmit" });
+        }}
         className="w-full p-3 shadow-sm bg-transparent border border-b-purple border-l-purple relative z-10"
         options={{
           classes: { focus: "bg-purple" },

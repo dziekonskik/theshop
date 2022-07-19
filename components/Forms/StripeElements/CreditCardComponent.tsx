@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   CardCvcElement,
   CardNumberElement,
@@ -5,6 +6,7 @@ import {
   CardElementProps,
 } from "@stripe/react-stripe-js";
 import { RssIcon, ChipIcon, EuroIcon } from "../../Svg";
+import type { PaymentState } from "../../../util/stripeElementsHelpers";
 
 const commonInputStyles: CardElementProps["options"] = {
   style: {
@@ -26,7 +28,54 @@ const commonInputStyles: CardElementProps["options"] = {
   },
 };
 
-export const CreditCardComponent = () => {
+interface CreditCartComponentProps {
+  paymentState: PaymentState;
+  setPaymentState: React.Dispatch<React.SetStateAction<PaymentState>>;
+}
+
+type IndividualInputState = "complete" | "incomplete";
+type IndividualInputName = "cardNumber" | "cvc" | "expiration";
+
+type IndividualInputRecord<
+  K extends IndividualInputName,
+  V extends IndividualInputState
+> = Record<K, V>;
+
+export const CreditCardComponent = ({
+  paymentState,
+  setPaymentState,
+}: CreditCartComponentProps) => {
+  const [cardInputsState, setCardInputsState] = useState<
+    IndividualInputRecord<IndividualInputName, IndividualInputState>
+  >({ cardNumber: "incomplete", cvc: "incomplete", expiration: "incomplete" });
+
+  useEffect(() => {
+    const { cardNumber, cvc, expiration } = cardInputsState;
+    if (
+      cardNumber === "complete" &&
+      cvc === "complete" &&
+      expiration === "complete"
+    ) {
+      setPaymentState({ type: "ReadyToSubmit" });
+    }
+  }, [cardInputsState, setPaymentState]);
+
+  const handleCardInputStateChange = (
+    complete: boolean,
+    inputName: IndividualInputName
+  ) => {
+    complete
+      ? setCardInputsState({
+          ...cardInputsState,
+          [inputName]: "complete",
+        })
+      : setCardInputsState({
+          ...cardInputsState,
+          [inputName]: "incomplete",
+        });
+  };
+
+  const mustCorrectError = paymentState.type === "PaymentError";
   return (
     <article className="h-60 w-80 flex flex-col justify-between rounded-2xl shadow-lg py-4 px-7 backdrop-blur-lg border border-l-silver border-b-silver border-t-transparent border-r-transparent">
       <h3 className="font-anonymous capitalize text-center text-midnight">
@@ -41,6 +90,10 @@ export const CreditCardComponent = () => {
           card number
         </span>
         <CardNumberElement
+          onChange={({ complete }) => {
+            mustCorrectError && setPaymentState({ type: "InitialState" });
+            handleCardInputStateChange(complete, "cardNumber");
+          }}
           className="border border-white text-white p-2"
           options={commonInputStyles}
         />
@@ -50,6 +103,10 @@ export const CreditCardComponent = () => {
               cvc
             </span>
             <CardCvcElement
+              onChange={({ complete }) => {
+                mustCorrectError && setPaymentState({ type: "InitialState" });
+                handleCardInputStateChange(complete, "cvc");
+              }}
               className="border border-white text-white p-2 w-12"
               options={{ ...commonInputStyles, placeholder: "CVC" }}
             />
@@ -59,6 +116,10 @@ export const CreditCardComponent = () => {
               valid thru
             </span>
             <CardExpiryElement
+              onChange={({ complete }) => {
+                mustCorrectError && setPaymentState({ type: "InitialState" });
+                handleCardInputStateChange(complete, "expiration");
+              }}
               className="border border-white text-white p-2 w-20"
               options={{
                 ...commonInputStyles,
