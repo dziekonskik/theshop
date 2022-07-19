@@ -20,7 +20,7 @@ export async function handleP24Payment(
         phone: data.phone,
       },
     },
-    return_url: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/checkout`,
+    return_url: `${process.env.BASE_URL}/checkout`,
     receipt_email: data.email,
     shipping: {
       name: data.name,

@@ -93,8 +93,8 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
     mode: "payment",
     locale: "pl",
     payment_method_types: ["card", "p24"],
-    success_url: `${process.env.NEXT_PUBLIC_VERCEL_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_VERCEL_URL}/checkout/cancel`,
+    success_url: `${process.env.BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.BASE_URL}/checkout/cancel`,
     line_items: productsWithQuantities.map((product) => {
       return {
         price_data: {
