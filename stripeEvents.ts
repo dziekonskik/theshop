@@ -108,9 +108,6 @@ export type StripeWebhookEvents =
     | StripeWebhookEvent<'mandate.updated', Stripe.Mandate>
     | StripeWebhookEvent<'order.created', Stripe.Order>
     | StripeWebhookEvent<'order.payment_failed', Stripe.Order>
-    | StripeWebhookEvent<'order.payment_succeeded', Stripe.Order>
-    | StripeWebhookEvent<'order.updated', Stripe.Order>
-    | StripeWebhookEvent<'order_return.created', Stripe.OrderReturn>
     | StripeWebhookEvent<'payment_intent.amount_capturable_updated', Stripe.PaymentIntent>
     | StripeWebhookEvent<'payment_intent.canceled', Stripe.PaymentIntent>
     | StripeWebhookEvent<'payment_intent.created', Stripe.PaymentIntent>
