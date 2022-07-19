@@ -1,0 +1,12 @@
+query GetOrderTotalAndItemsById($id: ID!) {
+  order(where: { id: $id }) {
+    total
+    orderItems {
+      quantity
+      product {
+        slug
+        price
+      }
+    }
+  }
+}

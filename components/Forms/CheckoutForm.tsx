@@ -1,62 +1,156 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import cardValid from "card-validator";
-import { UserDetails, PaymentDetails } from "./CheckoutFormComponents";
+import "yup-phone";
+import { useElements, useStripe } from "@stripe/react-stripe-js";
+import { ShippingDetails, PaymentDetails } from "./CheckoutFormComponents";
+import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
+import { ArrowLeftIcon, ArrowRightIcon } from "../Svg";
+import useMediaQuery from "../../util/useMediaquery";
+import {
+  getClientSecret,
+  handleCardPayment,
+  handleP24Payment,
+  PaymentState,
+} from "../../util/stripeElementsHelpers";
+import { PaymentMethods } from "../../util/types";
+import { removeCartFromStorage } from "../../util/cartHelpers";
 
 let checkoutFormSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
-  cardnumber: yup
-    .string()
-    .test((value) => cardValid.number(value).isValid)
-    .required(),
-  cardholder: yup.string().required(),
-  expiration: yup.string().required(),
-  cvc: yup.string().required(),
+  addressLineOne: yup.string().required(),
+  addressLineTwo: yup.string().required(),
+  postalCode: yup.string().required(),
+  city: yup.string().required(),
+  phone: yup.string().phone("PL").required(),
 });
 
 export type FormData = yup.InferType<typeof checkoutFormSchema>;
 
 export const CheckoutForm = () => {
-  const [step, setStep] = useState<1 | 2>(1);
+  const matches = useMediaQuery("(max-width: 768px)");
+  const [currentStep, setCurrentStep] = useState<"ship" | "pay" | "ship&pay">(
+    matches ? "ship" : "ship&pay"
+  );
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<PaymentMethods>(PaymentMethods.creditCard);
+  const [paymentState, setPaymentState] = useState<PaymentState>({
+    type: "InitialState",
+  });
+  const router = useRouter();
+  const elements = useElements();
+  const stripe = useStripe();
+
+  useEffect(() => {
+    setCurrentStep(matches ? "ship" : "ship&pay");
+  }, [matches]);
+
+  useEffect(() => {
+    // this happens only after redirect from p24
+    if (router.query.redirect_status === "succeeded") {
+      setPaymentState({ type: "PaymentSuccessful" });
+    }
+    if (router.query.redirect_status === "failed") {
+      setPaymentState({ type: "PaymentError", message: "" });
+    }
+  }, [router.query.redirect_status]);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(checkoutFormSchema),
     mode: "onBlur",
+    defaultValues: {
+      addressLineOne: "",
+      addressLineTwo: "",
+      city: "",
+      email: "",
+      name: "",
+      phone: "",
+      postalCode: "",
+    },
   });
-  const onSubmit = handleSubmit((data) => data);
+  const onSubmit = handleSubmit(async (data, event) => {
+    if (paymentState.type === "LeadingState") return;
+    setPaymentState({ type: "LeadingState" });
+    event?.preventDefault();
+
+    const clientSecret = await getClientSecret();
+
+    if (!stripe || !elements || !clientSecret) return;
+
+    switch (selectedPaymentMethod) {
+      case PaymentMethods.creditCard:
+        await handleCardPayment(
+          clientSecret,
+          data,
+          stripe,
+          elements,
+          setPaymentState
+        );
+        break;
+      case PaymentMethods.p24:
+        await handleP24Payment(clientSecret, data, stripe);
+        break;
+    }
+  });
+
+  useEffect(() => {
+    if (paymentState.type === "PaymentSuccessful") {
+      reset();
+      removeCartFromStorage();
+    }
+  }, [paymentState.type, reset]);
+
   return (
-    <div className="container md:max-h-screen justify-center">
-      <form onSubmit={onSubmit} className="px-6">
+    <div className="md:max-h-screen w-full">
+      <form onSubmit={onSubmit}>
         <div className="md:h-4/5">
-          <div className="grid md:grid-cols-2 md:gap-7">
+          <div className="md:grid md:grid-cols-2">
             <div className="col-start-1">
-              <UserDetails register={register} errors={errors} />
-              <div className="flex justify-end md:hidden">
-                <button
-                  type="submit"
-                  className="w-full md:w-auto my-6 inline-block px-7 py-3 bg-blue-600 text-white font-medium text-base leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              {(currentStep === "ship" || currentStep === "ship&pay") && (
+                <ShippingDetails register={register} errors={errors} />
+              )}
+              <span className="md:hidden flex justify-end px-6 my-6">
+                <ButtonWithIcon
+                  bgColor="#6C63FF"
+                  type="button"
+                  onClick={() =>
+                    currentStep === "ship" && isValid
+                      ? setCurrentStep("pay")
+                      : setCurrentStep("ship")
+                  }
+                  side={currentStep === "ship" ? "right" : "left"}
+                  fullWidth
+                  svgMarkup={
+                    currentStep === "ship" ? (
+                      <ArrowRightIcon />
+                    ) : (
+                      <ArrowLeftIcon />
+                    )
+                  }
                 >
                   Next
-                </button>
-              </div>
+                </ButtonWithIcon>
+              </span>
             </div>
-            <div className="md:col-start-2">
-              <PaymentDetails register={register} errors={errors} />
-              <div>
-                <button
-                  type="submit"
-                  className="w-full md:w-auto my-6 inline-block px-7 py-3 bg-blue-600 text-white font-medium text-base leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                >
-                  Purchase
-                </button>
+            {(currentStep === "pay" || currentStep === "ship&pay") && (
+              <div className="md:col-start-2">
+                <PaymentDetails
+                  selectedPaymentMethod={selectedPaymentMethod}
+                  setSelectedPaymentMethod={setSelectedPaymentMethod}
+                  handleSubmit={onSubmit}
+                  paymentState={paymentState}
+                  setPaymentState={setPaymentState}
+                />
               </div>
-            </div>
+            )}
           </div>
         </div>
       </form>

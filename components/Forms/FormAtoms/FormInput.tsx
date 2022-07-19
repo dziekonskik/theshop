@@ -9,7 +9,7 @@ interface FormInputProps<T extends FieldValues> {
   label: Path<T>;
   type: React.HTMLInputTypeAttribute;
   register: UseFormRegister<T>;
-  errors: FieldErrors<FieldValues>;
+  errors: FieldErrors<T>;
   placeholder: string;
 }
 
@@ -24,9 +24,9 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
     <div className="mb-4 w-full">
       <label
         htmlFor={label}
-        className="font-play capitalize text-grey-700 mb-2 block"
+        className="font-anonymous capitalize text-grey-700 mb-2 block"
       >
-        {label}
+        {label.replace(/([A-Z])/g, " $1").trim()}
       </label>
 
       {type === "textarea" ? (
@@ -42,7 +42,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         <input
           id={label}
           type={type}
-          className="rounded border-none w-full p-3 shadow-sm"
+          className="w-full p-3 shadow-sm bg-transparent border border-b-purple border-l-purple"
           placeholder={placeholder}
           {...register(label)}
         />
@@ -50,9 +50,9 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
 
       <span
         role="alert"
-        className="text-red-500 mt-1 text-xs font-bold h-2 block"
+        className="text-error font-anonymous mt-1 text-xs h-2 block"
       >
-        {errors[label]?.message}
+        {errors[label]?.message as string}
       </span>
     </div>
   );

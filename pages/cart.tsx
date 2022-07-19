@@ -1,6 +1,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { CartContent } from "../components/Cart/CartContent";
 import { CartSummary } from "../components/Cart/CartSummary";
+import { EmptyCart } from "../components/Cart/EmptyCart";
 import { useCartState } from "../components/Cart/CartContext";
 
 const stripePromise = loadStripe(
@@ -8,39 +9,14 @@ const stripePromise = loadStripe(
 );
 
 const CartPage = () => {
-  const { items } = useCartState();
-
-  const pay = async () => {
-    const stripe = await stripePromise;
-    if (!stripe) {
-      throw new Error("Unable to run stripe");
-    }
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application-json",
-      },
-      body: JSON.stringify(
-        items.map((cartItem) => {
-          return {
-            slug: cartItem.slug,
-            count: cartItem.count,
-          };
-        })
-      ),
-    });
-    //: { session: Stripe.Response<Stripe.Checkout.Session> }
-    const { session } = await res.json();
-
-    await stripe.redirectToCheckout({ sessionId: session.id });
-  };
-  return (
-    <div className="container mx-auto p-4">
-      <div className="grid grid-cols-3 gap-8">
-        <CartContent />
-        <CartSummary handlePayment={pay} />
-      </div>
+  const { cartState } = useCartState();
+  return cartState.length > 0 ? (
+    <div className="grid grid-cols-12 gap-8 w-full">
+      <CartContent />
+      <CartSummary />
     </div>
+  ) : (
+    <EmptyCart />
   );
 };
 

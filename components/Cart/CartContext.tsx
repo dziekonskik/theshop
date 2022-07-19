@@ -1,102 +1,57 @@
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
-
-interface CartItem {
-  readonly id: string;
-  readonly slug: string;
-  readonly title: string;
-  readonly price: number;
-  readonly count: number;
-  readonly thumbnailUrl: string;
-  readonly thumbnailAlt: string;
-}
+  GetWorkingOrderByIdDocument,
+  GetWorkingOrderByIdQuery,
+  GetWorkingOrderByIdQueryVariables,
+} from "../../generated/graphql";
+import { apolloClient } from "../../graphql/apolloClient";
+import {
+  calculateCartTotal,
+  getCartIdFromStorage,
+} from "../../util/cartHelpers";
+import { useOrder } from "../../util/useOrder";
+import type { CartItem, MutateOrder } from "../../util/types";
 
 interface CartState {
-  readonly items: CartItem[];
-  readonly addItemToCart: (item: CartItem) => void;
-  readonly removeItemsFromCart: (id: CartItem["id"]) => void;
-  readonly calculateCartTotal: () => string;
+  readonly cartState: CartItem[];
+  readonly calculateCartTotal: (cartItems: CartItem[]) => number;
+  readonly handleOrder: MutateOrder;
+  readonly handledItemSlug: string;
 }
 
 const CartContext = createContext<CartState | null>(null);
 
-const getCartItemsFromStorage = () => {
-  const itemsFromLocalStorage = localStorage.getItem("ZAISTE_SHOPPING_CART");
-  if (!itemsFromLocalStorage) return [];
-  try {
-    const items = JSON.parse(itemsFromLocalStorage);
-    return items;
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-};
-
-const setCartItemsInStorage = (cartItems: CartItem[]) => {
-  localStorage.setItem("ZAISTE_SHOPPING_CART", JSON.stringify(cartItems));
-};
-
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { handleOrder, setCartItems, cartItems, handledItemSlug } = useOrder();
 
   useEffect(() => {
-    setCartItems(getCartItemsFromStorage());
-  }, []);
-  useEffect(() => {
-    setCartItemsInStorage(cartItems);
-  }, [cartItems]);
+    async function getCartItemsFromCms() {
+      const idFromStroage = getCartIdFromStorage();
+      if (idFromStroage) {
+        const { data } = await apolloClient.query<
+          GetWorkingOrderByIdQuery,
+          GetWorkingOrderByIdQueryVariables
+        >({
+          query: GetWorkingOrderByIdDocument,
+          variables: {
+            id: idFromStroage,
+          },
+        });
+        if (data && data.order) {
+          setCartItems(data.order?.orderItems as CartItem[]);
+        }
+      }
+    }
+    getCartItemsFromCms();
+  }, [setCartItems]);
 
   return (
     <CartContext.Provider
       value={{
-        items: cartItems,
-        addItemToCart: (item) =>
-          setCartItems((prevState) => {
-            const existingItem = prevState.find(
-              (existingItem) => existingItem.id === item.id
-            );
-            if (!existingItem) {
-              return [...prevState, item];
-            }
-            return prevState.map((existingItem) => {
-              if (existingItem.id === item.id) {
-                return {
-                  ...existingItem,
-                  count: existingItem.count + 1,
-                };
-              }
-              return existingItem;
-            });
-          }),
-        removeItemsFromCart: (id) =>
-          setCartItems((prevState) => {
-            const existingItem = prevState.find((el) => el.id === id);
-            if (existingItem && existingItem.count <= 1) {
-              return prevState.filter((el) => el.id !== id);
-            }
-            return prevState.map((el) => {
-              if (el.id === id) {
-                return {
-                  ...el,
-                  count: el.count - 1,
-                };
-              }
-              return el;
-            });
-          }),
-        calculateCartTotal() {
-          const pricesTotal = cartItems.map(
-            (item) => item.count * (item.price * 100)
-          );
-          return (
-            pricesTotal.reduce((current, total) => current + total, 0) / 100
-          ).toFixed(2);
-        },
+        cartState: cartItems,
+        calculateCartTotal,
+        handleOrder,
+        handledItemSlug,
       }}
     >
       {children}

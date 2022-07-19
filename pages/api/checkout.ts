@@ -2,14 +2,38 @@ import { NextApiHandler } from "next";
 import { Stripe } from "stripe";
 import { apolloClient } from "../../graphql/apolloClient";
 import {
-  GetProductBySlugDocument,
-  GetProductBySlugQueryVariables,
-  GetProductBySlugQuery,
+  GetManyProductsBySlugsQuery,
+  GetManyProductsBySlugsQueryVariables,
+  GetManyProductsBySlugsDocument,
+  ProductDetailsFragment,
 } from "../../generated/graphql";
 
 interface CartRequestType {
   slug: string;
   count: number;
+}
+
+type ProductsWithQuantities = (ProductDetailsFragment & { count: number })[];
+
+function isTypeofProductDetail(
+  productsArray: ProductsWithQuantities
+): productsArray is ProductsWithQuantities {
+  return (
+    productsArray !== undefined &&
+    productsArray.every((obj) => {
+      return (
+        "count" in obj &&
+        typeof obj.count === "number" &&
+        "price" in obj &&
+        typeof obj.price === "number" &&
+        "name" in obj &&
+        typeof obj.name === "string" &&
+        "images" in obj &&
+        obj.images.length > 0 &&
+        typeof obj.images[0].url === "string"
+      );
+    })
+  );
 }
 
 function isCartRequestType(reqBody: any[]): reqBody is CartRequestType[] {
@@ -42,24 +66,27 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
     return res.status(422).json({ error: "Incorrect request body shape" });
   }
 
-  const products = await Promise.all(
-    reqBody.map(async (cartItem) => {
-      const product = await apolloClient.query<
-        GetProductBySlugQuery,
-        GetProductBySlugQueryVariables
-      >({
-        query: GetProductBySlugDocument,
-        variables: {
-          slug: cartItem.slug,
-        },
-      });
+  const slugsList = reqBody.map((cartItem) => cartItem.slug);
+  const products = await apolloClient.query<
+    GetManyProductsBySlugsQuery,
+    GetManyProductsBySlugsQueryVariables
+  >({
+    query: GetManyProductsBySlugsDocument,
+    variables: {
+      slug_in: slugsList,
+    },
+  });
 
-      return {
-        product,
-        count: cartItem.count,
-      };
-    })
-  );
+  const productsWithQuantities = products.data.products.map((product, i) => {
+    return {
+      ...product,
+      count: product.slug === reqBody[i].slug ? reqBody[i].count : 1,
+    };
+  });
+
+  if (!isTypeofProductDetail(productsWithQuantities)) {
+    return res.status(422).json({ error: "Incorrect product shape" });
+  }
 
   // Tu replikujemy nasz koszyk i tu wpływamy na to jak będzie wyglądała strona płatności
   const checkoutSession = await stripe.checkout.sessions.create({
@@ -69,15 +96,15 @@ const checkoutHandler: NextApiHandler = async (req, res) => {
     success_url:
       "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}",
     cancel_url: "http://localhost:3000/checkout/cancel",
-    line_items: products.map((product) => {
+    line_items: productsWithQuantities.map((product) => {
       return {
         price_data: {
           currency: "PLN",
-          unit_amount: product.product.data.product!.price,
+          unit_amount: product.price,
           product_data: {
-            name: product.product.data.product!.name,
-            images: product.product.data.product!.images.map((i) => i.url),
-            metadata: { slug: product.product.data.product!.slug },
+            name: product.name,
+            images: product.images.map((i) => i.url),
+            metadata: { slug: product.slug },
           },
         },
         quantity: product.count,

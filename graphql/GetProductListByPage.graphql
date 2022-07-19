@@ -1,13 +1,5 @@
 query GetProductListByPage($skipCount: Int) {
   products(skip: $skipCount) {
-    id
-    slug
-    name
-    price
-    images {
-      url
-      width
-      height
-    }
+    ...productDetails
   }
 }

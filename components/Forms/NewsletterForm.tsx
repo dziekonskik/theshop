@@ -21,13 +21,16 @@ export const NewsletterForm = () => {
   });
 
   const handleNewsletterSignupMutation = async (data: { email: string }) => {
-    await fetch("http://localhost:3000/api/mailer", {
+    const res = await fetch("http://localhost:3000/api/mailer", {
       method: "POST",
       headers: {
         "Content-Type": "application-json",
       },
       body: JSON.stringify(data),
     });
+    if (!res.ok) {
+      throw new Error("Signup unsuccessful...");
+    }
   };
 
   const { isLoading, isError, mutate, isSuccess } = useMutation(

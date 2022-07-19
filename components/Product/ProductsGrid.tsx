@@ -32,9 +32,10 @@ export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
               data={{
                 id: item.id,
                 name: item.name,
-                thumbnailAlt: item.name,
-                thumbnailUrl: item.images[0].url,
                 slug: item.slug,
+                price: item.price,
+                images: item.images,
+                description: item.description,
               }}
             />
           </li>

@@ -1,53 +1,59 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCartState } from "../Cart/CartContext";
-import type { ProductDetails } from "./ProductDetails";
+import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
+import { addToQuantity } from "../../util/cartHelpers";
+import type { ProductDetailsFragment } from "../../generated/graphql";
 
-type ProductListItem = Pick<
-  ProductDetails,
-  "name" | "thumbnailUrl" | "thumbnailAlt" | "id" | "slug"
->;
 interface ProductListItemProps {
-  data: ProductListItem;
+  data: ProductDetailsFragment;
 }
 
 export const ProductLstItem = ({ data }: ProductListItemProps) => {
-  const { addItemToCart } = useCartState();
+  const { handleOrder, handledItemSlug } = useCartState();
+
+  const orderItem = {
+    quantity: 1,
+    product: {
+      id: data.id,
+      name: data.name,
+      price: data.price,
+      slug: data.slug,
+      images: data.images,
+      description: data.description,
+    },
+  };
 
   return (
     <>
-      <div className="bg-white p-4">
-        <Image
-          src={data.thumbnailUrl}
-          alt={data.thumbnailAlt}
-          layout="responsive"
-          objectFit="contain"
-          width={16}
-          height={9}
-        />
-      </div>
-      <div className="flex items-center">
+      <Link href={`/products/item/${data.slug}`}>
+        <a>
+          <div className="bg-white p-10 rounded-md">
+            <Image
+              src={data.images[0].url}
+              alt={data.name}
+              layout="responsive"
+              objectFit="contain"
+              width={16}
+              height={9}
+              className="hover:scale-125 transition-transform"
+            />
+          </div>
+        </a>
+      </Link>
+      <div className="flex flex-col items-center px-4">
         <Link href={`/products/item/${data.slug}`}>
           <a>
-            <h2 className="p-4 text-3xl font-bold">{data.name}</h2>
+            <h2 className="p-4 text-xl font-bold">{data.name}</h2>
           </a>
         </Link>
-        <button
-          onClick={() =>
-            addItemToCart({
-              id: data.id,
-              price: 77.17,
-              title: data.name,
-              count: 1,
-              thumbnailUrl: data.thumbnailUrl,
-              thumbnailAlt: data.thumbnailAlt,
-              slug: data.slug,
-            })
-          }
-          className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-        >
-          Kup to
-        </button>
+        <div className="flex items-center mb-4">
+          <div className="mr-3 text-xl">{data.price / 100} $</div>
+          <AddToCartButton
+            disabled={handledItemSlug === orderItem.product.slug}
+            onClick={() => handleOrder(orderItem)(addToQuantity)}
+          />
+        </div>
       </div>
     </>
   );

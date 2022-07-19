@@ -1,4 +1,5 @@
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import type { ProductDetailsFragment } from "../generated/graphql";
 
 export type InferGetStaticPaths<T> = T extends () => Promise<{
   paths: Array<{ params: infer R }>;
@@ -6,22 +7,24 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
   ? { params?: R }
   : never;
 
-export interface StoreApiResponse {
-  products: Product[];
-}
-
-interface Product {
-  name: string;
-  price: number;
-  id: string;
-  slug: string;
-  images: Image[];
-}
-
-interface Image {
-  height: number;
-  url: string;
-  width: number;
-}
-
 export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
+
+export interface CartItem {
+  id?: string;
+  quantity: number;
+  product: ProductDetailsFragment;
+}
+
+export type MutateOrder = (
+  currentItem: CartItem
+) => (calculator: CalculatorFn) => void;
+
+export type CalculatorFn = (
+  cartItemQuantity: number,
+  currentItemQuantity: number
+) => number;
+
+export enum PaymentMethods {
+  creditCard = "creditCard",
+  p24 = "p24",
+}
