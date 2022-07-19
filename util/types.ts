@@ -23,3 +23,8 @@ export type CalculatorFn = (
   cartItemQuantity: number,
   currentItemQuantity: number
 ) => number;
+
+export enum PaymentMethods {
+  creditCard = "creditCard",
+  p24 = "p24",
+}
