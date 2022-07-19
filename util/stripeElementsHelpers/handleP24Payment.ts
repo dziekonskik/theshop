@@ -20,7 +20,7 @@ export async function handleP24Payment(
         phone: data.phone,
       },
     },
-    return_url: `${process.env.BASE_URL}/checkout`,
+    return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
     receipt_email: data.email,
     shipping: {
       name: data.name,
