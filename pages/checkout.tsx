@@ -3,7 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { CheckoutForm } from "../components/Forms/CheckoutForm";
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!.toString()
 );
 const CheckoutPage = () => {
   const stripeElementsConfig: StripeElementsOptions = {

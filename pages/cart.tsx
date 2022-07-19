@@ -1,12 +1,7 @@
-import { loadStripe } from "@stripe/stripe-js";
 import { CartContent } from "../components/Cart/CartContent";
 import { CartSummary } from "../components/Cart/CartSummary";
 import { EmptyCart } from "../components/Cart/EmptyCart";
 import { useCartState } from "../components/Cart/CartContext";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
 
 const CartPage = () => {
   const { cartState } = useCartState();
