@@ -17,7 +17,7 @@ export const Header = () => {
   const { pathname } = useRouter();
 
   return (
-    <header className="bg-slate-300 h-24 mb-7">
+    <header className="bg-slate-300 h-20 lg:h-24 lg:mb-7">
       <DesktopHeader navItems={navItems} pathname={pathname} />
     </header>
   );

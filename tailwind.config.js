@@ -29,6 +29,8 @@ module.exports = {
       },
       animation: {
         wiggle: "wiggle 200ms ease-in-out infinite",
+        wiggleOnce: "wiggle 700ms 300ms ease-in-out",
+        pulseOnce: "pulse 700ms 300ms ease-in-out 3",
       },
       dropShadow: ["hover"],
     },
