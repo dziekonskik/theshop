@@ -18,48 +18,41 @@ const paymentIntentHandler: NextApiHandler = async (req, res) => {
     return res.status(500).json({ error: "Stripe secret not provided" });
   }
 
-  try {
-    const { data } = await apolloClient.query<
-      GetOrderTotalAndItemsByIdQuery,
-      GetOrderTotalAndItemsByIdQueryVariables
-    >({
-      query: GetOrderTotalAndItemsByIdDocument,
-      variables: {
-        id: cartIdFromStrage,
-      },
-    });
-    const cartItemsRecord: Record<string, number> = {};
-    data.order?.orderItems.forEach((cartEntry) => {
-      if (cartEntry.product) {
-        cartItemsRecord[cartEntry.product.slug] =
-          cartEntry.product.price * cartEntry.quantity;
-      }
-    });
-
-    const orderTotal = data.order?.total;
-    if (!orderTotal) {
-      return res.status(500).json({
-        error: `Insufficient data to create payment intent ${JSON.stringify({
-          orderTotal,
-        })}`,
-      });
+  const { data } = await apolloClient.query<
+    GetOrderTotalAndItemsByIdQuery,
+    GetOrderTotalAndItemsByIdQueryVariables
+  >({
+    query: GetOrderTotalAndItemsByIdDocument,
+    variables: {
+      id: cartIdFromStrage,
+    },
+  });
+  const cartItemsRecord: Record<string, number> = {};
+  data.order?.orderItems.forEach((cartEntry) => {
+    if (cartEntry.product) {
+      cartItemsRecord[cartEntry.product.slug] =
+        cartEntry.product.price * cartEntry.quantity;
     }
+  });
 
-    const stripe = new Stripe(stripeSecret, { apiVersion: "2020-08-27" });
-    const paymentIntent = stripe.paymentIntents.create({
-      amount: orderTotal,
-      currency: "EUR",
-      payment_method_types: ["card", "p24"],
-      metadata: {
-        cartId: cartIdFromStrage,
-        ...cartItemsRecord,
-      },
+  const orderTotal = data.order?.total;
+  if (!orderTotal) {
+    return res.status(500).json({
+      error: `Insufficient data to create payment intent orderTotal: ${orderTotal}`,
     });
-    res.status(201).json({ clientSecret: (await paymentIntent).client_secret });
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: error instanceof Error && error.message });
   }
+
+  const stripe = new Stripe(stripeSecret, { apiVersion: "2020-08-27" });
+  const paymentIntent = stripe.paymentIntents.create({
+    amount: orderTotal,
+    currency: "EUR",
+    payment_method_types: ["card", "p24"],
+    metadata: {
+      cartId: cartIdFromStrage,
+      ...cartItemsRecord,
+    },
+  });
+  res.status(201).json({ clientSecret: (await paymentIntent).client_secret });
 };
 
 export default paymentIntentHandler;
