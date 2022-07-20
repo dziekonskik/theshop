@@ -7,7 +7,7 @@ import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer"
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
 import { ProductDetailsFragment } from "../../generated/graphql";
 import { addToQuantity } from "../../util/cartHelpers";
-import type { MarkdownResult } from "../../util/types";
+import type { MarkdownResult, CartItem } from "../../util/types";
 
 export interface ProductDetails extends ProductDetailsFragment {
   longDescription: MarkdownResult;
@@ -15,36 +15,35 @@ export interface ProductDetails extends ProductDetailsFragment {
 }
 
 interface ProductProps {
-  data: ProductDetails;
+  product: ProductDetails;
 }
 
-export const ProductDetails = ({ data }: ProductProps) => {
+export const ProductDetails = ({ product }: ProductProps) => {
   const { handleOrder, handledItemSlug } = useCartState();
-  const orderItem = {
+  const orderItem: CartItem = {
+    orderItemId: undefined,
     quantity: 1,
     product: {
-      id: data.id,
-      name: data.name,
-      price: data.price,
-      slug: data.slug,
-      images: data.images,
-      description: data.description,
+      name: product.name,
+      price: product.price,
+      slug: product.slug,
+      images: product.images,
     },
   };
   return (
     <>
       <NextSeo
-        title={data.name}
-        description={data.description}
-        canonical={`https://theshop-nu.vercel.app/products/${data.slug}`}
+        title={product.name}
+        description={product.description}
+        canonical={`https://theshop-nu.vercel.app/products/${product.slug}`}
         openGraph={{
-          url: `https://theshop-nu.vercel.app/products/${data.slug}`,
-          title: data.name,
-          description: data.description,
+          url: `https://theshop-nu.vercel.app/products/${product.slug}`,
+          title: product.name,
+          description: product.description,
           images: [
             {
-              url: data.images[0].url,
-              alt: data.name,
+              url: product.images[0].url,
+              alt: product.name,
               type: "image/jpeg",
             },
           ],
@@ -55,8 +54,8 @@ export const ProductDetails = ({ data }: ProductProps) => {
         <div className="flex gap-7">
           <div className="h-96 w-96">
             <Image
-              src={data.images[0].url}
-              alt={data.name}
+              src={product.images[0].url}
+              alt={product.name}
               layout="responsive"
               objectFit="fill"
               width="100%"
@@ -64,9 +63,11 @@ export const ProductDetails = ({ data }: ProductProps) => {
             />
           </div>
           <div className="p-4">
-            <h2 className="text-3xl font-bold">{data.name}</h2>
+            <h2 className="text-3xl font-bold">{product.name}</h2>
             <article className="prose lg:prose-xl my-6">
-              <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
+              <ZaisteReactMarkdown>
+                {product.longDescription}
+              </ZaisteReactMarkdown>
             </article>
             <AddToCartButton
               onClick={() => handleOrder(orderItem)(addToQuantity)}
@@ -75,8 +76,8 @@ export const ProductDetails = ({ data }: ProductProps) => {
           </div>
         </div>
       </div>
-      <Rating rating={data.rating} />
-      <ProductReviewContainer slug={data.slug} />
+      <Rating rating={product.rating} />
+      <ProductReviewContainer slug={product.slug} />
     </>
   );
 };

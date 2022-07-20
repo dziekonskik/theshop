@@ -4,34 +4,34 @@ import { useCartState } from "../Cart/CartContext";
 import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
 import { addToQuantity } from "../../util/cartHelpers";
 import type { ProductDetailsFragment } from "../../generated/graphql";
+import type { CartItem } from "../../util/types";
 
 interface ProductListItemProps {
-  data: ProductDetailsFragment;
+  product: ProductDetailsFragment;
 }
 
-export const ProductLstItem = ({ data }: ProductListItemProps) => {
+export const ProductLstItem = ({ product }: ProductListItemProps) => {
   const { handleOrder, handledItemSlug } = useCartState();
 
-  const orderItem = {
+  const orderItem: CartItem = {
+    orderItemId: undefined,
     quantity: 1,
     product: {
-      id: data.id,
-      name: data.name,
-      price: data.price,
-      slug: data.slug,
-      images: data.images,
-      description: data.description,
+      name: product.name,
+      price: product.price,
+      slug: product.slug,
+      images: product.images,
     },
   };
 
   return (
     <>
-      <Link href={`/products/item/${data.slug}`}>
+      <Link href={`/products/item/${product.slug}`}>
         <a>
           <div className="bg-white p-10 rounded-md">
             <Image
-              src={data.images[0].url}
-              alt={data.name}
+              src={product.images[0].url}
+              alt={product.name}
               layout="responsive"
               objectFit="contain"
               width={16}
@@ -42,13 +42,13 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
         </a>
       </Link>
       <div className="flex flex-col items-center px-4">
-        <Link href={`/products/item/${data.slug}`}>
+        <Link href={`/products/item/${product.slug}`}>
           <a>
-            <h2 className="p-4 text-xl font-bold">{data.name}</h2>
+            <h2 className="p-4 text-xl font-bold">{product.name}</h2>
           </a>
         </Link>
         <div className="flex items-center mb-4">
-          <div className="mr-3 text-xl">{data.price / 100} $</div>
+          <div className="mr-3 text-xl">{product.price / 100} $</div>
           <AddToCartButton
             disabled={handledItemSlug === orderItem.product.slug}
             onClick={() => handleOrder(orderItem)(addToQuantity)}

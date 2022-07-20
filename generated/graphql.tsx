@@ -10941,7 +10941,7 @@ export type CreateOrderMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrderMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
+export type CreateOrderMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export type CreateProductMutationVariables = Exact<{
   product: ProductCreateInput;
@@ -10964,9 +10964,9 @@ export type DeleteOrderMutationVariables = Exact<{
 
 export type DeleteOrderMutation = { __typename?: 'Mutation', deleteOrder?: { __typename?: 'Order', id: string } | null };
 
-export type OrderDetailsFragment = { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> };
+export type OrderDetailsFragment = { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> };
 
-export type ProductDetailsFragment = { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> };
+export type ProductDetailsFragment = { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> };
 
 export type ReviewContentFragment = { __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null };
 
@@ -10975,7 +10975,7 @@ export type GetManyProductsBySlugsQueryVariables = Exact<{
 }>;
 
 
-export type GetManyProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetManyProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
 export type GetOrderTotalAndItemsByIdQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -10994,14 +10994,14 @@ export type GetProductBySlugQuery = { __typename?: 'Query', product?: { __typena
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
 export type GetProductListByPageQueryVariables = Exact<{
   skipCount?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetProductListByPageQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetProductListByPageQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
 export type GetProductSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11020,7 +11020,7 @@ export type GetWorkingOrderByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetWorkingOrderByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
+export type GetWorkingOrderByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export type PublishReviewByIdMutationVariables = Exact<{
   reviewId: ReviewWhereUniqueInput;
@@ -11035,7 +11035,7 @@ export type UpdateOrderMutationVariables = Exact<{
 }>;
 
 
-export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
+export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export type UpsertOrderMutationVariables = Exact<{
   id: OrderWhereUniqueInput;
@@ -11043,12 +11043,11 @@ export type UpsertOrderMutationVariables = Exact<{
 }>;
 
 
-export type UpsertOrderMutation = { __typename?: 'Mutation', upsertOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
+export type UpsertOrderMutation = { __typename?: 'Mutation', upsertOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export const ProductDetailsFragmentDoc = gql`
     fragment productDetails on Product {
   description
-  id
   name
   price
   slug

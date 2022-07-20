@@ -11,7 +11,7 @@ const ProductsPage = ({
   data,
   pagesTotal,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return <ProductsGrid data={data} pagesTotal={pagesTotal} />;
+  return <ProductsGrid productsData={data} pagesTotal={pagesTotal} />;
 };
 
 export const getStaticProps = async () => {
@@ -21,7 +21,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      data,
+      data: data.products,
       pagesTotal: Math.ceil(data.products.length / PRODUCTS_PER_PAGE),
     },
   };
