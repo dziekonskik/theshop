@@ -10936,20 +10936,6 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
-export type CreateOrderMutationVariables = Exact<{
-  order: OrderCreateInput;
-}>;
-
-
-export type CreateOrderMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
-
-export type CreateProductMutationVariables = Exact<{
-  product: ProductCreateInput;
-}>;
-
-
-export type CreateProductMutation = { __typename?: 'Mutation', createProduct?: { __typename?: 'Product', id: string } | null };
-
 export type CreateProductReviewMutationVariables = Exact<{
   review: ReviewCreateInput;
 }>;
@@ -10957,16 +10943,25 @@ export type CreateProductReviewMutationVariables = Exact<{
 
 export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string } | null };
 
-export type DeleteOrderMutationVariables = Exact<{
-  id: OrderWhereUniqueInput;
+export type DeleteOrderByIdMutationVariables = Exact<{
+  id: Scalars['ID'];
 }>;
 
 
-export type DeleteOrderMutation = { __typename?: 'Mutation', deleteOrder?: { __typename?: 'Order', id: string } | null };
+export type DeleteOrderByIdMutation = { __typename?: 'Mutation', deleteOrder?: { __typename?: 'Order', id: string } | null };
 
-export type OrderDetailsFragment = { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> };
+export type DeleteOrderItemByIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
 
-export type ProductDetailsFragment = { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> };
+
+export type DeleteOrderItemByIdMutation = { __typename?: 'Mutation', deleteOrderItem?: { __typename?: 'OrderItem', id: string } | null };
+
+export type OrderDetailsFragment = { __typename?: 'Order', id: string, total: number, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null }> };
+
+export type OrderItemDetailsFragment = { __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null };
+
+export type ProductDetailsFragment = { __typename?: 'Product', name: string, slug: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> };
 
 export type ReviewContentFragment = { __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null };
 
@@ -10975,7 +10970,14 @@ export type GetManyProductsBySlugsQueryVariables = Exact<{
 }>;
 
 
-export type GetManyProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetManyProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', name: string, slug: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> }> };
+
+export type GetOrderDetailsByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetOrderDetailsByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', id: string, total: number, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null }> } | null };
 
 export type GetOrderTotalAndItemsByIdQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -10989,19 +10991,19 @@ export type GetProductBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }>, reviews: Array<{ __typename?: 'Review', rating?: number | null }> } | null };
+export type GetProductBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', name: string, slug: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null };
 
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', name: string, slug: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> }> };
 
 export type GetProductListByPageQueryVariables = Exact<{
   skipCount?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetProductListByPageQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetProductListByPageQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', name: string, slug: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> }> };
 
 export type GetProductSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11014,13 +11016,6 @@ export type GetReviewsForProductSlugQueryVariables = Exact<{
 
 
 export type GetReviewsForProductSlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', reviews: Array<{ __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null }> } | null };
-
-export type GetWorkingOrderByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type GetWorkingOrderByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export type PublishReviewByIdMutationVariables = Exact<{
   reviewId: ReviewWhereUniqueInput;
@@ -11035,7 +11030,7 @@ export type UpdateOrderMutationVariables = Exact<{
 }>;
 
 
-export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
+export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder?: { __typename?: 'Order', total: number } | null };
 
 export type UpsertOrderMutationVariables = Exact<{
   id: OrderWhereUniqueInput;
@@ -11043,16 +11038,21 @@ export type UpsertOrderMutationVariables = Exact<{
 }>;
 
 
-export type UpsertOrderMutation = { __typename?: 'Mutation', upsertOrder?: { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', description: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
+export type UpsertOrderMutation = { __typename?: 'Mutation', upsertOrder?: { __typename?: 'Order', id: string, total: number, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', slug: string } | null }> } | null };
 
-export const ProductDetailsFragmentDoc = gql`
-    fragment productDetails on Product {
-  description
-  name
-  price
-  slug
-  images(first: 1) {
-    url
+export const OrderItemDetailsFragmentDoc = gql`
+    fragment orderItemDetails on OrderItem {
+  id
+  quantity
+  product {
+    name
+    slug
+    price
+    images(first: 1) {
+      url
+      width
+      height
+    }
   }
 }
     `;
@@ -11060,16 +11060,24 @@ export const OrderDetailsFragmentDoc = gql`
     fragment orderDetails on Order {
   id
   total
-  stripeCheckoutId
   orderItems {
-    id
-    quantity
-    product {
-      ...productDetails
-    }
+    ...orderItemDetails
   }
 }
-    ${ProductDetailsFragmentDoc}`;
+    ${OrderItemDetailsFragmentDoc}`;
+export const ProductDetailsFragmentDoc = gql`
+    fragment productDetails on Product {
+  name
+  slug
+  price
+  description
+  images {
+    url
+    width
+    height
+  }
+}
+    `;
 export const ReviewContentFragmentDoc = gql`
     fragment reviewContent on Review {
   id
@@ -11079,72 +11087,6 @@ export const ReviewContentFragmentDoc = gql`
   rating
 }
     `;
-export const CreateOrderDocument = gql`
-    mutation CreateOrder($order: OrderCreateInput!) {
-  createOrder(data: $order) {
-    ...orderDetails
-  }
-}
-    ${OrderDetailsFragmentDoc}`;
-export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
-
-/**
- * __useCreateOrderMutation__
- *
- * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
- *   variables: {
- *      order: // value for 'order'
- *   },
- * });
- */
-export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, options);
-      }
-export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
-export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
-export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
-export const CreateProductDocument = gql`
-    mutation CreateProduct($product: ProductCreateInput!) {
-  createProduct(data: $product) {
-    id
-  }
-}
-    `;
-export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
-
-/**
- * __useCreateProductMutation__
- *
- * To run a mutation, you first call `useCreateProductMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateProductMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createProductMutation, { data, loading, error }] = useCreateProductMutation({
- *   variables: {
- *      product: // value for 'product'
- *   },
- * });
- */
-export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductMutation, CreateProductMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, options);
-      }
-export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
-export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
-export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
 export const CreateProductReviewDocument = gql`
     mutation CreateProductReview($review: ReviewCreateInput!) {
   createReview(data: $review) {
@@ -11178,39 +11120,72 @@ export function useCreateProductReviewMutation(baseOptions?: Apollo.MutationHook
 export type CreateProductReviewMutationHookResult = ReturnType<typeof useCreateProductReviewMutation>;
 export type CreateProductReviewMutationResult = Apollo.MutationResult<CreateProductReviewMutation>;
 export type CreateProductReviewMutationOptions = Apollo.BaseMutationOptions<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
-export const DeleteOrderDocument = gql`
-    mutation DeleteOrder($id: OrderWhereUniqueInput!) {
-  deleteOrder(where: $id) {
+export const DeleteOrderByIdDocument = gql`
+    mutation DeleteOrderById($id: ID!) {
+  deleteOrder(where: {id: $id}) {
     id
   }
 }
     `;
-export type DeleteOrderMutationFn = Apollo.MutationFunction<DeleteOrderMutation, DeleteOrderMutationVariables>;
+export type DeleteOrderByIdMutationFn = Apollo.MutationFunction<DeleteOrderByIdMutation, DeleteOrderByIdMutationVariables>;
 
 /**
- * __useDeleteOrderMutation__
+ * __useDeleteOrderByIdMutation__
  *
- * To run a mutation, you first call `useDeleteOrderMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteOrderMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteOrderByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteOrderByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteOrderMutation, { data, loading, error }] = useDeleteOrderMutation({
+ * const [deleteOrderByIdMutation, { data, loading, error }] = useDeleteOrderByIdMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeleteOrderMutation(baseOptions?: Apollo.MutationHookOptions<DeleteOrderMutation, DeleteOrderMutationVariables>) {
+export function useDeleteOrderByIdMutation(baseOptions?: Apollo.MutationHookOptions<DeleteOrderByIdMutation, DeleteOrderByIdMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteOrderMutation, DeleteOrderMutationVariables>(DeleteOrderDocument, options);
+        return Apollo.useMutation<DeleteOrderByIdMutation, DeleteOrderByIdMutationVariables>(DeleteOrderByIdDocument, options);
       }
-export type DeleteOrderMutationHookResult = ReturnType<typeof useDeleteOrderMutation>;
-export type DeleteOrderMutationResult = Apollo.MutationResult<DeleteOrderMutation>;
-export type DeleteOrderMutationOptions = Apollo.BaseMutationOptions<DeleteOrderMutation, DeleteOrderMutationVariables>;
+export type DeleteOrderByIdMutationHookResult = ReturnType<typeof useDeleteOrderByIdMutation>;
+export type DeleteOrderByIdMutationResult = Apollo.MutationResult<DeleteOrderByIdMutation>;
+export type DeleteOrderByIdMutationOptions = Apollo.BaseMutationOptions<DeleteOrderByIdMutation, DeleteOrderByIdMutationVariables>;
+export const DeleteOrderItemByIdDocument = gql`
+    mutation DeleteOrderItemById($id: ID!) {
+  deleteOrderItem(where: {id: $id}) {
+    id
+  }
+}
+    `;
+export type DeleteOrderItemByIdMutationFn = Apollo.MutationFunction<DeleteOrderItemByIdMutation, DeleteOrderItemByIdMutationVariables>;
+
+/**
+ * __useDeleteOrderItemByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteOrderItemByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteOrderItemByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteOrderItemByIdMutation, { data, loading, error }] = useDeleteOrderItemByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteOrderItemByIdMutation(baseOptions?: Apollo.MutationHookOptions<DeleteOrderItemByIdMutation, DeleteOrderItemByIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteOrderItemByIdMutation, DeleteOrderItemByIdMutationVariables>(DeleteOrderItemByIdDocument, options);
+      }
+export type DeleteOrderItemByIdMutationHookResult = ReturnType<typeof useDeleteOrderItemByIdMutation>;
+export type DeleteOrderItemByIdMutationResult = Apollo.MutationResult<DeleteOrderItemByIdMutation>;
+export type DeleteOrderItemByIdMutationOptions = Apollo.BaseMutationOptions<DeleteOrderItemByIdMutation, DeleteOrderItemByIdMutationVariables>;
 export const GetManyProductsBySlugsDocument = gql`
     query GetManyProductsBySlugs($slug_in: [String!]!) {
   products(where: {slug_in: $slug_in}) {
@@ -11246,6 +11221,41 @@ export function useGetManyProductsBySlugsLazyQuery(baseOptions?: Apollo.LazyQuer
 export type GetManyProductsBySlugsQueryHookResult = ReturnType<typeof useGetManyProductsBySlugsQuery>;
 export type GetManyProductsBySlugsLazyQueryHookResult = ReturnType<typeof useGetManyProductsBySlugsLazyQuery>;
 export type GetManyProductsBySlugsQueryResult = Apollo.QueryResult<GetManyProductsBySlugsQuery, GetManyProductsBySlugsQueryVariables>;
+export const GetOrderDetailsByIdDocument = gql`
+    query GetOrderDetailsById($id: ID!) {
+  order(where: {id: $id}) {
+    ...orderDetails
+  }
+}
+    ${OrderDetailsFragmentDoc}`;
+
+/**
+ * __useGetOrderDetailsByIdQuery__
+ *
+ * To run a query within a React component, call `useGetOrderDetailsByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderDetailsByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrderDetailsByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetOrderDetailsByIdQuery(baseOptions: Apollo.QueryHookOptions<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>(GetOrderDetailsByIdDocument, options);
+      }
+export function useGetOrderDetailsByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>(GetOrderDetailsByIdDocument, options);
+        }
+export type GetOrderDetailsByIdQueryHookResult = ReturnType<typeof useGetOrderDetailsByIdQuery>;
+export type GetOrderDetailsByIdLazyQueryHookResult = ReturnType<typeof useGetOrderDetailsByIdLazyQuery>;
+export type GetOrderDetailsByIdQueryResult = Apollo.QueryResult<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>;
 export const GetOrderTotalAndItemsByIdDocument = gql`
     query GetOrderTotalAndItemsById($id: ID!) {
   order(where: {id: $id}) {
@@ -11291,22 +11301,10 @@ export type GetOrderTotalAndItemsByIdQueryResult = Apollo.QueryResult<GetOrderTo
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
-    id
-    name
-    slug
-    price
-    description
-    images {
-      url
-      width
-      height
-    }
-    reviews {
-      rating
-    }
+    ...productDetails
   }
 }
-    `;
+    ${ProductDetailsFragmentDoc}`;
 
 /**
  * __useGetProductBySlugQuery__
@@ -11475,41 +11473,6 @@ export function useGetReviewsForProductSlugLazyQuery(baseOptions?: Apollo.LazyQu
 export type GetReviewsForProductSlugQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugQuery>;
 export type GetReviewsForProductSlugLazyQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugLazyQuery>;
 export type GetReviewsForProductSlugQueryResult = Apollo.QueryResult<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>;
-export const GetWorkingOrderByIdDocument = gql`
-    query GetWorkingOrderById($id: ID!) {
-  order(where: {id: $id}, stage: DRAFT) {
-    ...orderDetails
-  }
-}
-    ${OrderDetailsFragmentDoc}`;
-
-/**
- * __useGetWorkingOrderByIdQuery__
- *
- * To run a query within a React component, call `useGetWorkingOrderByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWorkingOrderByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetWorkingOrderByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetWorkingOrderByIdQuery(baseOptions: Apollo.QueryHookOptions<GetWorkingOrderByIdQuery, GetWorkingOrderByIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetWorkingOrderByIdQuery, GetWorkingOrderByIdQueryVariables>(GetWorkingOrderByIdDocument, options);
-      }
-export function useGetWorkingOrderByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWorkingOrderByIdQuery, GetWorkingOrderByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetWorkingOrderByIdQuery, GetWorkingOrderByIdQueryVariables>(GetWorkingOrderByIdDocument, options);
-        }
-export type GetWorkingOrderByIdQueryHookResult = ReturnType<typeof useGetWorkingOrderByIdQuery>;
-export type GetWorkingOrderByIdLazyQueryHookResult = ReturnType<typeof useGetWorkingOrderByIdLazyQuery>;
-export type GetWorkingOrderByIdQueryResult = Apollo.QueryResult<GetWorkingOrderByIdQuery, GetWorkingOrderByIdQueryVariables>;
 export const PublishReviewByIdDocument = gql`
     mutation PublishReviewById($reviewId: ReviewWhereUniqueInput!) {
   publishReview(where: $reviewId, to: [PUBLISHED]) {
@@ -11546,10 +11509,10 @@ export type PublishReviewByIdMutationOptions = Apollo.BaseMutationOptions<Publis
 export const UpdateOrderDocument = gql`
     mutation UpdateOrder($id: OrderWhereUniqueInput!, $data: OrderUpdateInput!) {
   updateOrder(where: $id, data: $data) {
-    ...orderDetails
+    total
   }
 }
-    ${OrderDetailsFragmentDoc}`;
+    `;
 export type UpdateOrderMutationFn = Apollo.MutationFunction<UpdateOrderMutation, UpdateOrderMutationVariables>;
 
 /**
@@ -11580,10 +11543,18 @@ export type UpdateOrderMutationOptions = Apollo.BaseMutationOptions<UpdateOrderM
 export const UpsertOrderDocument = gql`
     mutation upsertOrder($id: OrderWhereUniqueInput!, $data: OrderUpsertInput!) {
   upsertOrder(where: $id, upsert: $data) {
-    ...orderDetails
+    id
+    total
+    orderItems {
+      id
+      quantity
+      product {
+        slug
+      }
+    }
   }
 }
-    ${OrderDetailsFragmentDoc}`;
+    `;
 export type UpsertOrderMutationFn = Apollo.MutationFunction<UpsertOrderMutation, UpsertOrderMutationVariables>;
 
 /**

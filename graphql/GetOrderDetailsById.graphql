@@ -1,0 +1,5 @@
+query GetOrderDetailsById($id: ID!) {
+  order(where: { id: $id }) {
+    ...orderDetails
+  }
+}
