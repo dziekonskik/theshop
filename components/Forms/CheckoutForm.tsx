@@ -16,7 +16,11 @@ import {
   PaymentState,
 } from "../../util/stripeElementsHelpers";
 import { PaymentMethods } from "../../util/types";
-import { removeCartFromStorage } from "../../util/cartHelpers";
+import {
+  removeCartFromStorage,
+  getCartIdFromStorage,
+} from "../../util/cartHelpers/cartUtilFunctions";
+import { useCartState } from "../Cart/CartContext";
 
 let checkoutFormSchema = yup.object({
   name: yup.string().required(),
@@ -40,6 +44,7 @@ export const CheckoutForm = () => {
   const [paymentState, setPaymentState] = useState<PaymentState>({
     type: "InitialState",
   });
+  const { resetCartState } = useCartState();
   const router = useRouter();
   const elements = useElements();
   const stripe = useStripe();
@@ -102,11 +107,12 @@ export const CheckoutForm = () => {
   });
 
   useEffect(() => {
-    if (paymentState.type === "PaymentSuccessful") {
-      reset();
+    if (paymentState.type === "PaymentSuccessful" && getCartIdFromStorage()) {
       removeCartFromStorage();
+      resetCartState();
+      reset();
     }
-  }, [paymentState.type, reset]);
+  }, [paymentState.type, reset, resetCartState]);
 
   return (
     <div className="md:max-h-screen w-full">

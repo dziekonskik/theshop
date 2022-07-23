@@ -20,7 +20,7 @@ export const getCartIdFromStorage = () => {
 };
 
 export const removeCartFromStorage = () => {
-  return localStorage.removeItem("ZAISTE_SHOPPING_CART");
+  localStorage.removeItem("ZAISTE_SHOPPING_CART");
 };
 
 export const setCartIdInStorage = (cartId: string) => {
