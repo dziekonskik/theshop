@@ -10955,7 +10955,7 @@ export type DeleteOrderItemByIdMutationVariables = Exact<{
 }>;
 
 
-export type DeleteOrderItemByIdMutation = { __typename?: 'Mutation', deleteOrderItem?: { __typename?: 'OrderItem', id: string } | null };
+export type DeleteOrderItemByIdMutation = { __typename?: 'Mutation', deleteOrderItem?: { __typename?: 'OrderItem', id: string, total: number } | null };
 
 export type OrderDetailsFragment = { __typename?: 'Order', id: string, total: number, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null }> };
 
@@ -11157,6 +11157,7 @@ export const DeleteOrderItemByIdDocument = gql`
     mutation DeleteOrderItemById($id: ID!) {
   deleteOrderItem(where: {id: $id}) {
     id
+    total
   }
 }
     `;
