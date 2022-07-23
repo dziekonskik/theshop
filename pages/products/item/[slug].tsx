@@ -21,7 +21,7 @@ const ProductIdPage = ({
   if (isFallback) {
     return <div>Loading...</div>;
   }
-  if (!product?.id) {
+  if (!product?.slug) {
     return <div>Ups coś poszło nie tak...</div>;
   }
 

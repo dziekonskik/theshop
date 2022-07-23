@@ -12,13 +12,13 @@ interface useUpsertOrderProps {
 }
 
 export const useUpsertOrder = (props: useUpsertOrderProps) => {
-  const [handledItemSlug, setHandledItemSlug] = useState<string>("");
+  const [clickedItemSlug, setClickedItemSlug] = useState<string>("");
   const [upsertOrderMutation, { loading }] = useUpsertOrderMutation();
 
   const { cartItems, setCartItems, cartIdFromStorage, setCartTotal } = props;
 
   const addItemToCart = (newItem: CartItem) => {
-    setHandledItemSlug(newItem.product.slug);
+    setClickedItemSlug(newItem.product.slug);
     upsertOrderMutation({
       variables: {
         id: {
@@ -38,7 +38,7 @@ export const useUpsertOrder = (props: useUpsertOrderProps) => {
           setCartIdInStorage(newCartId);
         }
 
-        setHandledItemSlug("");
+        setClickedItemSlug("");
         if (!newCartTotal) return;
         setCartTotal(newCartTotal);
 
@@ -74,5 +74,5 @@ export const useUpsertOrder = (props: useUpsertOrderProps) => {
       });
   };
 
-  return { addItemToCart, handledItemSlug };
+  return { addItemToCart, clickedItemSlug };
 };

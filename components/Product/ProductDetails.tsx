@@ -1,12 +1,13 @@
+import { useState } from "react";
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import { Rating } from "./ProductRating";
 import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
+import { ProductQuantityWidget } from "../Product/ProductQuantityWidget";
 import { useCartState } from "../Cart/CartContext";
 import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer";
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
 import { ProductDetailsFragment } from "../../generated/graphql";
-import { addToQuantity } from "../../util/cartHelpers";
 import type { MarkdownResult, CartItem } from "../../util/types";
 
 export interface ProductDetails extends ProductDetailsFragment {
@@ -19,10 +20,12 @@ interface ProductProps {
 }
 
 export const ProductDetails = ({ product }: ProductProps) => {
-  const { handleOrder, handledItemSlug } = useCartState();
-  const orderItem: CartItem = {
-    orderItemId: undefined,
-    quantity: 1,
+  const [quantity, setQuantity] = useState(1);
+  const { addItemToCart, clickedItemSlug } = useCartState();
+
+  const cartItem: CartItem = {
+    id: "",
+    quantity,
     product: {
       name: product.name,
       price: product.price,
@@ -69,9 +72,13 @@ export const ProductDetails = ({ product }: ProductProps) => {
                 {product.longDescription}
               </ZaisteReactMarkdown>
             </article>
+            <ProductQuantityWidget
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
             <AddToCartButton
-              onClick={() => handleOrder(orderItem)(addToQuantity)}
-              disabled={handledItemSlug === orderItem.product.slug}
+              onClick={() => addItemToCart(cartItem)}
+              disabled={clickedItemSlug === product.slug}
             />
           </div>
         </div>

@@ -1,8 +1,10 @@
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartState } from "../Cart/CartContext";
 import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
-import { addToQuantity } from "../../util/cartHelpers";
+import { ProductQuantityWidget } from "./ProductQuantityWidget";
+import { EuroIcon } from "../Svg";
 import type { ProductDetailsFragment } from "../../generated/graphql";
 import type { CartItem } from "../../util/types";
 
@@ -11,11 +13,12 @@ interface ProductListItemProps {
 }
 
 export const ProductLstItem = ({ product }: ProductListItemProps) => {
-  const { handleOrder, handledItemSlug } = useCartState();
+  const [quantity, setQuantity] = useState(1);
+  const { addItemToCart, clickedItemSlug } = useCartState();
 
   const orderItem: CartItem = {
-    orderItemId: undefined,
-    quantity: 1,
+    id: "",
+    quantity,
     product: {
       name: product.name,
       price: product.price,
@@ -47,11 +50,14 @@ export const ProductLstItem = ({ product }: ProductListItemProps) => {
             <h2 className="p-4 text-xl font-bold">{product.name}</h2>
           </a>
         </Link>
+        <ProductQuantityWidget quantity={quantity} setQuantity={setQuantity} />
         <div className="flex items-center mb-4">
-          <div className="mr-3 text-xl">{product.price / 100} $</div>
+          <div className="mr-3 text-xl">
+            {product.price / 100} <EuroIcon />
+          </div>
           <AddToCartButton
-            disabled={handledItemSlug === orderItem.product.slug}
-            onClick={() => handleOrder(orderItem)(addToQuantity)}
+            disabled={clickedItemSlug === orderItem.product.slug}
+            onClick={() => addItemToCart(orderItem)}
           />
         </div>
       </div>
