@@ -68,6 +68,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
           variables: { id: cartIdFromStorage },
         })
         .then(({ data }) => {
+          if (data.order?.stripeCheckoutId !== "unpaid") return;
           if (!data.order?.orderItems) {
             setTransitionState({
               type: "CartLoadingError",

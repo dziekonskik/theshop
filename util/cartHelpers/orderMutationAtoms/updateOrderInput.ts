@@ -8,8 +8,6 @@ export function updateOrderInput(
 ): OrderUpdateInput {
   const maybeFoundOrderItem = findOrderItem(cartItems, newItem);
   return {
-    email: "updated@example.com",
-    stripeCheckoutId: "unpaid",
     total: calculateCartTotal(cartItems, newItem),
     orderItems: maybeFoundOrderItem
       ? {
