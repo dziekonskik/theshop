@@ -1,0 +1,14 @@
+fragment orderItemDetails on OrderItem {
+  id
+  quantity
+  product {
+    name
+    slug
+    price
+    images(first: 1) {
+      url
+      width
+      height
+    }
+  }
+}

@@ -2,8 +2,8 @@ import { BigLink } from "../ButtonsAndLinks/BigLink";
 import { useCartState } from "./CartContext";
 
 export const CartSummary = () => {
-  const { calculateCartTotal, cartState } = useCartState();
-  const cartTotal = calculateCartTotal(cartState);
+  const { cartTotal, cartItems } = useCartState();
+
   return (
     <section className="hidden col-span-6 lg:flex justify-end relative">
       <div className="mr-16 h-1/2 w-full bg-bermuda -skew-y-12 -z-10 border-4 border-midnight translate-y-5 flex justify-end relative">
@@ -12,7 +12,7 @@ export const CartSummary = () => {
           <h2 className="font-acme z-50 text-2xl capitalize">Summary:</h2>
           <div className="flex justify-between mt-8 font-acme z-50">
             <span className="capitalize">Items:</span>
-            <span>{cartState.length}</span>
+            <span>{cartItems.length}</span>
           </div>
           <div className="flex justify-between mt-8 font-acme z-50">
             <span className="capitalize">Discount:</span>

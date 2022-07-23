@@ -4,37 +4,40 @@ import { useCartState } from "./CartContext";
 import type { CartItem } from "../../util/types";
 
 export const CartContent = () => {
-  const { cartState, handleOrder, calculateCartTotal } = useCartState();
-  const cartTotal = calculateCartTotal(cartState);
+  const { cartItems, cartTotal, deleteOrderItem, increment, decrement } =
+    useCartState();
+
   return (
     <div className="col-span-12 lg:col-span-6 w-full">
       <div className="h-full lg:max-h-[550px] overflow-y-auto scrollbar w-full py-4">
         <div className="flex flex-col">
           <ul className="w-full">
-            {cartState.map((cartItem) => {
+            {cartItems.map((cartItem) => {
               return (
                 <CartContentListItem
                   cartItem={cartItem}
-                  handleOrder={handleOrder}
-                  key={cartItem.product.id}
+                  deleteOrderItem={deleteOrderItem}
+                  increment={increment}
+                  decrement={decrement}
+                  key={cartItem.product.slug}
                 />
               );
             })}
           </ul>
         </div>
       </div>
-      <SummaryBottomWidget cartState={cartState} cartTotal={cartTotal} />
+      <SummaryBottomWidget cartItems={cartItems} cartTotal={cartTotal} />
     </div>
   );
 };
 
 interface SummaryBottomWidgetProps {
-  cartState: CartItem[];
+  cartItems: CartItem[];
   cartTotal: number;
 }
 
 const SummaryBottomWidget = ({
-  cartState,
+  cartItems,
   cartTotal,
 }: SummaryBottomWidgetProps) => (
   <section className="bg-sunny bg-opacity-90 lg:hidden sticky bottom-0 z-10 flex p-4">
@@ -42,7 +45,7 @@ const SummaryBottomWidget = ({
       <summary className="flex flex-col w-1/2 md:w-1/3">
         <div className="flex justify-between mt-4 font-acme text-xl">
           <span className="capitalize">Items:</span>
-          <span>{cartState.length}</span>
+          <span>{cartItems.length}</span>
         </div>
         <div className="flex justify-between mt-4 font-acme text-xl">
           <span className="capitalize">Discount:</span>

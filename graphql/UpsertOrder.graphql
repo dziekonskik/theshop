@@ -1,5 +1,13 @@
 mutation upsertOrder($id: OrderWhereUniqueInput!, $data: OrderUpsertInput!) {
   upsertOrder(where: $id, upsert: $data) {
-    ...orderDetails
+    id
+    total
+    orderItems {
+      id
+      quantity
+      product {
+        slug
+      }
+    }
   }
 }

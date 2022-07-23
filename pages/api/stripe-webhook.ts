@@ -43,11 +43,11 @@ const stripeWebhookHandler: NextApiHandler = async (req, res) => {
   }
 
   switch (event.type) {
-    case "checkout.session.completed":
-      // TODO: zaktualizuj zamówienie w graphcms
-      break;
     case "charge.succeeded":
-      apolloClient.mutate<UpdateOrderMutation, UpdateOrderMutationVariables>({
+      await apolloClient.mutate<
+        UpdateOrderMutation,
+        UpdateOrderMutationVariables
+      >({
         mutation: UpdateOrderDocument,
         variables: {
           id: {

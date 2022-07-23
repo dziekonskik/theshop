@@ -5,11 +5,14 @@ import { DottedPagination } from "../Pagination";
 import { GetProductListQuery } from "../../generated/graphql";
 
 interface ProductGridProps {
-  data: GetProductListQuery;
+  productsData: GetProductListQuery["products"];
   pagesTotal: number;
 }
 
-export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
+export const ProductsGrid = ({
+  productsData,
+  pagesTotal,
+}: ProductGridProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { query } = useRouter();
@@ -26,16 +29,15 @@ export const ProductsGrid = ({ data, pagesTotal }: ProductGridProps) => {
   return (
     <section>
       <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {data.products.map((item) => (
-          <li key={item.id} className="shadow-lg">
+        {productsData.map((product) => (
+          <li key={product.slug} className="shadow-lg">
             <ProductLstItem
-              data={{
-                id: item.id,
-                name: item.name,
-                slug: item.slug,
-                price: item.price,
-                images: item.images,
-                description: item.description,
+              product={{
+                name: product.name,
+                slug: product.slug,
+                price: product.price,
+                images: product.images,
+                description: product.description,
               }}
             />
           </li>

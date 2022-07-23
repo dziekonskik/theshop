@@ -1,4 +1,4 @@
-import { getCartIdFromStorage } from "../../util/cartHelpers";
+import { getCartIdFromStorage } from "../cartHelpers/cartUtilFunctions";
 
 export async function getClientSecret() {
   const cartIdFromStrage = getCartIdFromStorage();

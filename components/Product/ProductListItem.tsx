@@ -1,37 +1,40 @@
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartState } from "../Cart/CartContext";
 import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
-import { addToQuantity } from "../../util/cartHelpers";
+import { ProductQuantityWidget } from "./ProductQuantityWidget";
+import { EuroIcon } from "../Svg";
 import type { ProductDetailsFragment } from "../../generated/graphql";
+import type { CartItem } from "../../util/types";
 
 interface ProductListItemProps {
-  data: ProductDetailsFragment;
+  product: ProductDetailsFragment;
 }
 
-export const ProductLstItem = ({ data }: ProductListItemProps) => {
-  const { handleOrder, handledItemSlug } = useCartState();
+export const ProductLstItem = ({ product }: ProductListItemProps) => {
+  const [quantity, setQuantity] = useState(1);
+  const { addItemToCart, clickedItemSlug } = useCartState();
 
-  const orderItem = {
-    quantity: 1,
+  const orderItem: CartItem = {
+    id: "",
+    quantity,
     product: {
-      id: data.id,
-      name: data.name,
-      price: data.price,
-      slug: data.slug,
-      images: data.images,
-      description: data.description,
+      name: product.name,
+      price: product.price,
+      slug: product.slug,
+      images: product.images,
     },
   };
 
   return (
     <>
-      <Link href={`/products/item/${data.slug}`}>
+      <Link href={`/products/item/${product.slug}`}>
         <a>
           <div className="bg-white p-10 rounded-md">
             <Image
-              src={data.images[0].url}
-              alt={data.name}
+              src={product.images[0].url}
+              alt={product.name}
               layout="responsive"
               objectFit="contain"
               width={16}
@@ -42,16 +45,19 @@ export const ProductLstItem = ({ data }: ProductListItemProps) => {
         </a>
       </Link>
       <div className="flex flex-col items-center px-4">
-        <Link href={`/products/item/${data.slug}`}>
+        <Link href={`/products/item/${product.slug}`}>
           <a>
-            <h2 className="p-4 text-xl font-bold">{data.name}</h2>
+            <h2 className="p-4 text-xl font-bold">{product.name}</h2>
           </a>
         </Link>
+        <ProductQuantityWidget quantity={quantity} setQuantity={setQuantity} />
         <div className="flex items-center mb-4">
-          <div className="mr-3 text-xl">{data.price / 100} $</div>
+          <div className="mr-3 text-xl">
+            {product.price / 100} <EuroIcon />
+          </div>
           <AddToCartButton
-            disabled={handledItemSlug === orderItem.product.slug}
-            onClick={() => handleOrder(orderItem)(addToQuantity)}
+            disabled={clickedItemSlug === orderItem.product.slug}
+            onClick={() => addItemToCart(orderItem)}
           />
         </div>
       </div>

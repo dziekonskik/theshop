@@ -10,21 +10,20 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
 export type MarkdownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
 
 export interface CartItem {
-  id?: string;
+  id: string;
   quantity: number;
-  product: ProductDetailsFragment;
+  product: Omit<ProductDetailsFragment, "description">;
 }
-
-export type MutateOrder = (
-  currentItem: CartItem
-) => (calculator: CalculatorFn) => void;
-
-export type CalculatorFn = (
-  cartItemQuantity: number,
-  currentItemQuantity: number
-) => number;
 
 export enum PaymentMethods {
   creditCard = "creditCard",
   p24 = "p24",
 }
+
+// export type InferGetStaticPathsType<T> = T extends () => Promise<{
+//   paths: Array<{ params: infer R }>;
+// }>
+//   ? R extends ParsedUrlQuery
+//     ? GetStaticPropsContext<R>
+//     : never
+//   : never;

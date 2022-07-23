@@ -1,10 +1,11 @@
 fragment productDetails on Product {
-  description
-  id
   name
-  price
   slug
-  images(first: 1) {
+  price
+  description
+  images {
     url
+    width
+    height
   }
 }

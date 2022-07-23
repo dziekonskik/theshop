@@ -14,14 +14,14 @@ import {
 } from "../../../generated/graphql";
 
 const ProductIdPage = ({
-  data,
+  product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <div>Loading...</div>;
   }
-  if (!data || !data.product) {
+  if (!product?.slug) {
     return <div>Ups coś poszło nie tak...</div>;
   }
 
@@ -33,14 +33,8 @@ const ProductIdPage = ({
         </a>
       </Link>
       <ProductDetails
-        data={{
-          id: data.product.id,
-          name: data.product.name,
-          images: data.product.images,
-          description: data.product.description,
-          price: data.product.price,
-          slug: data.product.slug,
-          longDescription: data.longDescription,
+        product={{
+          ...product,
           rating: 5,
         }}
       />
@@ -90,8 +84,8 @@ export const getStaticProps = async ({
 
   return {
     props: {
-      data: {
-        ...data,
+      product: {
+        ...data.product,
         longDescription: await serialize(data.product.description),
       },
     },

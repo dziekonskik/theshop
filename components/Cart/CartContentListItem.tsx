@@ -1,16 +1,19 @@
 import Image from "next/image";
 import { ArrowDownIcon, ArrowUpIcon, CloseIcon } from "../Svg";
-import { addToQuantity, subtractFromQuantity } from "../../util/cartHelpers";
-import type { CartItem, MutateOrder } from "../../util/types";
+import type { CartItem } from "../../util/types";
 
 interface CartContentListItemProps {
   cartItem: CartItem;
-  handleOrder: MutateOrder;
+  deleteOrderItem: (id: string) => Promise<void>;
+  increment: (id: string) => void;
+  decrement: (id: string) => void;
 }
 
 export const CartContentListItem = ({
   cartItem,
-  handleOrder,
+  deleteOrderItem,
+  increment,
+  decrement,
 }: CartContentListItemProps) => {
   return (
     <li
@@ -37,10 +40,17 @@ export const CartContentListItem = ({
         <span className="text-purple font-acme text-sm md:text-lg">
           $ {cartItem.product.price / 100}
         </span>
-        <QuantityButtons cartItem={cartItem} handleOrder={handleOrder} />
+        <QuantityButtons
+          cartItem={cartItem}
+          increment={increment}
+          decrement={decrement}
+        />
       </div>
       <div className="col-span-1 md:col-span-2 backdrop-blur-md grid place-content-center -translate-y-4 ">
-        <button className="cursor-pointer">
+        <button
+          className="cursor-pointer"
+          onClick={() => deleteOrderItem(cartItem.id)}
+        >
           <CloseIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6" />
         </button>
       </div>
@@ -49,9 +59,10 @@ export const CartContentListItem = ({
 };
 
 const QuantityButtons = ({
-  handleOrder,
   cartItem,
-}: CartContentListItemProps) => {
+  increment,
+  decrement,
+}: Omit<CartContentListItemProps, "deleteOrderItem">) => {
   return (
     <div className="-bottom-4 absolute h-10 w-full p-2">
       <Image
@@ -63,9 +74,7 @@ const QuantityButtons = ({
       <div className="relative">
         <div className="flex items-end md:items-center justify-between">
           <button
-            onClick={() =>
-              handleOrder(cartItem)(() => addToQuantity(cartItem.quantity, 1))
-            }
+            onClick={() => increment(cartItem.id)}
             className="grid place-content-center"
           >
             <span className="cursor-pointer">
@@ -76,11 +85,7 @@ const QuantityButtons = ({
             {cartItem.quantity}
           </span>
           <button
-            onClick={() =>
-              handleOrder(cartItem)(() =>
-                subtractFromQuantity(cartItem.quantity, 1)
-              )
-            }
+            onClick={() => decrement(cartItem.id)}
             className="grid place-content-center"
           >
             <span className="-translate-y-px cursor-pointer">
