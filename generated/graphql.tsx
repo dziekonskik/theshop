@@ -11017,6 +11017,14 @@ export type GetReviewsForProductSlugQueryVariables = Exact<{
 
 export type GetReviewsForProductSlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', reviews: Array<{ __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null }> } | null };
 
+export type ProcessOrderMutationVariables = Exact<{
+  id: OrderWhereUniqueInput;
+  data: OrderUpdateInput;
+}>;
+
+
+export type ProcessOrderMutation = { __typename?: 'Mutation', updateOrder?: { __typename?: 'Order', total: number, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number }> } | null };
+
 export type PublishReviewByIdMutationVariables = Exact<{
   reviewId: ReviewWhereUniqueInput;
 }>;
@@ -11474,6 +11482,44 @@ export function useGetReviewsForProductSlugLazyQuery(baseOptions?: Apollo.LazyQu
 export type GetReviewsForProductSlugQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugQuery>;
 export type GetReviewsForProductSlugLazyQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugLazyQuery>;
 export type GetReviewsForProductSlugQueryResult = Apollo.QueryResult<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>;
+export const ProcessOrderDocument = gql`
+    mutation ProcessOrder($id: OrderWhereUniqueInput!, $data: OrderUpdateInput!) {
+  updateOrder(where: $id, data: $data) {
+    total
+    orderItems {
+      id
+      quantity
+    }
+  }
+}
+    `;
+export type ProcessOrderMutationFn = Apollo.MutationFunction<ProcessOrderMutation, ProcessOrderMutationVariables>;
+
+/**
+ * __useProcessOrderMutation__
+ *
+ * To run a mutation, you first call `useProcessOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProcessOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [processOrderMutation, { data, loading, error }] = useProcessOrderMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useProcessOrderMutation(baseOptions?: Apollo.MutationHookOptions<ProcessOrderMutation, ProcessOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProcessOrderMutation, ProcessOrderMutationVariables>(ProcessOrderDocument, options);
+      }
+export type ProcessOrderMutationHookResult = ReturnType<typeof useProcessOrderMutation>;
+export type ProcessOrderMutationResult = Apollo.MutationResult<ProcessOrderMutation>;
+export type ProcessOrderMutationOptions = Apollo.BaseMutationOptions<ProcessOrderMutation, ProcessOrderMutationVariables>;
 export const PublishReviewByIdDocument = gql`
     mutation PublishReviewById($reviewId: ReviewWhereUniqueInput!) {
   publishReview(where: $reviewId, to: [PUBLISHED]) {

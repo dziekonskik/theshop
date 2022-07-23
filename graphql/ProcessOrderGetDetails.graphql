@@ -1,0 +1,9 @@
+mutation ProcessOrder($id: OrderWhereUniqueInput!, $data: OrderUpdateInput!) {
+  updateOrder(where: $id, data: $data) {
+    total
+    orderItems {
+      id
+      quantity
+    }
+  }
+}
