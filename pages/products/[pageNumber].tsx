@@ -22,7 +22,7 @@ const ProductsPage = ({
   if (isFallback) {
     return <div>Loading...</div>;
   }
-  return <ProductsGrid data={data} pagesTotal={100} />;
+  return <ProductsGrid productsData={data} pagesTotal={100} />;
 };
 
 export const getStaticPaths = async () => {
