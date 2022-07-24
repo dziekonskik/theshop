@@ -10,6 +10,7 @@ module.exports = {
       purple: "#6C63FF",
       metal: "#565584",
       midnight: "#3F3D56",
+      platinium: "#E7E7E7",
       sunny: "#F4E13E",
       morning: "#E1EDED",
       bermuda: "#78dcca",
@@ -18,8 +19,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        acme: ["Acme", "serif"],
-        anonymous: ["Anonymous Pro", "sans-serif"],
+        comfortaa: ["Comfortaa", "cursive"],
+        anonymous: ["Anonymous Pro", "monospace"],
       },
       keyframes: {
         wiggle: {

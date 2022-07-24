@@ -6,10 +6,10 @@ export const EmptyCart = () => {
   return (
     <div className="flex-1 grid">
       <section className="py-5 grid place-content-center">
-        <h1 className="text-center font-acme md:text-5xl lg:text-6xl xl:text-7xl hidden md:block flex-1">
+        <h1 className="text-center font-comfortaa md:text-5xl lg:text-6xl xl:text-7xl hidden md:block flex-1">
           Just allow yourself.
         </h1>
-        <h1 className="text-center font-acme text-4xl md:hidden mb-5">
+        <h1 className="text-center font-comfortaa text-4xl md:hidden mb-5">
           Go for it!
         </h1>
       </section>

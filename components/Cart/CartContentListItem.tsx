@@ -37,7 +37,7 @@ export const CartContentListItem = ({
         </h3>
       </div>
       <div className="col-span-3 md:col-span-2 grid place-content-center backdrop-blur-md -translate-y-4 relative">
-        <span className="text-purple font-acme text-sm md:text-lg">
+        <span className="text-purple font-comfortaa text-sm md:text-lg">
           $ {cartItem.product.price / 100}
         </span>
         <QuantityButtons
@@ -81,7 +81,7 @@ const QuantityButtons = ({
               <ArrowUpIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6" />
             </span>
           </button>
-          <span className="text-purple font-acme text-sm md:text-lg">
+          <span className="text-purple font-comfortaa text-sm md:text-lg">
             {cartItem.quantity}
           </span>
           <button

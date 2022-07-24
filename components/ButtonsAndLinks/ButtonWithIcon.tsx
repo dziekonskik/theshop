@@ -22,7 +22,7 @@ export const ButtonWithIcon = ({
   return (
     <button
       onClick={onClick}
-      className={`px-10 py-5 font-acme text-lg uppercase shadow-xl hover:shadow-lg hover:brightness-110 flex items-center justify-center ${
+      className={`px-10 py-5 font-comfortaa text-lg uppercase shadow-xl hover:shadow-lg hover:brightness-110 flex items-center justify-center ${
         fullWidth ? "w-full" : ""
       }`}
       style={{ backgroundColor: bgColor }}

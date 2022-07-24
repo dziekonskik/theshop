@@ -9,7 +9,7 @@ export const BigLink = ({ href, children, bgColor }: BigButtonProps) => {
   return (
     <NextLink href={href}>
       <a
-        className={`px-10 py-5 font-acme uppercase shadow-xl hover:shadow-lg hover:brightness-110`}
+        className={`px-10 py-5 font-comfortaa uppercase shadow-xl hover:shadow-lg hover:brightness-110`}
         style={{ backgroundColor: bgColor }}
       >
         {children}
