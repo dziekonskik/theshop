@@ -5,9 +5,5 @@ interface MainProps {
 }
 
 export const Main = ({ children }: MainProps) => {
-  return (
-    <main className="relative flex-grow h-screen mx-auto grid gap-6">
-      {children}
-    </main>
-  );
+  return <main className="lg:container mx-auto w-full py-5 ">{children}</main>;
 };

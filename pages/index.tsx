@@ -1,12 +1,10 @@
-import Image from "next/image";
-import { Main } from "../components/layout/Main";
 import { NewsletterForm } from "../components/Forms/NewsletterForm";
 
 const Home = () => {
   return (
-    <Main>
+    <section className="px-4 lg:px-0">
       <NewsletterForm />
-    </Main>
+    </section>
   );
 };
 
