@@ -6,6 +6,7 @@ export default function Document() {
       <Head />
       <body className="bg-morning antialiased">
         <Main />
+        <div id="portal" />
         <NextScript />
       </body>
     </Html>
