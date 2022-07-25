@@ -1,5 +1,5 @@
 import { Cart } from "../../Cart/Cart";
-import { NavLink } from "./NavLink";
+import { NavLink } from "../../ButtonsAndLinks/NavLink";
 import type { NavItem } from "../Header";
 
 interface DesktopHeaderProps {
