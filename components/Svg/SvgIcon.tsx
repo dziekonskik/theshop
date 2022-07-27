@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { IconComponentProps } from "./IconComponentProps";
 
 interface SvgIconProps extends IconComponentProps {
@@ -13,7 +14,7 @@ export const SvgIcon = ({
   fill = "none",
 }: SvgIconProps) => {
   return (
-    <svg
+    <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       fill={fill}
@@ -24,6 +25,6 @@ export const SvgIcon = ({
       height={height}
     >
       {children}
-    </svg>
+    </motion.svg>
   );
 };

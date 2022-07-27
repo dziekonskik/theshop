@@ -10,4 +10,5 @@ export * from "./CubeTransparentIcon";
 export * from "./EuroIcon";
 export * from "./ExclamationIcon";
 export * from "./GiftIcon";
+export * from "./MessageIcon";
 export * from "./RssIcon";
