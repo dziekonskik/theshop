@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@aws-sdk/client-ses": "^3.137.0",
     "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "^2.9.5",
     "@stripe/react-stripe-js": "^1.9.0",
