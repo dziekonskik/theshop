@@ -14,7 +14,7 @@ interface CartLoadingError {
 interface CartItemsOk {
   type: "CartItemsOk";
 }
-export type TransitionState =
+export type CartTransitionState =
   | InitialState
   | CartItemsLoading
   | CartLoadingError

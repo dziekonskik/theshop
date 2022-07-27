@@ -52,16 +52,16 @@ export const CheckoutForm = () => {
   }, [matches]);
 
   useEffect(() => {
-    // this happens only after redirect from p24
+    // this is only after redirect from p24
     if (router.query.redirect_status === "succeeded") {
       setPaymentState({ type: "PaymentSuccessful" });
-      setCurrentStep("pay");
+      matches && setCurrentStep("pay");
     }
     if (router.query.redirect_status === "failed") {
       setPaymentState({ type: "PaymentError", message: "" });
-      setCurrentStep("pay");
+      matches && setCurrentStep("pay");
     }
-  }, [router.query.redirect_status]);
+  }, [router.query.redirect_status, matches]);
 
   const {
     register,
@@ -97,7 +97,8 @@ export const CheckoutForm = () => {
           data,
           stripe,
           elements,
-          setPaymentState
+          setPaymentState,
+          resetCartState
         );
         break;
       case PaymentMethods.p24:
@@ -109,10 +110,9 @@ export const CheckoutForm = () => {
   useEffect(() => {
     if (paymentState.type === "PaymentSuccessful" && getCartIdFromStorage()) {
       removeCartFromStorage();
-      resetCartState();
       reset();
     }
-  }, [paymentState.type, reset, resetCartState]);
+  }, [paymentState.type, reset]);
 
   return (
     <div className="md:max-h-screen w-full">

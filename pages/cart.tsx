@@ -5,9 +5,9 @@ import { useCartState } from "../components/Cart/CartContext";
 import { CubeTransparentIcon } from "../components/Svg";
 
 const CartPage = () => {
-  const { cartItems, transitionState } = useCartState();
+  const { cartItems, cartTransitionState } = useCartState();
 
-  if (transitionState.type === "CartItemsLoading") {
+  if (cartTransitionState.type === "CartItemsLoading") {
     return (
       <div className="w-full h-96 grid place-content-center">
         <CubeTransparentIcon className="h-20 w-20 animate-spin" />
@@ -15,7 +15,7 @@ const CartPage = () => {
     );
   }
 
-  if (transitionState.type == "CartItemsOk") {
+  if (cartTransitionState.type == "CartItemsOk") {
     return cartItems.length === 0 ? (
       <EmptyCart />
     ) : (
