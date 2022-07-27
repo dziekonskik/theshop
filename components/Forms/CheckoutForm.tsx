@@ -36,9 +36,7 @@ export type FormData = yup.InferType<typeof checkoutFormSchema>;
 
 export const CheckoutForm = () => {
   const matches = useMediaQuery("(max-width: 768px)");
-  const [currentStep, setCurrentStep] = useState<"ship" | "pay" | "ship&pay">(
-    matches ? "ship" : "ship&pay"
-  );
+  const [currentStep, setCurrentStep] = useState<"ship" | "pay" | "ship&pay">();
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethods>(PaymentMethods.creditCard);
   const [paymentState, setPaymentState] = useState<PaymentState>({
@@ -57,9 +55,11 @@ export const CheckoutForm = () => {
     // this happens only after redirect from p24
     if (router.query.redirect_status === "succeeded") {
       setPaymentState({ type: "PaymentSuccessful" });
+      setCurrentStep("pay");
     }
     if (router.query.redirect_status === "failed") {
       setPaymentState({ type: "PaymentError", message: "" });
+      setCurrentStep("pay");
     }
   }, [router.query.redirect_status]);
 
@@ -127,11 +127,12 @@ export const CheckoutForm = () => {
                 <ButtonWithIcon
                   bgColor="#6C63FF"
                   type="button"
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.preventDefault();
                     currentStep === "ship" && isValid
                       ? setCurrentStep("pay")
-                      : setCurrentStep("ship")
-                  }
+                      : setCurrentStep("ship");
+                  }}
                   side={currentStep === "ship" ? "right" : "left"}
                   fullWidth
                   svgMarkup={
