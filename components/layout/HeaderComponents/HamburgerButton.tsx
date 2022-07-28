@@ -8,7 +8,7 @@ interface HamburgerButtonProps {
 export const HamburgerButton = ({ open, toggleOpen }: HamburgerButtonProps) => {
   return (
     <motion.button
-      className="translate-x-1 text-midnight"
+      className="translate-x-1 text-midnight z-50"
       onClick={() => toggleOpen()}
       initial="closed"
       exit="open"

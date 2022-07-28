@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import Link from "next/link";
 import { useCycle, motion, AnimatePresence } from "framer-motion";
 import { HamburgerButton } from "./HamburgerButton";
+import { Cart } from "../../Cart/Cart";
 import { Portal } from "../../Portal";
 import { NavLink } from "../../ButtonsAndLinks/NavLink";
 import { CartIcon } from "../../Svg";
@@ -59,17 +59,13 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
 
   return (
     <section className="relative h-full flex items-center justify-between px-4 md:hidden">
-      <Link href="/cart">
-        <a onClick={() => toggleOpen(0)}>
-          <CartIcon className="h-9 w-9 mr-2" />
-        </a>
-      </Link>
+      <Cart />
       <HamburgerButton open={open} toggleOpen={toggleOpen} />
       <AnimatePresence exitBeforeEnter>
         {open && (
           <Portal>
             <motion.nav
-              className="bg-bermuda fixed top-16 w-full flex flex-col justify-center items-start z-50"
+              className="bg-bermuda fixed top-0 w-full flex flex-col justify-center items-start z-30"
               initial="closed"
               exit="closed"
               variants={navVariants}
