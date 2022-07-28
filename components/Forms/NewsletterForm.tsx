@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "react-query";
 import { FormInput } from "./FormAtoms/FormInput";
+import { Button } from "../ButtonsAndLinks/Button";
+import { EnvelopeIcon, ExclamationIcon, CubeTransparentIcon } from "../Svg";
+import { AnimatedCheckHeroIcon } from "../Svg/Animated";
 
 const NewsletterFormSchema = yup.object({
   email: yup.string().email().required(),
@@ -10,8 +13,13 @@ const NewsletterFormSchema = yup.object({
 
 type CheckoutFormData = yup.InferType<typeof NewsletterFormSchema>;
 
-export const NewsletterForm = () => {
+interface NewsletterFormProps {
+  className?: string;
+}
+
+export const NewsletterForm = ({ className }: NewsletterFormProps) => {
   const {
+    reset,
     register,
     formState: { errors },
     handleSubmit,
@@ -38,40 +46,50 @@ export const NewsletterForm = () => {
     handleNewsletterSignupMutation
   );
 
-  const onSubmit = handleSubmit((data) => mutate(data));
+  const onSubmit = handleSubmit(async (data) => {
+    await mutate(data);
+    reset();
+  });
+
+  let svgMarkup: React.ReactNode = (
+    <EnvelopeIcon className="ml-4 -translate-y-px" />
+  );
+  if (isLoading) {
+    svgMarkup = <CubeTransparentIcon className="ml-4 animate-spin" />;
+  }
+  if (isSuccess) {
+    svgMarkup = (
+      <AnimatedCheckHeroIcon
+        className="ml-4 -translate-y-px"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+      />
+    );
+  }
+  if (isError) {
+    svgMarkup = (
+      <ExclamationIcon className="ml-4 -translate-y-px animate-wiggleOnce" />
+    );
+  }
 
   return (
-    <form onSubmit={onSubmit} className="max-w-md">
+    <form onSubmit={onSubmit} className={className}>
       <FormInput
         register={register}
         errors={errors}
         label="email"
-        placeholder="Zapisz się na newsletter"
+        placeholder="Sign up for a newsletter"
         type="email"
       />
-      <button
+      <Button
+        disabled={isLoading}
+        onClick={onSubmit}
         type="submit"
-        className="inline-flex items-center px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out relative"
+        bgColor="#F4F3FF"
+        svgMarkup={svgMarkup}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
-          />
-        </svg>
-
-        <span className="ml-2">
-          {isSuccess ? "Zapisano!" : isError ? "Wystąpił błąd :(" : "Zapisz"}
-        </span>
-      </button>
+        {isSuccess ? "Thank you!" : isError ? "Try again" : "Sign me up!"}
+      </Button>
     </form>
   );
 };

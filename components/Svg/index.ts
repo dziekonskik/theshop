@@ -7,6 +7,7 @@ export * from "./CheckShieldIcon";
 export * from "./ChipIcon";
 export * from "./CloseIcon";
 export * from "./CubeTransparentIcon";
+export * from "./EnvelopeIcon";
 export * from "./EuroIcon";
 export * from "./ExclamationIcon";
 export * from "./GiftIcon";
