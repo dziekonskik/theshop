@@ -5,5 +5,9 @@ interface MainProps {
 }
 
 export const Main = ({ children }: MainProps) => {
-  return <main className="lg:container mx-auto w-full py-5 ">{children}</main>;
+  return (
+    <main className="lg:container mx-auto w-full h-full flex-1 flex flex-col">
+      {children}
+    </main>
+  );
 };

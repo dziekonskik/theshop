@@ -8,7 +8,7 @@ interface Props {
 }
 export const Layout = ({ children }: Props) => {
   return (
-    <div className="flex flex-col justify-between w-full min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
       <Main>{children}</Main>
       <Footer />

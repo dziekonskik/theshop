@@ -15,12 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <CartContextProvider>
-        <Layout>
-          <DefaultSeo {...SEO} />
-          <QueryClientProvider client={client}>
+        <QueryClientProvider client={client}>
+          <Layout>
+            <DefaultSeo {...SEO} />
             <Component {...pageProps} />
-          </QueryClientProvider>
-        </Layout>
+          </Layout>
+        </QueryClientProvider>
       </CartContextProvider>
     </ApolloProvider>
   );
