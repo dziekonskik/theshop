@@ -12,11 +12,11 @@ export const NavLink = ({ children, href }: NavLinkProps) => {
       <a
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="font-comfortaa font-bold text-xl relative block"
+        className="font-comfortaa uppercase font-bold text-xl relative block"
       >
         {children}
         <span
-          className={`absolute top-0 left-0 text-purple transition-all duration-700 ${
+          className={`absolute uppercase top-0 left-0 text-purple transition-all duration-700 ${
             hovered ? "clip-path-revealed" : "clip-path-hidden"
           }`}
         >
