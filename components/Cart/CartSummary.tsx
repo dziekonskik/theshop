@@ -5,11 +5,13 @@ export const CartSummary = () => {
   const { cartTotal, cartItems } = useCartState();
 
   return (
-    <section className="hidden col-span-6 lg:flex justify-end relative">
-      <div className="mr-16 h-1/2 w-full bg-bermuda -skew-y-12 -z-10 border-4 border-midnight translate-y-5 flex justify-end relative">
+    <section className="hidden lg:flex flex-col items-end w-1/2 placeholder-opacity-75 over pr-16">
+      <div className="mt-[74px] h-1/2 w-full bg-bermuda -skew-y-12 -z-10 border-4 border-midnight translate-y-5 flex justify-end relative">
         <div className="h-full skew-y-12 w-44 bg-sunny bg-opacity-90 absolute -right-16 top-10 scale-y-110"></div>
         <summary className="skew-y-12 mt-12 flex flex-col absolute right-11 w-44">
-          <h2 className="font-comfortaa z-50 text-2xl capitalize">Summary:</h2>
+          <h2 className="font-comfortaa z-50 text-2xl capitalize -translate-x-11">
+            Summary:
+          </h2>
           <div className="flex justify-between mt-8 font-comfortaa z-50">
             <span className="capitalize">Items:</span>
             <span>{cartItems.length}</span>
@@ -24,7 +26,7 @@ export const CartSummary = () => {
           </div>
         </summary>
       </div>
-      <div className="absolute bottom-[40%] right-32 ">
+      <div className="mt-7">
         <BigLink bgColor="#6C63FF" href="/checkout">
           checkout
         </BigLink>

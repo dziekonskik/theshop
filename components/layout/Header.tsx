@@ -13,7 +13,7 @@ export const Header = () => {
   ]);
 
   return (
-    <header className="h-16 lg:h-32 bg-bermuda">
+    <header className="h-16 lg:h-32 bg-bermuda" id="header">
       <DesktopHeader navItems={navItems} />
       <MobileHeader navItems={navItems} />
     </header>

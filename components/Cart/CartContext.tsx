@@ -11,12 +11,10 @@ import { useUpsertOrder } from "../../util/cartHelpers/useUpsertOrder";
 import { useDeleteOrderItem } from "../../util/cartHelpers/useDeleteOrderItem";
 import { useProcessOrder } from "../../util/cartHelpers/useProcessOrder";
 import type { CartItem } from "../../util/types";
-import type { CartTransitionState } from "../../util/cartHelpers/cartStateTypes";
 
 interface CartState {
   readonly cartItems: CartItem[];
   readonly cartTotal: number;
-  readonly cartTransitionState: CartTransitionState;
   readonly clickedItemSlug: string;
   readonly resetCartState: () => void;
   readonly addItemToCart: (item: CartItem) => void;
@@ -33,10 +31,6 @@ const CartContext = createContext<CartState | null>(null);
 export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartTotal, setCartTotal] = useState<number>(0);
-  const [cartTransitionState, setCartTransitionState] =
-    useState<CartTransitionState>({
-      type: "InitialState",
-    });
   const router = useRouter();
   const cartIdFromStorage = getCartIdFromStorage();
 
@@ -64,20 +58,14 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   useEffect(() => {
     if (cartIdFromStorage && !router.query.redirect_status) {
-      setCartTransitionState({ type: "CartItemsLoading" });
       apolloClient
         .query<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>({
           query: GetOrderDetailsByIdDocument,
           variables: { id: cartIdFromStorage },
+          fetchPolicy: "network-only",
         })
         .then(({ data }) => {
-          if (!data.order?.orderItems) {
-            setCartTransitionState({
-              type: "CartLoadingError",
-              message: "Please refresh the page",
-            });
-            return;
-          }
+          if (!data.order?.orderItems) return;
           const orderItemsWithProduct = data.order.orderItems.filter(
             (orderItem): orderItem is CartItem =>
               typeof orderItem.product !== undefined
@@ -96,9 +84,9 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
               };
             }
           );
+          console.log({ dataToState });
           setCartItems(dataToState);
           setCartTotal(data.order.total);
-          setCartTransitionState({ type: "CartItemsOk" });
         });
     } else {
       //this repetition is because once in a while this block loses the race condition
@@ -120,7 +108,6 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         clickedItemSlug,
         resetCartState,
         addItemToCart,
-        cartTransitionState,
         cartTotal,
         deleteOrderItem,
         increment,

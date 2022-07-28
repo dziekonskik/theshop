@@ -4,8 +4,8 @@ import emptyCartVerticalImg from "../../public/assets/shapes/girl-wants-gift.svg
 
 export const EmptyCart = () => {
   return (
-    <div className="flex-1 grid">
-      <section className="py-5 grid place-content-center">
+    <div className="flex-1 flex flex-col h-full">
+      <section className="mt-10 flex place-content-center">
         <h1 className="text-center font-comfortaa md:text-5xl lg:text-6xl xl:text-7xl hidden md:block flex-1">
           Just allow yourself.
         </h1>
@@ -13,8 +13,8 @@ export const EmptyCart = () => {
           Go for it!
         </h1>
       </section>
-      <section className="flex flex-col items-center justify-end">
-        <div className="h-96 relative hidden md:flex items-end justify-center row-span-2 flex-1">
+      <section className="flex-1 flex justify-center items-end">
+        <div className="relative hidden md:flex">
           <Image
             src={emptyCartHorizontalImg}
             alt="graphic of a couple staring on a wrapped gift"
