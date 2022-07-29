@@ -5,10 +5,10 @@ const contactFormHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).setHeader("Allow", "POST").json({});
   }
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-  const recipientEmail = process.env.AWS_SES_TO_EMAIL;
-  const senderEmail = process.env.AWS_SES_FROM_EMAIL;
+  const accessKeyId = process.env.SECRET_AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.SECRET_AWS_SECRET_ACCESS_KEY;
+  const recipientEmail = process.env.SECRET_AWS_SES_TO_EMAIL;
+  const senderEmail = process.env.SECRET_AWS_SES_FROM_EMAIL;
   const { email, message } = req.body;
 
   if (!accessKeyId || !secretAccessKey) {
