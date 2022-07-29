@@ -1,34 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <img src="https://raw.githubusercontent.com/dziekonskik/theshop/main/public/vercel.svg" width="200" height="100">
+  <img src="https://logosandtypes.com/wp-content/uploads/2021/04/framer-motion.svg" width="200" height="100">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" width="200" height="100">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="200" height="100">
+  <img src="https://www.pscloud.pl/wp-content/uploads/2019/11/1280px-Amazon_Web_Services_Logo.svg.png" width="200" height="100">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/MailerLite_Logo.svg" width="200" height="100">
+</div>
 
-## Getting Started
+<h1 align="center" style="margin-top: 60px;color: black;font-size: 37px;">The Shop
 
-First, run the development server:
+<p style="font-size: 21px;margin-top: 20px">A place where you can buy fictional products for fictional money,
+            enjoy!</p>
+</h1>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## 🔆🔆🔆 Only good stuff on board 🔆🔆🔆
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- The app is hosted on Vercel 🛖
+- Written in React and NextJS 👑
+- With TypeScript 🔥
+- Styled with TailwindCSS 👔
+- Polished with Framer Motion 🕶
+- Orders are managed entirely on the Hygraph CMS backend 🚧
+- Secure and custom paymemt flow with Stripe Elements 💰
+- Messages sent via contact form delivered with AWS SES 📦
+- To store Newsletter email I use Mailer Lite 📩
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Next Deploy - user area 🙋 🙋‍♂️
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<h2 style="margin-top: 40px;" >💬 Let's talk!</h2>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Konrad Dziekoński**: [<jaseveen@gmail.com>](mailto:jaseveen@gmail.com) or [<k.dziekonski@hotmail.com>](mailto:k.dziekonski@hotmail.com)
+- [Github](https://github.com/dziekonskik)
+- [Linkedin](https://www.linkedin.com/in/konrad-dziekonski/)
+- [Twitter](https://twitter.com/jaSeveenPL)
