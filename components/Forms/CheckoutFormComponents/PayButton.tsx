@@ -44,9 +44,9 @@ export const PayButton = ({ handleSubmit, paymentState }: PayButtonProps) => {
 
 const DefaultStateButton = ({ paymentState, handleSubmit }: PayButtonProps) => {
   return (
-    <div className="mt-10 w-80 h-24 flex items-center justify-center">
+    <div className="my-10 w-80 h-24 flex items-center justify-center">
       <button
-        className="w-full h-full font-acme flex items-center justify-center relative uppercase text-xl shadow-xl hover:shadow-lg hover:brightness-110 disabled:brightness-90 bg-silver transition-all duration-300"
+        className="w-full h-full font-comfortaa flex items-center justify-center relative uppercase text-xl shadow-xl hover:shadow-lg hover:brightness-110 disabled:brightness-90 bg-silver transition-all duration-300"
         type="submit"
         onClick={handleSubmit}
         disabled={paymentState.type !== "ReadyToSubmit"}
@@ -63,9 +63,9 @@ const DefaultStateButton = ({ paymentState, handleSubmit }: PayButtonProps) => {
 
 const SuccessStateButton = ({ paymentState, handleSubmit }: PayButtonProps) => {
   return (
-    <div className="mt-10 w-80 h-24">
+    <div className="my-10 w-80 h-24">
       <button
-        className="w-full h-full font-acme uppercase shadow-xl flex items-center justify-center text-xl hover:shadow-lg hover:brightness-110 bg-bermuda transition-all duration-300"
+        className="w-full h-full font-comfortaa uppercase shadow-xl flex items-center justify-center text-xl hover:shadow-lg hover:brightness-110 bg-bermuda-intense transition-all duration-300"
         type="submit"
         onClick={handleSubmit}
         disabled={paymentState.type !== "ReadyToSubmit"}
@@ -79,12 +79,12 @@ const SuccessStateButton = ({ paymentState, handleSubmit }: PayButtonProps) => {
 
 const ErrorStateButton = ({ paymentState, handleSubmit }: PayButtonProps) => {
   return (
-    <div className="mt-10 w-80 h-24 relative">
+    <div className="my-10 w-80 h-24 relative">
       <span className="font-anonymous text-xs h-4 text-error absolute -top-7 w-full text-center block">
         {paymentState.type === "PaymentError" && paymentState.message}
       </span>
       <button
-        className="w-full h-full font-acme flex items-center text-xl justify-center uppercase shadow-xl hover:shadow-lg hover:brightness-110 bg-bubble-gum transition-all duration-300"
+        className="w-full h-full font-comfortaa flex items-center text-xl justify-center uppercase shadow-xl hover:shadow-lg hover:brightness-110 bg-bubble-gum transition-all duration-300"
         type="submit"
         onClick={handleSubmit}
         disabled={paymentState.type !== "ReadyToSubmit"}

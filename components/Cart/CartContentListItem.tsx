@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { ArrowDownIcon, ArrowUpIcon, CloseIcon } from "../Svg";
+import { motion } from "framer-motion";
+import { ArrowDownIcon, ArrowUpIcon, CloseIcon, EuroIcon } from "../Svg";
 import type { CartItem } from "../../util/types";
 
 interface CartContentListItemProps {
@@ -16,11 +17,14 @@ export const CartContentListItem = ({
   decrement,
 }: CartContentListItemProps) => {
   return (
-    <li
-      className="mb-14 md:mb-20 bg-silver grid grid-cols-12 h-14 md:h-24 relative w-full"
+    <motion.li
+      exit={{ translateX: "50%", opacity: 0, scale: 0 }}
+      transition={{ duration: 0.3 }}
+      layout
+      className="mb-20 md:mb-24 bg-silver bg-opacity-70 grid grid-cols-12 h-20 md:h-24 relative w-full"
       key={cartItem.product.slug}
     >
-      <div className="h-20 w-20 md:h-32 md:w-32 bg-bubble-gum p-5 -translate-y-3 md:-translate-y-4 col-span-2 z-10">
+      <div className="h-24 w-24 md:h-32 md:w-32 bg-bubble-gum p-5 -translate-y-2 md:-translate-y-4 col-span-2 z-10">
         <span className="drop-shadow-md">
           <Image
             src={cartItem.product.images[0].url}
@@ -31,14 +35,15 @@ export const CartContentListItem = ({
           />
         </span>
       </div>
-      <div className="col-span-6 grid place-content-center backdrop-blur-md -translate-y-4 pl-5 md:pl-0">
-        <h3 className="pt-1 text-sm md:text-lg font-anonymous break-words text-center lg:ml-10 ml:ml-0">
+      <div className="col-span-6 grid place-content-center -translate-y-4 pl-7 md:pl-0">
+        <h3 className="pt-1 text-sm md:text-lg font-anonymous break-words text-center lg:ml-10 ml:ml-0 translate-y-2 md:translate-y-0">
           {cartItem.product.name}
         </h3>
       </div>
-      <div className="col-span-3 md:col-span-2 grid place-content-center backdrop-blur-md -translate-y-4 relative">
-        <span className="text-purple font-acme text-sm md:text-lg">
-          $ {cartItem.product.price / 100}
+      <div className="col-span-3 md:col-span-2 grid place-content-center -translate-y-4 relative">
+        <span className="text-purple font-comfortaa text-sm md:text-lg flex items-center translate-y-2 md:translate-y-0 -translate-x-4 lg:-translate-x-0">
+          <EuroIcon className="mr-1 md:mr-2 h-3 md:h-5 w-3 md:w-5 -translate-y-px" />{" "}
+          {cartItem.product.price / 100}
         </span>
         <QuantityButtons
           cartItem={cartItem}
@@ -46,15 +51,15 @@ export const CartContentListItem = ({
           decrement={decrement}
         />
       </div>
-      <div className="col-span-1 md:col-span-2 backdrop-blur-md grid place-content-center -translate-y-4 ">
+      <div className="col-span-1 md:col-span-2 flex justify-end items-center mr-4">
         <button
-          className="cursor-pointer"
+          className="cursor-pointer border p-2 -translate-y-2 md:-translate-y-4 bg-silver"
           onClick={() => deleteOrderItem(cartItem.id)}
         >
-          <CloseIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6" />
+          <CloseIcon strokeWidth={2} className="h-5 w-5" />
         </button>
       </div>
-    </li>
+    </motion.li>
   );
 };
 
@@ -64,35 +69,26 @@ const QuantityButtons = ({
   decrement,
 }: Omit<CartContentListItemProps, "deleteOrderItem">) => {
   return (
-    <div className="-bottom-4 absolute h-10 w-full p-2">
-      <Image
-        src="/assets/shapes/blurredBg.svg"
-        layout="fill"
-        alt="background"
-        className="scale-150"
-      />
+    <div className="-bottom-8 md:-bottom-4 absolute h-12 w-28 md:w-32 z-50">
       <div className="relative">
         <div className="flex items-end md:items-center justify-between">
           <button
             onClick={() => increment(cartItem.id)}
-            className="grid place-content-center"
+            className="grid place-content-center p-2 border translate-y-4 bg-silver"
           >
             <span className="cursor-pointer">
-              <ArrowUpIcon strokeWidth={2} className="h-4 w-4 md:h-6 md:w-6" />
+              <ArrowUpIcon strokeWidth={2} className="h-5 w-5" />
             </span>
           </button>
-          <span className="text-purple font-acme text-sm md:text-lg">
+          <span className="text-purple font-comfortaa md:text-lg translate-y-2.5 md:translate-y-4">
             {cartItem.quantity}
           </span>
           <button
             onClick={() => decrement(cartItem.id)}
-            className="grid place-content-center"
+            className="grid place-content-center border p-2 translate-y-4 bg-silver"
           >
             <span className="-translate-y-px cursor-pointer">
-              <ArrowDownIcon
-                strokeWidth={2}
-                className="h-4 w-4 md:h-6 md:w-6"
-              />
+              <ArrowDownIcon strokeWidth={2} className="h-5 w-5" />
             </span>
           </button>
         </div>

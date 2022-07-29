@@ -1,6 +1,7 @@
 import { InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { ProductsGrid } from "../../components/Product/ProductsGrid";
+import { Link } from "../../components/ButtonsAndLinks/Link";
 import { PRODUCTS_PER_PAGE } from "../../util/constants";
 import type { InferGetStaticPaths } from "../../util/types";
 import {
@@ -16,13 +17,26 @@ const ProductsPage = ({
   const { isFallback } = useRouter();
 
   if (!data || !pagesTotal) {
-    return <div>Something went wrong...</div>;
+    return (
+      <div className="px-4 flex justify-center">
+        <div>
+          <h3 className="font-comfortaa text-2xl mt-16 mb-9">
+            Currently there is not enough products in the cart for another page
+          </h3>
+          <Link bgColor="#77aaFF" href="/products">
+            Go back
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   if (isFallback) {
     return <div>Loading...</div>;
   }
-  return <ProductsGrid productsData={data} pagesTotal={100} />;
+  return (
+    <ProductsGrid productsData={data["products"]} pagesTotal={pagesTotal} />
+  );
 };
 
 export const getStaticPaths = async () => {
@@ -55,8 +69,8 @@ export const getStaticProps = async ({
 
   return {
     props: {
+      pagesTotal: Math.ceil(data.products.length / PRODUCTS_PER_PAGE),
       data,
-      pagesTotal: null,
     },
   };
 };

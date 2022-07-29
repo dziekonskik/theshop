@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import { Rating } from "./ProductRating";
-import { AddToCartButton } from "../ButtonsAndLinks/AddToCartButton";
+import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
 import { ProductQuantityWidget } from "../Product/ProductQuantityWidget";
 import { useCartState } from "../Cart/CartContext";
 import { ProductReviewContainer } from "../ProductReview/ProductReviewContainer";
 import { ZaisteReactMarkdown } from "../ZaisteReactMarkdown";
 import { ProductDetailsFragment } from "../../generated/graphql";
+import { CartIcon } from "../Svg";
+import useMediaQuery from "../../util/useMediaquery";
 import type { MarkdownResult, CartItem } from "../../util/types";
 
 export interface ProductDetails extends ProductDetailsFragment {
@@ -21,7 +23,13 @@ interface ProductProps {
 
 export const ProductDetails = ({ product }: ProductProps) => {
   const [quantity, setQuantity] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
   const { addItemToCart, clickedItemSlug } = useCartState();
+  const matches = useMediaQuery("(max-width: 1023px)");
+
+  useEffect(() => {
+    if (matches) setIsMobile(true);
+  }, [matches]);
 
   const cartItem: CartItem = {
     id: "",
@@ -53,8 +61,8 @@ export const ProductDetails = ({ product }: ProductProps) => {
           site_name: "The Shop",
         }}
       />
-      <div className="bg-white p-4">
-        <div className="flex gap-7">
+      <div className="px-4 font-comfortaa">
+        <div className="flex gap-7 flex-col md:flex-row">
           <div className="h-96 w-96">
             <Image
               src={product.images[0].url}
@@ -66,24 +74,38 @@ export const ProductDetails = ({ product }: ProductProps) => {
             />
           </div>
           <div className="p-4">
-            <h2 className="text-3xl font-bold">{product.name}</h2>
-            <article className="prose lg:prose-xl my-6">
+            <h2 className="text-3xl font-bold text-center lg:text-start">
+              {product.name}
+            </h2>
+            <article className="prose lg:prose-xl my-6 text-center lg:text-start">
               <ZaisteReactMarkdown>
                 {product.longDescription}
               </ZaisteReactMarkdown>
             </article>
-            <ProductQuantityWidget
-              quantity={quantity}
-              setQuantity={setQuantity}
-            />
-            <AddToCartButton
-              onClick={() => addItemToCart(cartItem)}
-              disabled={clickedItemSlug === product.slug}
-            />
+            <div className="flex flex-col items-center lg:items-start">
+              <ProductQuantityWidget
+                quantity={quantity}
+                setQuantity={setQuantity}
+              />
+              <ButtonWithIcon
+                onClick={() => addItemToCart(cartItem)}
+                disabled={clickedItemSlug === product.slug}
+                bgColor="#6C63FF"
+                type="button"
+                fullWidth={isMobile}
+                side="right"
+                svgMarkup={<CartIcon className="w-6 h-6" />}
+              >
+                To cart
+              </ButtonWithIcon>
+            </div>
           </div>
         </div>
       </div>
-      <Rating rating={product.rating} />
+      <div className="flex items-center px-4 font-anonymous mt-4">
+        <span className="mr-2">Other users rated this product for</span>
+        <Rating rating={product.rating} />
+      </div>
       <ProductReviewContainer slug={product.slug} />
     </>
   );

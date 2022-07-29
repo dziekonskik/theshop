@@ -4,8 +4,9 @@ export default function Document() {
   return (
     <Html lang="pl">
       <Head />
-      <body className="bg-morning antialiased">
+      <body className="bg-bermuda antialiased">
         <Main />
+        <div id="portal" />
         <NextScript />
       </body>
     </Html>

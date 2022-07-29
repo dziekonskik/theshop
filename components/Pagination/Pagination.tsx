@@ -13,10 +13,10 @@ export const Pagination = ({
   numberOfPages,
 }: Props) => {
   return (
-    <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
+    <nav className="border-t border-lightblue px-4 flex items-center justify-between sm:px-0">
       <div className="hidden md:-mt-px md:flex items-baseline">
         <Link href={`/products${currentPage > 1 ? `/${currentPage - 1}` : ""}`}>
-          <a className="mr-4 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md p-2 disabled:bg-indigo-300">
+          <a className="mr-4 bg-blue text-white shadow-md hover:shadow-lg p-2 disabled:bg-silver disabled:text-metal">
             Prev
           </a>
         </Link>
@@ -29,7 +29,7 @@ export const Pagination = ({
           />
         ))}
         <Link href={`/products/${Math.min(currentPage + 1, numberOfPages)}`}>
-          <a className="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md p-2">
+          <a className="ml-4 bg-blue text-white shadow-md hover:shadow-lg p-2 disabled:bg-silver disabled:text-metal">
             Next
           </a>
         </Link>

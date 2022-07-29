@@ -12,7 +12,8 @@ export async function handleCardPayment(
   data: FormData,
   stripe: Stripe,
   elements: StripeElements,
-  setPaymentState: React.Dispatch<React.SetStateAction<PaymentState>>
+  setPaymentState: React.Dispatch<React.SetStateAction<PaymentState>>,
+  resetCartState: () => void
 ) {
   const cardNumberElement = elements.getElement(CardNumberElement);
   if (!cardNumberElement) return;
@@ -53,6 +54,7 @@ export async function handleCardPayment(
   } else {
     setPaymentState({ type: "PaymentSuccessful" });
     clearCardFIelds(elements);
+    resetCartState();
   }
 }
 

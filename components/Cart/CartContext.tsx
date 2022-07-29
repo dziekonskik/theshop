@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { getCartIdFromStorage } from "../../util/cartHelpers/cartUtilFunctions";
 import { apolloClient } from "../../graphql/apolloClient";
 import {
@@ -10,12 +11,10 @@ import { useUpsertOrder } from "../../util/cartHelpers/useUpsertOrder";
 import { useDeleteOrderItem } from "../../util/cartHelpers/useDeleteOrderItem";
 import { useProcessOrder } from "../../util/cartHelpers/useProcessOrder";
 import type { CartItem } from "../../util/types";
-import type { TransitionState } from "../../util/cartHelpers/cartStateTypes";
 
 interface CartState {
   readonly cartItems: CartItem[];
   readonly cartTotal: number;
-  readonly transitionState: TransitionState;
   readonly clickedItemSlug: string;
   readonly resetCartState: () => void;
   readonly addItemToCart: (item: CartItem) => void;
@@ -32,9 +31,7 @@ const CartContext = createContext<CartState | null>(null);
 export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartTotal, setCartTotal] = useState<number>(0);
-  const [transitionState, setTransitionState] = useState<TransitionState>({
-    type: "InitialState",
-  });
+  const router = useRouter();
   const cartIdFromStorage = getCartIdFromStorage();
 
   const { addItemToCart, clickedItemSlug } = useUpsertOrder({
@@ -60,22 +57,15 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   });
 
   useEffect(() => {
-    if (cartIdFromStorage) {
-      setTransitionState({ type: "CartItemsLoading" });
+    if (cartIdFromStorage && !router.query.redirect_status) {
       apolloClient
         .query<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>({
           query: GetOrderDetailsByIdDocument,
           variables: { id: cartIdFromStorage },
+          fetchPolicy: "network-only",
         })
         .then(({ data }) => {
-          if (data.order?.stripeCheckoutId !== "unpaid") return;
-          if (!data.order?.orderItems) {
-            setTransitionState({
-              type: "CartLoadingError",
-              message: "Please refresh the page",
-            });
-            return;
-          }
+          if (!data.order?.orderItems) return;
           const orderItemsWithProduct = data.order.orderItems.filter(
             (orderItem): orderItem is CartItem =>
               typeof orderItem.product !== undefined
@@ -96,19 +86,27 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
           );
           setCartItems(dataToState);
           setCartTotal(data.order.total);
-          setTransitionState({ type: "CartItemsOk" });
         });
+    } else {
+      //this repetition is because once in a while this block loses the race condition
+      resetCartState();
+      window.setTimeout(() => {
+        resetCartState();
+      }, 100);
     }
-  }, [cartIdFromStorage]);
+  }, [cartIdFromStorage, router.query]);
 
+  const resetCartState = () => {
+    setCartItems([]);
+    setCartTotal(0);
+  };
   return (
     <CartContext.Provider
       value={{
         cartItems,
         clickedItemSlug,
-        resetCartState: () => setCartItems([]),
+        resetCartState,
         addItemToCart,
-        transitionState,
         cartTotal,
         deleteOrderItem,
         increment,

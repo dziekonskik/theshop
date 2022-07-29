@@ -2,11 +2,11 @@ import NextLink, { LinkProps } from "next/link";
 
 interface BigButtonProps extends LinkProps {
   children: React.ReactNode;
-  bgColor: "#6C63FF" | "#F4E13E";
+  bgColor: "#77aaFF" | "#F4F3FF";
   fullWidth?: boolean;
 }
 
-export const BigLink = ({
+export const Link = ({
   href,
   children,
   bgColor,
@@ -18,7 +18,7 @@ export const BigLink = ({
         className={`px-10 py-5 font-comfortaa uppercase shadow-xl hover:shadow-lg hover:brightness-110 text-center`}
         style={{
           backgroundColor: bgColor,
-          color: bgColor === "#6C63FF" ? "#F4F3FF" : "#3F3D56",
+          color: bgColor === "#77aaFF" ? "#F4F3FF" : "#565584",
           width: fullWidth ? "100%" : "fit-content",
         }}
       >

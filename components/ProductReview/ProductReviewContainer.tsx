@@ -10,10 +10,10 @@ export const ProductReviewContainer = ({
 }: ProductReviewContainerProps) => {
   return (
     <div className="p-4 grid lg:grid-cols-12 gap-12">
-      <div className="col-span-5">
+      <div className="lg:col-span-5">
         <ProductReviewForm slug={slug} />
       </div>
-      <div className="col-span-7">
+      <div className="lg:col-span-7">
         <ProductReviewList slug={slug} />
       </div>
     </div>
