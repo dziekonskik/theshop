@@ -9,7 +9,7 @@
 
 <h1 align="center" style="margin-top: 60px;color: black;font-size: 37px;">The Shop
 </h1>
-<p align="center" style="font-size: 21px;margin-top: 20px">A place where you can buy fictional products for fictional money,
+<p align="center" style="font-size: 27px;margin-top: 20px">A place where you can buy fictional products for fictional money,
             enjoy!</p>
 
 ## 🔆🔆🔆 Only good stuff on board 🔆🔆🔆
