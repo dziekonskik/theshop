@@ -18,8 +18,12 @@ const CartPage = () => {
     useState<CartPageItemsState>("loading");
 
   useEffect(() => {
+    console.log("elo");
     const cartIdFromStorage = getCartIdFromStorage();
-    if (!cartIdFromStorage) return;
+    if (!cartIdFromStorage) {
+      setCartPageState("no-items");
+      return;
+    }
     apolloClient
       .mutate<
         GetOrderTotalAndItemsByIdQuery,
@@ -31,6 +35,7 @@ const CartPage = () => {
         },
       })
       .then(({ data }) => {
+        console.log("elo2");
         const orderItemsArray = data?.order?.orderItems;
         orderItemsArray?.length
           ? setCartPageState("with-items")
