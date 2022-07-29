@@ -51,8 +51,7 @@ const contactFormHandler: NextApiHandler = async (req, res) => {
 
   try {
     const command = new SendEmailCommand(params);
-    const data = await client.send(command);
-    console.log(data);
+    await client.send(command);
     return res.status(200).json({ message: "all good" });
   } catch (error) {
     return res.status(500).json({ error });

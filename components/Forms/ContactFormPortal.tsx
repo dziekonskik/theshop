@@ -48,7 +48,7 @@ export const ContactForm = ({
 
   const handleContactFormSubmitMutation = async (data: ContactFormData) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/aws-ses-client`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/aws-ses`,
       {
         method: "POST",
         headers: {
