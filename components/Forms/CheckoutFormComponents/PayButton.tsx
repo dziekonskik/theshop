@@ -65,7 +65,7 @@ const SuccessStateButton = ({ paymentState, handleSubmit }: PayButtonProps) => {
   return (
     <div className="my-10 w-80 h-24">
       <button
-        className="w-full h-full font-comfortaa uppercase shadow-xl flex items-center justify-center text-xl hover:shadow-lg hover:brightness-110 bg-bermuda transition-all duration-300"
+        className="w-full h-full font-comfortaa uppercase shadow-xl flex items-center justify-center text-xl hover:shadow-lg hover:brightness-110 bg-bermuda-intense transition-all duration-300"
         type="submit"
         onClick={handleSubmit}
         disabled={paymentState.type !== "ReadyToSubmit"}

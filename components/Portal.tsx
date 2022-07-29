@@ -6,10 +6,11 @@ interface PortalProps {
 }
 export const Portal = ({ children }: PortalProps) => {
   const [mounted, setMounted] = useState(false);
-  const mountRef = useRef<Element | null>(document.querySelector("#portal"));
+  const mountRef = useRef<Element | null>(null);
 
   useLayoutEffect(() => {
     setMounted(true);
+    mountRef.current = document.getElementById("portal");
     return () => setMounted(false);
   }, []);
 

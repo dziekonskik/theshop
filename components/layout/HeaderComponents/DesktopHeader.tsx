@@ -8,7 +8,7 @@ interface DesktopHeaderProps {
 
 export const DesktopHeader = ({ navItems }: DesktopHeaderProps) => {
   return (
-    <section className="hidden md:flex h-full container mx-auto items-center justify-between">
+    <section className="hidden md:flex h-full container mx-auto items-center justify-between px-4">
       <nav className="h-full">
         <ul className="flex items-center h-full">
           {navItems.map(({ url, text }, index) => (

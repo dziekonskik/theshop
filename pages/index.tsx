@@ -12,11 +12,11 @@ const Home = () => {
   }, [matches]);
 
   return (
-    <section className="px-4 lg:px-0 flex flex-col flex-1">
+    <section className="px-4 flex flex-col flex-1">
       <NewsletterForm className="max-w-md mt-10" />
       <article className="w-full mt-16 md:mt-20 flex-1">
         <div className="font-comfortaa flex flex-col text-midnight">
-          <h1 className="mb-5 text-xl capitalize">The shop</h1>
+          <h1 className="mb-5 text-3xl lg:text-4xl capitalize">The shop</h1>
           <h2 className="text-lg mb-4">
             A place where you can buy fictional products for fictional money,
             enjoy!

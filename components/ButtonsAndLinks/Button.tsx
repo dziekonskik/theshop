@@ -1,10 +1,11 @@
 interface AddToCartButtonProps {
   onClick: (...args: any) => void;
-  disabled: boolean;
+  disabled?: boolean;
   children: React.ReactNode;
   type: React.ButtonHTMLAttributes<string>["type"];
   svgMarkup?: React.ReactNode;
   bgColor: "#77aaFF" | "#F4F3FF";
+  fullWidth?: boolean;
 }
 
 export const Button = ({
@@ -14,6 +15,7 @@ export const Button = ({
   svgMarkup,
   bgColor,
   type,
+  fullWidth,
 }: AddToCartButtonProps) => {
   return (
     <button
@@ -24,9 +26,10 @@ export const Button = ({
       style={{
         backgroundColor: bgColor,
         color: bgColor === "#77aaFF" ? "#F4F3FF" : "#565584",
+        width: fullWidth ? "100%" : "fit-content",
       }}
     >
-      <span className="translate-y-px flex items-center">
+      <span className="translate-y-px flex items-center justify-center w-full">
         {children}
         {svgMarkup && svgMarkup}
       </span>

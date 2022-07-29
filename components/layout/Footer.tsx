@@ -36,7 +36,7 @@ export const Footer = () => {
   }, [matches, router.pathname]);
 
   return (
-    <footer className="bg-bermuda min-h-40" id="footer">
+    <footer className="bg-bermuda min-h-40 px-4" id="footer">
       <div className="h-full w-full md:container mx-auto flex items-center md:items-start flex-col text-midnight pt-4">
         <section className="h-full flex flex-col md:flex-row w-full">
           <article className="h-full w-full flex flex-col justify-between md:justify-around items-center md:items-start">

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,6 +7,7 @@ import { FormInput } from "./FormAtoms/FormInput";
 import { Button } from "../ButtonsAndLinks/Button";
 import { EnvelopeIcon, ExclamationIcon, CubeTransparentIcon } from "../Svg";
 import { AnimatedCheckHeroIcon } from "../Svg/Animated";
+import useMediaQuery from "../../util/useMediaquery";
 
 const NewsletterFormSchema = yup.object({
   email: yup.string().email().required(),
@@ -18,6 +20,12 @@ interface NewsletterFormProps {
 }
 
 export const NewsletterForm = ({ className }: NewsletterFormProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const matches = useMediaQuery("(max-width: 640px)");
+
+  useEffect(() => {
+    if (matches) setIsMobile(true);
+  }, [matches]);
   const {
     reset,
     register,
@@ -87,6 +95,7 @@ export const NewsletterForm = ({ className }: NewsletterFormProps) => {
         type="submit"
         bgColor="#F4F3FF"
         svgMarkup={svgMarkup}
+        fullWidth={isMobile}
       >
         {isSuccess ? "Thank you!" : isError ? "Try again" : "Sign me up!"}
       </Button>

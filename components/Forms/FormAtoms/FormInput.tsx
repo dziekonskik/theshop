@@ -32,7 +32,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
       {type === "textarea" ? (
         <textarea
           id={label}
-          className="border border-b-purple border-l-purple w-full p-3 shadow-sm bg-transparent text-midnight outline-none focus:bg-white"
+          className="border border-b-purple border-l-purple border-t-midnight border-r-midnight w-full p-3 shadow-sm bg-transparent text-midnight outline-none focus:bg-white"
           rows={5}
           cols={50}
           placeholder={placeholder}
