@@ -84,7 +84,6 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
               };
             }
           );
-          console.log({ dataToState });
           setCartItems(dataToState);
           setCartTotal(data.order.total);
         });

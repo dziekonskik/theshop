@@ -21,7 +21,7 @@ export const CartContentListItem = ({
       exit={{ translateX: "50%", opacity: 0, scale: 0 }}
       transition={{ duration: 0.3 }}
       layout
-      className="mb-20 md:mb-24 bg-silver grid grid-cols-12 h-20 md:h-24 relative w-full"
+      className="mb-20 md:mb-24 bg-silver bg-opacity-70 grid grid-cols-12 h-20 md:h-24 relative w-full"
       key={cartItem.product.slug}
     >
       <div className="h-24 w-24 md:h-32 md:w-32 bg-bubble-gum p-5 -translate-y-2 md:-translate-y-4 col-span-2 z-10">
@@ -53,7 +53,7 @@ export const CartContentListItem = ({
       </div>
       <div className="col-span-1 md:col-span-2 flex justify-end items-center mr-4">
         <button
-          className="cursor-pointer border p-2 -translate-y-2 md:-translate-y-4"
+          className="cursor-pointer border p-2 -translate-y-2 md:-translate-y-4 bg-silver"
           onClick={() => deleteOrderItem(cartItem.id)}
         >
           <CloseIcon strokeWidth={2} className="h-5 w-5" />
