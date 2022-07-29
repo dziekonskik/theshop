@@ -11,7 +11,7 @@ export const ProductReviewList = ({ slug }: ProductReviewListProps) => {
   if (!data?.product) return null;
 
   return (
-    <ul className="max-h-[700px] overflow-auto p-4">
+    <ul className="lg:max-h-[700px] overflow-auto scrollbar">
       {data.product.reviews.map((review) => (
         <ProductReviewItem key={review.id} review={review} />
       ))}

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -8,6 +9,8 @@ import {
   GetReviewsForProductSlugDocument,
   GetReviewsForProductSlugQuery,
 } from "../../generated/graphql";
+import { Button } from "../ButtonsAndLinks/Button";
+import useMediaQuery from "../../util/useMediaquery";
 
 const reviewFormSchema = yup.object({
   email: yup.string().email().required(),
@@ -24,6 +27,12 @@ interface ProductReviewProps {
 }
 
 export const ProductReviewForm = (slug: ProductReviewProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const matches = useMediaQuery("(max-width: 1023px)");
+  useEffect(() => {
+    if (matches) setIsMobile(true);
+  }, [matches]);
+
   const [createReview, createdReview] = useCreateProductReviewMutation();
   const [publishReview, { error }] = usePublishReviewByIdMutation({
     // refetchQueries: [
@@ -79,7 +88,6 @@ export const ProductReviewForm = (slug: ProductReviewProps) => {
         },
       },
     });
-    //if !reviewData?.createReview?.id to co ? np ustawić zmienną stanową i wyświetlić ui, czy nasłuchiwać na error?
     publishReview({
       variables: { reviewId: { id: reviewData?.createReview?.id } },
       optimisticResponse: {
@@ -90,7 +98,6 @@ export const ProductReviewForm = (slug: ProductReviewProps) => {
         },
       },
     });
-    //kiedy wyskakuje error w np publishReview bo jak podaje zle id to jest poprostu publish null
     reset();
   });
 
@@ -98,7 +105,7 @@ export const ProductReviewForm = (slug: ProductReviewProps) => {
     return <div>error</div>;
   }
   return (
-    <form onSubmit={onSubmit}>
+    <form className="w-full">
       <FormInput
         label="email"
         type="email"
@@ -134,10 +141,14 @@ export const ProductReviewForm = (slug: ProductReviewProps) => {
         errors={errors}
         placeholder="Description"
       />
-      <input
+      <Button
         type="submit"
-        className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-      />
+        onClick={onSubmit}
+        bgColor="#F4F3FF"
+        fullWidth={isMobile}
+      >
+        Submit
+      </Button>
     </form>
   );
 };

@@ -1,10 +1,8 @@
 import { InferGetStaticPropsType } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { serialize } from "next-mdx-remote/serialize";
 import { ProductDetails } from "../../../components/Product/ProductDetails";
 import { apolloClient } from "../../../graphql/apolloClient";
-import type { InferGetStaticPaths } from "../../../util/types";
 import {
   GetProductBySlugDocument,
   GetProductBySlugQuery,
@@ -12,6 +10,8 @@ import {
   GetProductSlugsQuery,
   GetProductBySlugQueryVariables,
 } from "../../../generated/graphql";
+import { Link } from "../../../components/ButtonsAndLinks/Link";
+import type { InferGetStaticPaths } from "../../../util/types";
 
 const ProductIdPage = ({
   product,
@@ -27,10 +27,8 @@ const ProductIdPage = ({
 
   return (
     <div>
-      <Link href={"/products"}>
-        <a className="shadow-sm border-indigo-500 bg-indigo-600 text-white p-4 mb-14">
-          Wróć na stronę główną
-        </a>
+      <Link href={"/products"} bgColor="#F4F3FF">
+        Go back
       </Link>
       <ProductDetails
         product={{
