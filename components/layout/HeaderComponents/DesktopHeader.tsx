@@ -1,5 +1,7 @@
+import { useSession, signIn, signOut } from "next-auth/react";
 import { Cart } from "../../Cart/Cart";
 import { NavLink } from "../../ButtonsAndLinks/NavLink";
+import { UserIcon, UserLoggedInIcon } from "../../Svg/Feather";
 import type { NavItem } from "../Header";
 
 interface DesktopHeaderProps {
@@ -7,6 +9,7 @@ interface DesktopHeaderProps {
 }
 
 export const DesktopHeader = ({ navItems }: DesktopHeaderProps) => {
+  const session = useSession();
   return (
     <section className="hidden md:flex h-full container mx-auto items-center justify-between px-4">
       <nav className="h-full">
@@ -21,7 +24,21 @@ export const DesktopHeader = ({ navItems }: DesktopHeaderProps) => {
           ))}
         </ul>
       </nav>
-      <Cart />
+      <div className="flex items-center">
+        {session.status === "authenticated" ? (
+          <button onClick={() => signOut()}>
+            <UserLoggedInIcon
+              className="h-6 w-6 mr-5 text-midnight"
+              strokeWidth={2}
+            />
+          </button>
+        ) : (
+          <button onClick={() => signIn()}>
+            <UserIcon className="h-6 w-6 mr-5 text-midnight" strokeWidth={2} />
+          </button>
+        )}
+        <Cart strokeWidth={2} />
+      </div>
     </section>
   );
 };

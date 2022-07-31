@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useCycle, motion, AnimatePresence } from "framer-motion";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { HamburgerButton } from "./HamburgerButton";
 import { Cart } from "../../Cart/Cart";
 import { Portal } from "../../Portal";
 import { NavLink } from "../../ButtonsAndLinks/NavLink";
 import { CartIcon } from "../../Svg";
+import { UserIcon, UserLoggedInIcon } from "../../Svg/Feather";
 import type { NavItem } from "../Header";
 
 interface MobileHeaderProps {
@@ -13,6 +15,7 @@ interface MobileHeaderProps {
 
 export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
   const [open, toggleOpen] = useCycle(false, true);
+  const session = useSession();
 
   useEffect(() => {
     if (open) {
@@ -59,7 +62,18 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
 
   return (
     <section className="relative h-full flex items-center justify-between px-4 md:hidden">
-      <Cart />
+      <div className="flex">
+        <Cart strokeWidth={1} />
+        {session.status === "authenticated" ? (
+          <button onClick={() => signOut()}>
+            <UserLoggedInIcon className="h-6 w-6 ml-5 text-midnight" />
+          </button>
+        ) : (
+          <button onClick={() => signIn()}>
+            <UserIcon className="h-6 w-6 ml-5 text-midnight" />
+          </button>
+        )}
+      </div>
       <HamburgerButton open={open} toggleOpen={toggleOpen} />
       <AnimatePresence exitBeforeEnter>
         {open && (
