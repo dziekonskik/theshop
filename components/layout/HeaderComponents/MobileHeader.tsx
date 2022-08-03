@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Link from "next/link";
 import { useCycle, motion, AnimatePresence } from "framer-motion";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { HamburgerButton } from "./HamburgerButton";
@@ -65,9 +66,11 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
       <div className="flex">
         <Cart strokeWidth={1} />
         {session.status === "authenticated" ? (
-          <button onClick={() => signOut()}>
-            <UserLoggedInIcon className="h-6 w-6 ml-5 text-midnight" />
-          </button>
+          <Link href="/auth/dashboard">
+            <a>
+              <UserLoggedInIcon className="h-6 w-6 ml-5 text-midnight" />
+            </a>
+          </Link>
         ) : (
           <button onClick={() => signIn()}>
             <UserIcon className="h-6 w-6 ml-5 text-midnight" />

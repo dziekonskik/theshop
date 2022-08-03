@@ -1,4 +1,5 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
 import { Cart } from "../../Cart/Cart";
 import { NavLink } from "../../ButtonsAndLinks/NavLink";
 import { UserIcon, UserLoggedInIcon } from "../../Svg/Feather";
@@ -26,12 +27,14 @@ export const DesktopHeader = ({ navItems }: DesktopHeaderProps) => {
       </nav>
       <div className="flex items-center">
         {session.status === "authenticated" ? (
-          <button onClick={() => signOut()}>
-            <UserLoggedInIcon
-              className="h-6 w-6 mr-5 text-midnight"
-              strokeWidth={2}
-            />
-          </button>
+          <Link href="/auth/dashboard">
+            <a>
+              <UserLoggedInIcon
+                className="h-6 w-6 mr-5 text-midnight"
+                strokeWidth={2}
+              />
+            </a>
+          </Link>
         ) : (
           <button onClick={() => signIn()}>
             <UserIcon className="h-6 w-6 mr-5 text-midnight" strokeWidth={2} />
