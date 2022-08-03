@@ -1,6 +1,7 @@
 import * as yup from "yup";
+import "yup-phone";
 
-export const checkoutFormSchema = yup.object({
+export const addressSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
   addressLineOne: yup.string().required(),

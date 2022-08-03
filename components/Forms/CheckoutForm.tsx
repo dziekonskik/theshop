@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
-import { checkoutFormSchema } from "../../util/yupSchema/checkoutFormSchema";
+import { addressSchema } from "../../util/yupSchema/addressSchema";
 import { useElements, useStripe } from "@stripe/react-stripe-js";
 import { ShippingDetails, PaymentDetails } from "./CheckoutFormComponents";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
@@ -23,7 +23,7 @@ import {
 } from "../../util/cartHelpers/cartUtilFunctions";
 import { useCartState } from "../Cart/CartContext";
 
-export type FormData = yup.InferType<typeof checkoutFormSchema>;
+export type FormData = yup.InferType<typeof addressSchema>;
 
 export const CheckoutForm = () => {
   const matches = useMediaQuery("(max-width: 768px)");
@@ -60,7 +60,7 @@ export const CheckoutForm = () => {
     formState: { errors, isValid },
     reset,
   } = useForm<FormData>({
-    resolver: yupResolver(checkoutFormSchema),
+    resolver: yupResolver(addressSchema),
     mode: "onBlur",
     defaultValues: {
       addressLineOne: "",

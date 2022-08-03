@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { checkoutFormSchema } from "./yupSchema/checkoutFormSchema";
+import { addressSchema } from "./yupSchema/addressSchema";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { ProductDetailsFragment } from "../generated/graphql";
 
@@ -22,7 +22,7 @@ export enum PaymentMethods {
   p24 = "p24",
 }
 
-export type UserAddress = yup.InferType<typeof checkoutFormSchema>;
+export type UserAddress = yup.InferType<typeof addressSchema>;
 export interface UserDetails {
   email: string;
   avatar: {
