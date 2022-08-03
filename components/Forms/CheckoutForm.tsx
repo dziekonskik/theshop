@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
+import { checkoutFormSchema } from "../../util/yupSchema/checkoutFormSchema";
 import { useElements, useStripe } from "@stripe/react-stripe-js";
 import { ShippingDetails, PaymentDetails } from "./CheckoutFormComponents";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
@@ -21,16 +22,6 @@ import {
   getCartIdFromStorage,
 } from "../../util/cartHelpers/cartUtilFunctions";
 import { useCartState } from "../Cart/CartContext";
-
-let checkoutFormSchema = yup.object({
-  name: yup.string().required(),
-  email: yup.string().email().required(),
-  addressLineOne: yup.string().required(),
-  addressLineTwo: yup.string().required(),
-  postalCode: yup.string().required(),
-  city: yup.string().required(),
-  phone: yup.string().phone("PL").required(),
-});
 
 export type FormData = yup.InferType<typeof checkoutFormSchema>;
 

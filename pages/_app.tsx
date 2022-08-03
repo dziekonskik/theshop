@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";
 import { Layout } from "../components/layout/Layout";
 import { CartContextProvider } from "../components/Cart/CartContext";
+import { UserContextProvider } from "../components/Dashboard/UserContext";
 import { apolloClient } from "../graphql/apolloClient";
 import SEO from "../next-seo.config";
 import type { AppProps } from "next/app";
@@ -16,14 +17,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
-        <CartContextProvider>
-          <QueryClientProvider client={client}>
-            <Layout>
-              <DefaultSeo {...SEO} />
-              <Component {...pageProps} />
-            </Layout>
-          </QueryClientProvider>
-        </CartContextProvider>
+        <UserContextProvider>
+          <CartContextProvider>
+            <QueryClientProvider client={client}>
+              <Layout>
+                <DefaultSeo {...SEO} />
+                <Component {...pageProps} />
+              </Layout>
+            </QueryClientProvider>
+          </CartContextProvider>
+        </UserContextProvider>
       </ApolloProvider>
     </SessionProvider>
   );

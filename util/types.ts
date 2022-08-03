@@ -1,3 +1,5 @@
+import * as yup from "yup";
+import { checkoutFormSchema } from "./yupSchema/checkoutFormSchema";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { ProductDetailsFragment } from "../generated/graphql";
 
@@ -18,6 +20,18 @@ export interface CartItem {
 export enum PaymentMethods {
   creditCard = "creditCard",
   p24 = "p24",
+}
+
+export type UserAddress = yup.InferType<typeof checkoutFormSchema>;
+export interface UserDetails {
+  nickname: string;
+  avatar: {
+    id: string;
+    url: string;
+    width: number;
+    height: number;
+  };
+  address: UserAddress;
 }
 
 // export type InferGetStaticPathsType<T> = T extends () => Promise<{
