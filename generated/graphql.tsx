@@ -31,6 +31,7 @@ export type Aggregate = {
 /** Asset system model */
 export type Asset = Node & {
   __typename?: 'Asset';
+  avatarPerson: Array<Person>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -71,6 +72,19 @@ export type Asset = Node & {
   url: Scalars['String'];
   /** The file width */
   width?: Maybe<Scalars['Float']>;
+};
+
+
+/** Asset system model */
+export type AssetAvatarPersonArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<PersonOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PersonWhereInput>;
 };
 
 
@@ -181,6 +195,7 @@ export type AssetConnection = {
 };
 
 export type AssetCreateInput = {
+  avatarPerson?: InputMaybe<PersonCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   fileName: Scalars['String'];
   handle: Scalars['String'];
@@ -249,6 +264,9 @@ export type AssetManyWhereInput = {
   OR?: InputMaybe<Array<AssetWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  avatarPerson_every?: InputMaybe<PersonWhereInput>;
+  avatarPerson_none?: InputMaybe<PersonWhereInput>;
+  avatarPerson_some?: InputMaybe<PersonWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -356,6 +374,7 @@ export type AssetTransformationInput = {
 };
 
 export type AssetUpdateInput = {
+  avatarPerson?: InputMaybe<PersonUpdateManyInlineInput>;
   fileName?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
   height?: InputMaybe<Scalars['Float']>;
@@ -495,6 +514,9 @@ export type AssetWhereInput = {
   OR?: InputMaybe<Array<AssetWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  avatarPerson_every?: InputMaybe<PersonWhereInput>;
+  avatarPerson_none?: InputMaybe<PersonWhereInput>;
+  avatarPerson_some?: InputMaybe<PersonWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -6016,6 +6038,7 @@ export type PageInfo = {
 /** User account */
 export type Person = Node & {
   __typename?: 'Person';
+  avatar?: Maybe<Asset>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -6039,6 +6062,12 @@ export type Person = Node & {
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
+};
+
+
+/** User account */
+export type PersonAvatarArgs = {
+  locales?: InputMaybe<Array<Locale>>;
 };
 
 
@@ -6105,6 +6134,7 @@ export type PersonConnection = {
 };
 
 export type PersonCreateInput = {
+  avatar?: InputMaybe<AssetCreateOneInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
   password: Scalars['String'];
@@ -6144,6 +6174,7 @@ export type PersonManyWhereInput = {
   OR?: InputMaybe<Array<PersonWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  avatar?: InputMaybe<AssetWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -6270,6 +6301,7 @@ export enum PersonOrderByInput {
 }
 
 export type PersonUpdateInput = {
+  avatar?: InputMaybe<AssetUpdateOneInlineInput>;
   email?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
 };
@@ -6348,6 +6380,7 @@ export type PersonWhereInput = {
   OR?: InputMaybe<Array<PersonWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  avatar?: InputMaybe<AssetWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -11595,6 +11628,14 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type ConnectAvatarIdToPersonEmailMutationVariables = Exact<{
+  id: Scalars['ID'];
+  email: Scalars['String'];
+}>;
+
+
+export type ConnectAvatarIdToPersonEmailMutation = { __typename?: 'Mutation', updatePerson?: { __typename?: 'Person', avatar?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null };
+
 export type CreatePersonMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -11624,6 +11665,13 @@ export type DeleteOrderItemByIdMutationVariables = Exact<{
 
 export type DeleteOrderItemByIdMutation = { __typename?: 'Mutation', deleteOrderItem?: { __typename?: 'OrderItem', id: string, total: number } | null };
 
+export type DeletePersonAvatarByAvatarIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeletePersonAvatarByAvatarIdMutation = { __typename?: 'Mutation', deleteAsset?: { __typename?: 'Asset', id: string } | null };
+
 export type OrderDetailsFragment = { __typename?: 'Order', id: string, total: number, stripeCheckoutId: string, orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null }> };
 
 export type OrderItemDetailsFragment = { __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', name: string, slug: string, price: number, images: Array<{ __typename?: 'Asset', url: string, width?: number | null, height?: number | null }> } | null };
@@ -11652,6 +11700,13 @@ export type GetOrderTotalAndItemsByIdQueryVariables = Exact<{
 
 
 export type GetOrderTotalAndItemsByIdQuery = { __typename?: 'Query', order?: { __typename?: 'Order', total: number, orderItems: Array<{ __typename?: 'OrderItem', quantity: number, product?: { __typename?: 'Product', slug: string, price: number } | null }> } | null };
+
+export type GetPersonAvatarIdByEmailQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type GetPersonAvatarIdByEmailQuery = { __typename?: 'Query', person?: { __typename?: 'Person', avatar?: { __typename?: 'Asset', id: string } | null } | null };
 
 export type GetPersonCredentialsByEmailQueryVariables = Exact<{
   email: Scalars['String'];
@@ -11770,6 +11825,44 @@ export const ReviewContentFragmentDoc = gql`
   rating
 }
     `;
+export const ConnectAvatarIdToPersonEmailDocument = gql`
+    mutation ConnectAvatarIdToPersonEmail($id: ID!, $email: String!) {
+  updatePerson(where: {email: $email}, data: {avatar: {connect: {id: $id}}}) {
+    avatar {
+      url
+      width
+      height
+    }
+  }
+}
+    `;
+export type ConnectAvatarIdToPersonEmailMutationFn = Apollo.MutationFunction<ConnectAvatarIdToPersonEmailMutation, ConnectAvatarIdToPersonEmailMutationVariables>;
+
+/**
+ * __useConnectAvatarIdToPersonEmailMutation__
+ *
+ * To run a mutation, you first call `useConnectAvatarIdToPersonEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConnectAvatarIdToPersonEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [connectAvatarIdToPersonEmailMutation, { data, loading, error }] = useConnectAvatarIdToPersonEmailMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useConnectAvatarIdToPersonEmailMutation(baseOptions?: Apollo.MutationHookOptions<ConnectAvatarIdToPersonEmailMutation, ConnectAvatarIdToPersonEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ConnectAvatarIdToPersonEmailMutation, ConnectAvatarIdToPersonEmailMutationVariables>(ConnectAvatarIdToPersonEmailDocument, options);
+      }
+export type ConnectAvatarIdToPersonEmailMutationHookResult = ReturnType<typeof useConnectAvatarIdToPersonEmailMutation>;
+export type ConnectAvatarIdToPersonEmailMutationResult = Apollo.MutationResult<ConnectAvatarIdToPersonEmailMutation>;
+export type ConnectAvatarIdToPersonEmailMutationOptions = Apollo.BaseMutationOptions<ConnectAvatarIdToPersonEmailMutation, ConnectAvatarIdToPersonEmailMutationVariables>;
 export const CreatePersonDocument = gql`
     mutation CreatePerson($email: String!, $password: String!) {
   createPerson(data: {email: $email, password: $password}) {
@@ -11904,6 +11997,39 @@ export function useDeleteOrderItemByIdMutation(baseOptions?: Apollo.MutationHook
 export type DeleteOrderItemByIdMutationHookResult = ReturnType<typeof useDeleteOrderItemByIdMutation>;
 export type DeleteOrderItemByIdMutationResult = Apollo.MutationResult<DeleteOrderItemByIdMutation>;
 export type DeleteOrderItemByIdMutationOptions = Apollo.BaseMutationOptions<DeleteOrderItemByIdMutation, DeleteOrderItemByIdMutationVariables>;
+export const DeletePersonAvatarByAvatarIdDocument = gql`
+    mutation DeletePersonAvatarByAvatarId($id: ID!) {
+  deleteAsset(where: {id: $id}) {
+    id
+  }
+}
+    `;
+export type DeletePersonAvatarByAvatarIdMutationFn = Apollo.MutationFunction<DeletePersonAvatarByAvatarIdMutation, DeletePersonAvatarByAvatarIdMutationVariables>;
+
+/**
+ * __useDeletePersonAvatarByAvatarIdMutation__
+ *
+ * To run a mutation, you first call `useDeletePersonAvatarByAvatarIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePersonAvatarByAvatarIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePersonAvatarByAvatarIdMutation, { data, loading, error }] = useDeletePersonAvatarByAvatarIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePersonAvatarByAvatarIdMutation(baseOptions?: Apollo.MutationHookOptions<DeletePersonAvatarByAvatarIdMutation, DeletePersonAvatarByAvatarIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePersonAvatarByAvatarIdMutation, DeletePersonAvatarByAvatarIdMutationVariables>(DeletePersonAvatarByAvatarIdDocument, options);
+      }
+export type DeletePersonAvatarByAvatarIdMutationHookResult = ReturnType<typeof useDeletePersonAvatarByAvatarIdMutation>;
+export type DeletePersonAvatarByAvatarIdMutationResult = Apollo.MutationResult<DeletePersonAvatarByAvatarIdMutation>;
+export type DeletePersonAvatarByAvatarIdMutationOptions = Apollo.BaseMutationOptions<DeletePersonAvatarByAvatarIdMutation, DeletePersonAvatarByAvatarIdMutationVariables>;
 export const GetManyProductsBySlugsDocument = gql`
     query GetManyProductsBySlugs($slug_in: [String!]!) {
   products(where: {slug_in: $slug_in}) {
@@ -12016,6 +12142,43 @@ export function useGetOrderTotalAndItemsByIdLazyQuery(baseOptions?: Apollo.LazyQ
 export type GetOrderTotalAndItemsByIdQueryHookResult = ReturnType<typeof useGetOrderTotalAndItemsByIdQuery>;
 export type GetOrderTotalAndItemsByIdLazyQueryHookResult = ReturnType<typeof useGetOrderTotalAndItemsByIdLazyQuery>;
 export type GetOrderTotalAndItemsByIdQueryResult = Apollo.QueryResult<GetOrderTotalAndItemsByIdQuery, GetOrderTotalAndItemsByIdQueryVariables>;
+export const GetPersonAvatarIdByEmailDocument = gql`
+    query GetPersonAvatarIdByEmail($email: String!) {
+  person(where: {email: $email}) {
+    avatar {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPersonAvatarIdByEmailQuery__
+ *
+ * To run a query within a React component, call `useGetPersonAvatarIdByEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPersonAvatarIdByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPersonAvatarIdByEmailQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetPersonAvatarIdByEmailQuery(baseOptions: Apollo.QueryHookOptions<GetPersonAvatarIdByEmailQuery, GetPersonAvatarIdByEmailQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPersonAvatarIdByEmailQuery, GetPersonAvatarIdByEmailQueryVariables>(GetPersonAvatarIdByEmailDocument, options);
+      }
+export function useGetPersonAvatarIdByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPersonAvatarIdByEmailQuery, GetPersonAvatarIdByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPersonAvatarIdByEmailQuery, GetPersonAvatarIdByEmailQueryVariables>(GetPersonAvatarIdByEmailDocument, options);
+        }
+export type GetPersonAvatarIdByEmailQueryHookResult = ReturnType<typeof useGetPersonAvatarIdByEmailQuery>;
+export type GetPersonAvatarIdByEmailLazyQueryHookResult = ReturnType<typeof useGetPersonAvatarIdByEmailLazyQuery>;
+export type GetPersonAvatarIdByEmailQueryResult = Apollo.QueryResult<GetPersonAvatarIdByEmailQuery, GetPersonAvatarIdByEmailQueryVariables>;
 export const GetPersonCredentialsByEmailDocument = gql`
     query GetPersonCredentialsByEmail($email: String!) {
   person(where: {email: $email}) {

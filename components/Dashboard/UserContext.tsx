@@ -13,9 +13,8 @@ interface UserContextProviderProps {
 }
 
 const initialState: UserDetails = {
-  nickname: "",
+  email: "",
   avatar: {
-    id: "",
     url: "",
     width: 0,
     height: 0,

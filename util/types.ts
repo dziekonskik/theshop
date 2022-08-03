@@ -24,9 +24,8 @@ export enum PaymentMethods {
 
 export type UserAddress = yup.InferType<typeof checkoutFormSchema>;
 export interface UserDetails {
-  nickname: string;
+  email: string;
   avatar: {
-    id: string;
     url: string;
     width: number;
     height: number;
