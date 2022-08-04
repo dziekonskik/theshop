@@ -1,0 +1,5 @@
+mutation SetPersonAddressByEmail($email: String!, $address: [String!]) {
+  updatePerson(where: { email: $email }, data: { address: $address }) {
+    id
+  }
+}

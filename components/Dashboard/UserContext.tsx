@@ -4,6 +4,7 @@ import type { UserDetails } from "../../util/types";
 interface UserContext {
   readonly personDetails: UserDetails;
   readonly setAvatarDetails: (avatar: UserDetails["avatar"]) => void;
+  readonly setPersonAddress: (address: UserDetails["address"]) => void;
 }
 
 const UserContext = createContext<UserContext | null>(null);
@@ -37,8 +38,14 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     setPersonDetails({ ...personDetails, avatar });
   };
 
+  const setPersonAddress = (address: UserDetails["address"]) => {
+    setPersonDetails({ ...personDetails, address });
+  };
+
   return (
-    <UserContext.Provider value={{ personDetails, setAvatarDetails }}>
+    <UserContext.Provider
+      value={{ personDetails, setAvatarDetails, setPersonAddress }}
+    >
       {children}
     </UserContext.Provider>
   );

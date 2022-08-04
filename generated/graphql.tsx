@@ -6038,6 +6038,7 @@ export type PageInfo = {
 /** User account */
 export type Person = Node & {
   __typename?: 'Person';
+  address: Array<Scalars['String']>;
   avatar?: Maybe<Asset>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
@@ -6134,6 +6135,7 @@ export type PersonConnection = {
 };
 
 export type PersonCreateInput = {
+  address?: InputMaybe<Array<Scalars['String']>>;
   avatar?: InputMaybe<AssetCreateOneInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
@@ -6174,6 +6176,16 @@ export type PersonManyWhereInput = {
   OR?: InputMaybe<Array<PersonWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  /** Matches if the field array contains *all* items provided to the filter and order does match */
+  address?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array contains *all* items provided to the filter */
+  address_contains_all?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array does not contain any of the items provided to the filter */
+  address_contains_none?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array contains at least one item provided to the filter */
+  address_contains_some?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array does not contains *all* items provided to the filter or order does not match */
+  address_not?: InputMaybe<Array<Scalars['String']>>;
   avatar?: InputMaybe<AssetWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
@@ -6286,6 +6298,8 @@ export type PersonManyWhereInput = {
 };
 
 export enum PersonOrderByInput {
+  AddressAsc = 'address_ASC',
+  AddressDesc = 'address_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   EmailAsc = 'email_ASC',
@@ -6301,6 +6315,7 @@ export enum PersonOrderByInput {
 }
 
 export type PersonUpdateInput = {
+  address?: InputMaybe<Array<Scalars['String']>>;
   avatar?: InputMaybe<AssetUpdateOneInlineInput>;
   email?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
@@ -6324,6 +6339,7 @@ export type PersonUpdateManyInlineInput = {
 };
 
 export type PersonUpdateManyInput = {
+  address?: InputMaybe<Array<Scalars['String']>>;
   password?: InputMaybe<Scalars['String']>;
 };
 
@@ -6380,6 +6396,16 @@ export type PersonWhereInput = {
   OR?: InputMaybe<Array<PersonWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  /** Matches if the field array contains *all* items provided to the filter and order does match */
+  address?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array contains *all* items provided to the filter */
+  address_contains_all?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array does not contain any of the items provided to the filter */
+  address_contains_none?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array contains at least one item provided to the filter */
+  address_contains_some?: InputMaybe<Array<Scalars['String']>>;
+  /** Matches if the field array does not contains *all* items provided to the filter or order does not match */
+  address_not?: InputMaybe<Array<Scalars['String']>>;
   avatar?: InputMaybe<AssetWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
@@ -11761,6 +11787,14 @@ export type PublishReviewByIdMutationVariables = Exact<{
 
 export type PublishReviewByIdMutation = { __typename?: 'Mutation', publishReview?: { __typename?: 'Review', id: string, content: string, headline: string, name: string, rating?: number | null } | null };
 
+export type SetPersonAddressByEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+  address?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type SetPersonAddressByEmailMutation = { __typename?: 'Mutation', updatePerson?: { __typename?: 'Person', id: string } | null };
+
 export type UpdateOrderMutationVariables = Exact<{
   id: OrderWhereUniqueInput;
   data: OrderUpdateInput;
@@ -12462,6 +12496,40 @@ export function usePublishReviewByIdMutation(baseOptions?: Apollo.MutationHookOp
 export type PublishReviewByIdMutationHookResult = ReturnType<typeof usePublishReviewByIdMutation>;
 export type PublishReviewByIdMutationResult = Apollo.MutationResult<PublishReviewByIdMutation>;
 export type PublishReviewByIdMutationOptions = Apollo.BaseMutationOptions<PublishReviewByIdMutation, PublishReviewByIdMutationVariables>;
+export const SetPersonAddressByEmailDocument = gql`
+    mutation SetPersonAddressByEmail($email: String!, $address: [String!]) {
+  updatePerson(where: {email: $email}, data: {address: $address}) {
+    id
+  }
+}
+    `;
+export type SetPersonAddressByEmailMutationFn = Apollo.MutationFunction<SetPersonAddressByEmailMutation, SetPersonAddressByEmailMutationVariables>;
+
+/**
+ * __useSetPersonAddressByEmailMutation__
+ *
+ * To run a mutation, you first call `useSetPersonAddressByEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetPersonAddressByEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setPersonAddressByEmailMutation, { data, loading, error }] = useSetPersonAddressByEmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useSetPersonAddressByEmailMutation(baseOptions?: Apollo.MutationHookOptions<SetPersonAddressByEmailMutation, SetPersonAddressByEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetPersonAddressByEmailMutation, SetPersonAddressByEmailMutationVariables>(SetPersonAddressByEmailDocument, options);
+      }
+export type SetPersonAddressByEmailMutationHookResult = ReturnType<typeof useSetPersonAddressByEmailMutation>;
+export type SetPersonAddressByEmailMutationResult = Apollo.MutationResult<SetPersonAddressByEmailMutation>;
+export type SetPersonAddressByEmailMutationOptions = Apollo.BaseMutationOptions<SetPersonAddressByEmailMutation, SetPersonAddressByEmailMutationVariables>;
 export const UpdateOrderDocument = gql`
     mutation UpdateOrder($id: OrderWhereUniqueInput!, $data: OrderUpdateInput!) {
   updateOrder(where: $id, data: $data) {

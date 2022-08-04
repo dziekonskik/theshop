@@ -10,7 +10,7 @@ interface UserDetailsProps {
 export const ShippingDetails = ({ register, errors }: UserDetailsProps) => {
   return (
     <section
-      className="md:h-full px-6"
+      className="md:h-full lg:px-2"
       style={{
         backgroundImage: `linear-gradient(
     45deg,
