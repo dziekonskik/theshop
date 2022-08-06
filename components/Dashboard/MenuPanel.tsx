@@ -1,25 +1,30 @@
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import { UserAvatar } from "./UserAvatar";
 import { Button } from "../ButtonsAndLinks/Button";
 
-export const MenuPanel = () => {
+interface MenuPanelProps {
+  children: React.ReactNode;
+}
+
+export const MenuPanel = ({ children }: MenuPanelProps) => {
   const router = useRouter();
   return (
-    <section className="flex-1 max-w-md w-full flex flex-col">
-      <span className="mb-3">
+    <section className="w-full max-w-md">
+      <span className="mb-3 block">
         <Button
           bgColor="#F4F3FF"
           type="button"
           onClick={() => {
-            signOut();
-            router.push("/");
+            signOut({
+              redirect: true,
+              callbackUrl: process.env.NEXT_PUBLIC_BASE_URL,
+            });
           }}
         >
           Logout
         </Button>
       </span>
-      <UserAvatar />
+      {children}
     </section>
   );
 };

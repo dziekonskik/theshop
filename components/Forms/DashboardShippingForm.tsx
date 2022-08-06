@@ -8,12 +8,8 @@ import useMediaQuery from "../../util/useMediaquery";
 import { ShippingDetails } from "./CheckoutFormComponents/ShippingDetails";
 import { addressSchema } from "../../util/yupSchema/addressSchema";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
-import {
-  ArrowDownIcon,
-  ArrowLeftIcon,
-  CubeTransparentIcon,
-  ExclamationIcon,
-} from "../Svg";
+import { Button } from "../ButtonsAndLinks/Button";
+import { ArrowDownIcon, CubeTransparentIcon, ExclamationIcon } from "../Svg";
 import { AnimatedCheckHeroIcon } from "../Svg/Animated/AnimatedCheckHeroIcon";
 import type { RenderedInfo } from "../../pages/auth/dashboard";
 
@@ -94,17 +90,15 @@ export const DashboardShippingForm = ({
   }
   return (
     <div className="lg:px-32">
-      <span className="flex lg:ml-2 md:hidden my-6">
-        <ButtonWithIcon
-          svgMarkup={<ArrowLeftIcon />}
-          side="left"
-          bgColor="#6C63FF"
+      <span className="flex lg:ml-2 lg:hidden my-6">
+        <Button
+          bgColor="#F4F3FF"
           type="button"
           onClick={() => setRenderedInfo(undefined)}
           fullWidth={matches}
         >
           Go back
-        </ButtonWithIcon>
+        </Button>
       </span>
       <ShippingDetails errors={errors} register={register} />
       <span className="flex md:-translate-y-full lg:ml-2 my-6">
