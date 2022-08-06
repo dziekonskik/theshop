@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as bcrypt from "bcrypt";
 import { personAuthApolloClient } from "../../../graphql/apolloClient";
@@ -8,7 +8,7 @@ import {
   GetPersonCredentialsByEmailQueryVariables,
 } from "../../../generated/graphql";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/auth/login",
@@ -49,4 +49,6 @@ export default NextAuth({
       },
     }),
   ],
-});
+};
+
+export default NextAuth(authOptions);

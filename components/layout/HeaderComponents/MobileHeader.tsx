@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useCycle, motion, AnimatePresence } from "framer-motion";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { HamburgerButton } from "./HamburgerButton";
 import { Cart } from "../../Cart/Cart";
 import { Portal } from "../../Portal";
@@ -105,7 +105,19 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
                   </motion.li>
                 ))}
               </ul>
-              <div className="flex-1 w-full flex items-center justify-center">
+              <div className="flex-1 w-full flex flex-col items-center justify-center">
+                <NavLink href="/auth/dashboard">
+                  <motion.span
+                    initial="closed"
+                    exit="closed"
+                    variants={listItemVariants}
+                    animate={open ? "open" : "closed"}
+                    className="flex"
+                    onClick={() => toggleOpen()}
+                  >
+                    <span className="ml-2 mb-4">Dashboard</span>
+                  </motion.span>
+                </NavLink>
                 <NavLink href="/cart">
                   <motion.span
                     initial="closed"

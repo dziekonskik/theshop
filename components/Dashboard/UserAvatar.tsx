@@ -19,7 +19,20 @@ export function isAvatarData(
   );
 }
 
-export const UserAvatar = () => {
+interface UserAvatarProps {
+  avatar:
+    | {
+        __typename?: "Asset" | undefined;
+        url: string;
+        width?: number | null | undefined;
+        height?: number | null | undefined;
+      }
+    | null
+    | undefined;
+  displayName: string;
+}
+
+export const UserAvatar = ({ avatar, displayName }: UserAvatarProps) => {
   const [temporaryAvatarUrl, setTemporaryAvatarUrl] = useState<
     string | undefined
   >();
@@ -55,8 +68,6 @@ export const UserAvatar = () => {
     handleFileUpload
   );
 
-  const { avatar } = personDetails;
-  const displayName = personDetails.address.name || personDetails.email;
   return (
     <article className="flex flex-col ">
       <div className="w-full items-center h-full flex">
@@ -64,11 +75,11 @@ export const UserAvatar = () => {
           className="border-[3px] border-midnight rounded-full w-32 h-32 relative overflow-hidden cursor-pointer mx-6"
           style={{ opacity: isLoading ? 0.7 : 1 }}
         >
-          {avatar.url ? (
+          {avatar?.url ? (
             <Image
               src={avatar.url}
-              width={avatar.width}
-              height={avatar.height}
+              width={avatar.width || 500}
+              height={avatar.height || 500}
               alt="user avatar photo"
               className="rounded-full w-32 h-32"
             />
@@ -78,6 +89,7 @@ export const UserAvatar = () => {
               layout="fill"
               alt="user avatar photo"
               className="object-cover"
+              priority
             />
           )}
         </span>
@@ -88,7 +100,7 @@ export const UserAvatar = () => {
           isSuccess={isSuccess}
         />
       </div>
-      <span className="font-anonymous text-start mt-2 ml-5">
+      <span className="font-anonymous text-start mt-2 ml-5 text-midnight">
         Hello {displayName}!
       </span>
     </article>

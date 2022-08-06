@@ -11741,6 +11741,13 @@ export type GetPersonCredentialsByEmailQueryVariables = Exact<{
 
 export type GetPersonCredentialsByEmailQuery = { __typename?: 'Query', person?: { __typename?: 'Person', id: string, email: string, password: string } | null };
 
+export type GetPersonDetailsByEmailQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type GetPersonDetailsByEmailQuery = { __typename?: 'Query', person?: { __typename?: 'Person', address: Array<string>, avatar?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -12250,6 +12257,46 @@ export function useGetPersonCredentialsByEmailLazyQuery(baseOptions?: Apollo.Laz
 export type GetPersonCredentialsByEmailQueryHookResult = ReturnType<typeof useGetPersonCredentialsByEmailQuery>;
 export type GetPersonCredentialsByEmailLazyQueryHookResult = ReturnType<typeof useGetPersonCredentialsByEmailLazyQuery>;
 export type GetPersonCredentialsByEmailQueryResult = Apollo.QueryResult<GetPersonCredentialsByEmailQuery, GetPersonCredentialsByEmailQueryVariables>;
+export const GetPersonDetailsByEmailDocument = gql`
+    query GetPersonDetailsByEmail($email: String!) {
+  person(where: {email: $email}) {
+    address
+    avatar {
+      url
+      width
+      height
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPersonDetailsByEmailQuery__
+ *
+ * To run a query within a React component, call `useGetPersonDetailsByEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPersonDetailsByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPersonDetailsByEmailQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetPersonDetailsByEmailQuery(baseOptions: Apollo.QueryHookOptions<GetPersonDetailsByEmailQuery, GetPersonDetailsByEmailQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPersonDetailsByEmailQuery, GetPersonDetailsByEmailQueryVariables>(GetPersonDetailsByEmailDocument, options);
+      }
+export function useGetPersonDetailsByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPersonDetailsByEmailQuery, GetPersonDetailsByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPersonDetailsByEmailQuery, GetPersonDetailsByEmailQueryVariables>(GetPersonDetailsByEmailDocument, options);
+        }
+export type GetPersonDetailsByEmailQueryHookResult = ReturnType<typeof useGetPersonDetailsByEmailQuery>;
+export type GetPersonDetailsByEmailLazyQueryHookResult = ReturnType<typeof useGetPersonDetailsByEmailLazyQuery>;
+export type GetPersonDetailsByEmailQueryResult = Apollo.QueryResult<GetPersonDetailsByEmailQuery, GetPersonDetailsByEmailQueryVariables>;
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
