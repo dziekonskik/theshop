@@ -64,7 +64,7 @@ export async function resizeAndUploadImage(
   const form = new FormData();
   form.append("fileUpload", resizedFileBuffer, `${userEmail}.webp`);
 
-  return await fetch(`${process.env.HYGRAPH_CONTENT_API}/upload`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_HYGRAPH_CONTENT_API}/upload`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.HYGRAPH_ASSET_TOKEN}`,
