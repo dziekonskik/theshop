@@ -36,7 +36,6 @@ export const UserAvatar = ({ avatar, displayName }: UserAvatarProps) => {
   const [temporaryAvatarUrl, setTemporaryAvatarUrl] = useState<
     string | undefined
   >();
-  const { personDetails, setAvatarDetails } = usePersonData();
   const { data: sessionData } = useSession();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,11 +51,6 @@ export const UserAvatar = ({ avatar, displayName }: UserAvatarProps) => {
       method: "POST",
       body: formData,
     });
-    const parsedResponse = await response.json();
-
-    if (response.ok && isAvatarData(parsedResponse)) {
-      setAvatarDetails(parsedResponse);
-    }
 
     if (!response.ok) {
       setTemporaryAvatarUrl(undefined);
