@@ -1,2 +1,2 @@
 export * from "./PaymentDetails";
-export * from "./ShippingDetails";
+export * from "./ShippingAddressManager";

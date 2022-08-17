@@ -1,13 +1,16 @@
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { FormInput } from "../FormAtoms/FormInput";
-import type { FormData } from "../CheckoutForm";
+import * as yup from "yup";
+import { addressSchema } from "../../../util/yupSchema/addressSchema";
+
+type AddressDataType = yup.InferType<typeof addressSchema>;
 
 interface UserDetailsProps {
-  register: UseFormRegister<FormData>;
-  errors: FieldErrors<FormData>;
+  register: UseFormRegister<AddressDataType>;
+  errors: FieldErrors<AddressDataType>;
 }
 
-export const ShippingDetails = ({ register, errors }: UserDetailsProps) => {
+export const ShippingForm = ({ register, errors }: UserDetailsProps) => {
   return (
     <section
       className="md:h-full lg:px-2"

@@ -10,3 +10,5 @@ export const addressSchema = yup.object({
   city: yup.string().required(),
   phone: yup.string().phone("PL").required(),
 });
+
+export const emptySchema = yup.object({});

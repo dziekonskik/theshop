@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { usePersonData } from "../Dashboard/UserContext";
 import useMediaQuery from "../../util/useMediaquery";
-import { ShippingDetails } from "./CheckoutFormComponents/ShippingDetails";
+import { ShippingForm } from "./CheckoutFormComponents/ShippingForm";
 import { addressSchema } from "../../util/yupSchema/addressSchema";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
 import { Button } from "../ButtonsAndLinks/Button";
@@ -75,7 +75,7 @@ export const DashboardShippingForm = ({
     mutate(data);
   });
 
-  let iconToDisplay: JSX.Element = <ArrowDownIcon />;
+  let iconToDisplay = <ArrowDownIcon />;
   let textToDiplay = "Save";
   if (isLoading) {
     iconToDisplay = <CubeTransparentIcon className="animate-spin" />;
@@ -100,7 +100,7 @@ export const DashboardShippingForm = ({
           Go back
         </Button>
       </span>
-      <ShippingDetails errors={errors} register={register} />
+      <ShippingForm errors={errors} register={register} />
       <span className="flex md:-translate-y-full lg:ml-2 my-6">
         <ButtonWithIcon
           svgMarkup={iconToDisplay}

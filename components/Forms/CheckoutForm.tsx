@@ -4,9 +4,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
-import { addressSchema } from "../../util/yupSchema/addressSchema";
+import { addressSchema, emptySchema } from "../../util/yupSchema/addressSchema";
 import { useElements, useStripe } from "@stripe/react-stripe-js";
-import { ShippingDetails, PaymentDetails } from "./CheckoutFormComponents";
+import {
+  ShippingAddressManager,
+  PaymentDetails,
+} from "./CheckoutFormComponents";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
 import { ArrowLeftIcon, ArrowRightIcon } from "../Svg";
 import useMediaQuery from "../../util/useMediaquery";
@@ -23,9 +26,12 @@ import {
 } from "../../util/cartHelpers/cartUtilFunctions";
 import { useCartState } from "../Cart/CartContext";
 
-export type FormData = yup.InferType<typeof addressSchema>;
+export type CheckoutFormData = yup.InferType<typeof addressSchema>;
+interface CheckoutFormProps {
+  fetchedUserAddress: string[] | undefined;
+}
 
-export const CheckoutForm = () => {
+export const CheckoutForm = ({ fetchedUserAddress }: CheckoutFormProps) => {
   const matches = useMediaQuery("(max-width: 768px)");
   const [currentStep, setCurrentStep] = useState<"ship" | "pay" | "ship&pay">();
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
@@ -33,6 +39,7 @@ export const CheckoutForm = () => {
   const [paymentState, setPaymentState] = useState<PaymentState>({
     type: "InitialState",
   });
+  const [useFetchedAddress, setUseFetchedAddress] = useState(false);
   const { resetCartState } = useCartState();
   const router = useRouter();
   const elements = useElements();
@@ -54,13 +61,15 @@ export const CheckoutForm = () => {
     }
   }, [router.query.redirect_status, matches]);
 
+  const conditionalValidator = useFetchedAddress ? emptySchema : addressSchema;
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     reset,
-  } = useForm<FormData>({
-    resolver: yupResolver(addressSchema),
+  } = useForm<CheckoutFormData>({
+    resolver: yupResolver(conditionalValidator),
     mode: "onBlur",
     defaultValues: {
       addressLineOne: "",
@@ -72,6 +81,7 @@ export const CheckoutForm = () => {
       postalCode: "",
     },
   });
+
   const onSubmit = handleSubmit(async (data, event) => {
     if (paymentState.type === "LeadingState") return;
     setPaymentState({ type: "LeadingState" });
@@ -80,6 +90,18 @@ export const CheckoutForm = () => {
     const clientSecret = await getClientSecret();
 
     if (!stripe || !elements || !clientSecret) return;
+
+    if (useFetchedAddress && fetchedUserAddress) {
+      data = {
+        name: fetchedUserAddress[0],
+        email: fetchedUserAddress[1],
+        phone: fetchedUserAddress[2],
+        addressLineOne: fetchedUserAddress[3],
+        addressLineTwo: fetchedUserAddress[4],
+        city: fetchedUserAddress[5],
+        postalCode: fetchedUserAddress[6],
+      };
+    }
 
     switch (selectedPaymentMethod) {
       case PaymentMethods.creditCard:
@@ -112,7 +134,13 @@ export const CheckoutForm = () => {
           <div className="md:grid md:grid-cols-2">
             <div className="col-start-1">
               {(currentStep === "ship" || currentStep === "ship&pay") && (
-                <ShippingDetails register={register} errors={errors} />
+                <ShippingAddressManager
+                  register={register}
+                  errors={errors}
+                  fetchedUserAddress={fetchedUserAddress}
+                  useFetchedAddress={useFetchedAddress}
+                  setUseFetchedAddress={setUseFetchedAddress}
+                />
               )}
               <span className="md:hidden flex justify-end px-6 my-6">
                 <ButtonWithIcon

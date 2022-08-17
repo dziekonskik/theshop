@@ -4,12 +4,12 @@ import {
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
 import type { Stripe, StripeElements } from "@stripe/stripe-js";
-import type { FormData } from "../../components/Forms/CheckoutForm";
+import type { CheckoutFormData } from "../../components/Forms/CheckoutForm";
 import type { PaymentState } from "./paymentStateTypes";
 
 export async function handleCardPayment(
   clientSecret: string,
-  data: FormData,
+  data: CheckoutFormData,
   stripe: Stripe,
   elements: StripeElements,
   setPaymentState: React.Dispatch<React.SetStateAction<PaymentState>>,
