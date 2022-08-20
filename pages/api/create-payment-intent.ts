@@ -1,5 +1,7 @@
 import { NextApiHandler } from "next";
 import { Stripe } from "stripe";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
 import { apolloClient } from "../../graphql/apolloClient";
 import {
   GetOrderTotalAndItemsByIdDocument,
@@ -41,13 +43,14 @@ const paymentIntentHandler: NextApiHandler = async (req, res) => {
       error: `Insufficient data to create payment intent orderTotal: ${orderTotal}`,
     });
   }
-
+  const session = await unstable_getServerSession(req, res, authOptions);
   const stripe = new Stripe(stripeSecret, { apiVersion: "2020-08-27" });
   const paymentIntent = stripe.paymentIntents.create({
     amount: orderTotal,
     currency: "EUR",
     payment_method_types: ["card", "p24"],
     metadata: {
+      registered_user_email: session?.user.email || null,
       cartId: cartIdFromStrage,
       ...cartItemsRecord,
     },

@@ -1,0 +1,5 @@
+mutation UpdatePersonOrdersByEmail($email: String!, $orders: [String!]) {
+  updatePerson(where: { email: $email }, data: { orders: $orders }) {
+    id
+  }
+}

@@ -1,3 +1,4 @@
+export * from "./completeOrderWithStripeData";
 export * from "./getClientSecret";
 export * from "./handleCardPayment";
 export * from "./handleP24Payment";
