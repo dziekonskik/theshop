@@ -6,7 +6,7 @@ import {
   CardElementProps,
 } from "@stripe/react-stripe-js";
 import { RssIcon, ChipIcon, EuroIcon } from "../../Svg";
-import type { PaymentState } from "../../../util/stripeElementsHelpers";
+import type { PaymentState } from "../../../util/stripeHelpers";
 
 const commonInputStyles: CardElementProps["options"] = {
   style: {

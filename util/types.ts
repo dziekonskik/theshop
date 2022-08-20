@@ -31,6 +31,7 @@ export interface UserDetails {
     height: number;
   };
   address: UserAddress;
+  orders: string[];
 }
 
 // export type InferGetStaticPathsType<T> = T extends () => Promise<{

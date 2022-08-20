@@ -18,7 +18,7 @@ import {
   handleCardPayment,
   handleP24Payment,
   PaymentState,
-} from "../../util/stripeElementsHelpers";
+} from "../../util/stripeHelpers";
 import { PaymentMethods } from "../../util/types";
 import {
   removeCartFromStorage,
