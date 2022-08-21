@@ -9,10 +9,12 @@ interface InformationPanelProps {
   >;
   renderedInfo: RenderedInfo | undefined;
   address: string[] | undefined;
+  orders: string[] | undefined;
 }
 
 export const InformationPanel = (props: InformationPanelProps) => {
-  const { renderedInfo, setRenderedInfo, address } = props;
+  const { renderedInfo, setRenderedInfo, address, orders } = props;
+
   return (
     <section className="flex-1 flex flex-col lg:max-h-[550px] overflow-y-auto scrollbar">
       {renderedInfo === "UserDetails" && (
@@ -21,7 +23,9 @@ export const InformationPanel = (props: InformationPanelProps) => {
       {renderedInfo === "ShippingAdddress" && (
         <DashboardShippingForm setRenderedInfo={setRenderedInfo} />
       )}
-      {renderedInfo === "OrderHIstory" && <OrderHistory />}
+      {renderedInfo === "OrderHIstory" && (
+        <OrderHistory setRenderedInfo={setRenderedInfo} orderIds={orders} />
+      )}
     </section>
   );
 };

@@ -1,0 +1,15 @@
+query GetPersonOrdersByIds($idArray: [ID]) {
+  orders(where: { id_in: $idArray }) {
+    id
+    updatedAt
+    total
+    orderItems {
+      quantity
+      total
+      product {
+        name
+        price
+      }
+    }
+  }
+}

@@ -11781,6 +11781,13 @@ export type GetPersonOrdersByEmailQueryVariables = Exact<{
 
 export type GetPersonOrdersByEmailQuery = { __typename?: 'Query', person?: { __typename?: 'Person', orders: Array<string> } | null };
 
+export type GetPersonOrdersByIdsQueryVariables = Exact<{
+  idArray?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+}>;
+
+
+export type GetPersonOrdersByIdsQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', id: string, updatedAt: any, total: number, orderItems: Array<{ __typename?: 'OrderItem', quantity: number, total: number, product?: { __typename?: 'Product', name: string, price: number } | null }> }> };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -12374,6 +12381,51 @@ export function useGetPersonOrdersByEmailLazyQuery(baseOptions?: Apollo.LazyQuer
 export type GetPersonOrdersByEmailQueryHookResult = ReturnType<typeof useGetPersonOrdersByEmailQuery>;
 export type GetPersonOrdersByEmailLazyQueryHookResult = ReturnType<typeof useGetPersonOrdersByEmailLazyQuery>;
 export type GetPersonOrdersByEmailQueryResult = Apollo.QueryResult<GetPersonOrdersByEmailQuery, GetPersonOrdersByEmailQueryVariables>;
+export const GetPersonOrdersByIdsDocument = gql`
+    query GetPersonOrdersByIds($idArray: [ID]) {
+  orders(where: {id_in: $idArray}) {
+    id
+    updatedAt
+    total
+    orderItems {
+      quantity
+      total
+      product {
+        name
+        price
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPersonOrdersByIdsQuery__
+ *
+ * To run a query within a React component, call `useGetPersonOrdersByIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPersonOrdersByIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPersonOrdersByIdsQuery({
+ *   variables: {
+ *      idArray: // value for 'idArray'
+ *   },
+ * });
+ */
+export function useGetPersonOrdersByIdsQuery(baseOptions?: Apollo.QueryHookOptions<GetPersonOrdersByIdsQuery, GetPersonOrdersByIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPersonOrdersByIdsQuery, GetPersonOrdersByIdsQueryVariables>(GetPersonOrdersByIdsDocument, options);
+      }
+export function useGetPersonOrdersByIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPersonOrdersByIdsQuery, GetPersonOrdersByIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPersonOrdersByIdsQuery, GetPersonOrdersByIdsQueryVariables>(GetPersonOrdersByIdsDocument, options);
+        }
+export type GetPersonOrdersByIdsQueryHookResult = ReturnType<typeof useGetPersonOrdersByIdsQuery>;
+export type GetPersonOrdersByIdsLazyQueryHookResult = ReturnType<typeof useGetPersonOrdersByIdsLazyQuery>;
+export type GetPersonOrdersByIdsQueryResult = Apollo.QueryResult<GetPersonOrdersByIdsQuery, GetPersonOrdersByIdsQueryVariables>;
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
