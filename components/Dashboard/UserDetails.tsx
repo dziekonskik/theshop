@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ButtonsAndLinks/Button";
 import useMediaQuery from "../../util/useMediaquery";
-import { NothingHere } from "./UserAddress/NothingHere";
+import { NothingHere } from "../NothingHere";
 import { UserAddressDisplay } from "./UserAddress/UserAddressDislpay";
 import dataOkPicture from "../../public/assets/shapes/data_ok.svg";
 import type { RenderedInfo } from "../../pages/auth/dashboard";
@@ -16,7 +16,13 @@ interface UserDetailsProps {
 export const UserDetails = ({ setRenderedInfo, address }: UserDetailsProps) => {
   const matches = useMediaQuery("(max-width: 768px)");
   if (!address?.length) {
-    return <NothingHere setRenderedInfo={setRenderedInfo} matches={matches} />;
+    return (
+      <NothingHere
+        setRenderedInfo={setRenderedInfo}
+        matches={matches}
+        message="Fill out adress details to take advantage from the one click checkout"
+      />
+    );
   }
 
   return (
