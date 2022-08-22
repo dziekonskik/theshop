@@ -34,6 +34,20 @@ export interface UserDetails {
   orders: string[];
 }
 
+export type OrderHistoryItem = {
+  id: string;
+  updatedAt: any;
+  total: number;
+  orderItems: {
+    quantity: number;
+    total: number;
+    product: {
+      name: string;
+      price: number;
+    };
+  }[];
+};
+
 // export type InferGetStaticPathsType<T> = T extends () => Promise<{
 //   paths: Array<{ params: infer R }>;
 // }>
