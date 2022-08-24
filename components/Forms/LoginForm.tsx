@@ -8,12 +8,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormInput } from "./FormAtoms/FormInput";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
 import { LoginIcon } from "../Svg/Feather";
+import { CubeTransparentIcon } from "../Svg";
 import { registerUserFormSchema } from "../../util/yupSchema/registerUserFormSchema";
 
 type FormData = yup.InferType<typeof registerUserFormSchema>;
 
 export const LoginForm = () => {
   const [loginError, setLoginError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const {
@@ -31,10 +33,13 @@ export const LoginForm = () => {
   });
 
   const onSubmit = handleSubmit(async (data, event) => {
+    setIsLoading(true);
     signIn("credentials", { ...data, redirect: false }).then((response) => {
       if (response?.ok) {
+        setIsLoading(false);
         router.push("/auth/dashboard");
       } else {
+        setIsLoading(false);
         setLoginError("Incorrect credentials");
         reset();
       }
@@ -64,7 +69,13 @@ export const LoginForm = () => {
         onClick={onSubmit}
         bgColor="#6C63FF"
         side="right"
-        svgMarkup={<LoginIcon />}
+        svgMarkup={
+          isLoading ? (
+            <CubeTransparentIcon className="animate-spin" />
+          ) : (
+            <LoginIcon />
+          )
+        }
         type="submit"
         fullWidth
       >
