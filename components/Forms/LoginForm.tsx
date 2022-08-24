@@ -33,7 +33,7 @@ export const LoginForm = () => {
   const onSubmit = handleSubmit(async (data, event) => {
     signIn("credentials", { ...data, redirect: false }).then((response) => {
       if (response?.ok) {
-        router.push("/products");
+        router.push("/auth/dashboard");
       } else {
         setLoginError("Incorrect credentials");
         reset();
