@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { Button } from "../ButtonsAndLinks/Button";
 
@@ -7,7 +6,6 @@ interface MenuPanelProps {
 }
 
 export const MenuPanel = ({ children }: MenuPanelProps) => {
-  const router = useRouter();
   return (
     <section className="w-full max-w-md">
       <span className="mb-3 block">

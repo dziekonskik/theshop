@@ -13,7 +13,7 @@ const NewsletterFormSchema = yup.object({
   email: yup.string().email().required(),
 });
 
-type CheckoutFormData = yup.InferType<typeof NewsletterFormSchema>;
+type NewsletterFormData = yup.InferType<typeof NewsletterFormSchema>;
 
 interface NewsletterFormProps {
   className?: string;
@@ -31,7 +31,7 @@ export const NewsletterForm = ({ className }: NewsletterFormProps) => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<CheckoutFormData>({
+  } = useForm<NewsletterFormData>({
     resolver: yupResolver(NewsletterFormSchema),
     mode: "onBlur",
   });
