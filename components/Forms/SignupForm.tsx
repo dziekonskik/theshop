@@ -1,32 +1,23 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormInput } from "./FormAtoms/FormInput";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
-import { CubeTransparentIcon } from "../Svg";
+import { CubeTransparentIcon, ExclamationIcon } from "../Svg";
+import { TargetIcon } from "../Svg/Feather/TargetIcon";
+import { AnimatedCheckHeroIcon } from "../Svg/Animated";
 import { registerUserFormSchema } from "../../util/yupSchema/registerUserFormSchema";
 
-type FormData = yup.InferType<typeof registerUserFormSchema>;
+type RegisterUserFormData = yup.InferType<typeof registerUserFormSchema>;
 
 export const SignupForm = () => {
   const [emailExistsError, setEmailExistsError] = useState("");
+  const router = useRouter();
 
-  const {
-    reset,
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<FormData>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    resolver: yupResolver(registerUserFormSchema),
-    mode: "onBlur",
-  });
-
-  const onSubmit = handleSubmit(async (data) => {
+  const handleUserSignupMutation = async (data: RegisterUserFormData) => {
     const response = await fetch("/api/signup", {
       method: "POST",
       headers: {
@@ -41,8 +32,49 @@ export const SignupForm = () => {
       const { error } = JSON.parse(await response.clone().text());
       setEmailExistsError(error);
       reset();
+      throw new Error(error);
     }
+  };
+
+  const { mutate, isLoading, isError, isSuccess } = useMutation(
+    "user-signup",
+    handleUserSignupMutation
+  );
+
+  const {
+    reset,
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<RegisterUserFormData>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: yupResolver(registerUserFormSchema),
+    mode: "onBlur",
   });
+
+  const onSubmit = handleSubmit(async (data) => mutate(data));
+
+  let svgIcon = <TargetIcon />;
+  let buttonText = "Sign up";
+  if (isLoading) {
+    svgIcon = <CubeTransparentIcon className="animate-spin" />;
+  }
+  if (isSuccess) {
+    svgIcon = (
+      <AnimatedCheckHeroIcon
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+      />
+    );
+    buttonText = "Redirecting to login...";
+    window.setTimeout(() => router.push("/auth/login"), 1500);
+  }
+  if (isError) {
+    svgIcon = <ExclamationIcon />;
+  }
 
   return (
     <form className="max-w-md mx-auto my-auto w-full mt-20 lg:mt-10">
@@ -67,11 +99,11 @@ export const SignupForm = () => {
         onClick={onSubmit}
         bgColor="#6C63FF"
         side="right"
-        svgMarkup={<CubeTransparentIcon />}
+        svgMarkup={svgIcon}
         type="submit"
         fullWidth
       >
-        Sign up
+        {buttonText}
       </ButtonWithIcon>
     </form>
   );

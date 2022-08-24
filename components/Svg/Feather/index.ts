@@ -4,3 +4,4 @@ export * from "./LinkedinIcon";
 export * from "./LoginIcon";
 export * from "./UserIcon";
 export * from "./UserLoggedInIcon";
+export * from "./TargetIcon";
