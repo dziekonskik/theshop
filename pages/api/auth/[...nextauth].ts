@@ -25,6 +25,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log({ credentials });
         if (!credentials?.email) return null;
 
         const user = await personAuthApolloClient.query<
@@ -37,12 +38,15 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
+        console.log({ user: user.data.person?.id });
+
         if (!user.data.person?.id) return null;
 
         const arePasswordsEqual = await bcrypt.compare(
           credentials.password,
           user.data.person.password
         );
+        console.log({ arePasswordsEqual });
         if (!arePasswordsEqual) return null;
 
         return user.data.person;
