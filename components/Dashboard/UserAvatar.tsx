@@ -2,7 +2,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useMutation } from "react-query";
-import { usePersonData } from "../Dashboard/UserContext";
 import { UploadButton } from "../ButtonsAndLinks/UploadButton";
 
 export function isAvatarData(

@@ -3,7 +3,6 @@ import { useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { usePersonData } from "../Dashboard/UserContext";
 import useMediaQuery from "../../util/useMediaquery";
 import { ShippingForm } from "./CheckoutFormComponents/ShippingForm";
 import { addressSchema } from "../../util/yupSchema/addressSchema";
@@ -24,7 +23,6 @@ interface DashboardShippingFormProps {
 export const DashboardShippingForm = ({
   setRenderedInfo,
 }: DashboardShippingFormProps) => {
-  const { setPersonAddress } = usePersonData();
   const matches = useMediaQuery("(max-width: 768px)");
   const session = useSession();
   const registeredUserEmail = session.data?.user.email;
@@ -58,7 +56,6 @@ export const DashboardShippingForm = ({
     });
 
     if (response.ok) {
-      setPersonAddress(data);
       reset();
     }
     if (!response.ok) {
