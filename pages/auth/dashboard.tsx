@@ -31,7 +31,7 @@ const DashboardPage = ({
     return <AccessDenied />;
   }
 
-  const { address, userEmail, avatar } = sessionData;
+  const { address, userEmail, avatar, orders } = sessionData;
   const menuPanelVisible = !matches || (matches && !renderedInfo);
   const userDisplayName = address?.length ? address[0] : userEmail;
   return (
@@ -46,6 +46,7 @@ const DashboardPage = ({
         renderedInfo={renderedInfo}
         setRenderedInfo={setRenderedInfo}
         address={address}
+        orders={orders}
       />
     </div>
   );
@@ -65,6 +66,7 @@ interface GetServerSidePropsType {
       | null
       | undefined;
     userEmail: string;
+    orders: string[] | undefined;
   } | null;
 }
 
@@ -97,7 +99,13 @@ export const getServerSideProps: GetServerSideProps<
 
   const address = data.person?.address;
   const avatar = data.person?.avatar;
-  const sessionData = { address, avatar, userEmail: session.user.email };
+  const orders = data.person?.orders;
+  const sessionData = {
+    address,
+    avatar,
+    orders,
+    userEmail: session.user.email,
+  };
 
   return {
     props: { sessionData },
