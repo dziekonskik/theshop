@@ -1,5 +1,5 @@
 import { P24BankElement } from "@stripe/react-stripe-js";
-import type { PaymentState } from "../../../util/stripeElementsHelpers";
+import type { PaymentState } from "../../../util/stripeHelpers";
 
 interface P24ComponentProps {
   setPaymentState: React.Dispatch<React.SetStateAction<PaymentState>>;

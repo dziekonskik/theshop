@@ -1,5 +1,6 @@
 mutation UpdateOrder($id: OrderWhereUniqueInput!, $data: OrderUpdateInput!) {
   updateOrder(where: $id, data: $data) {
+    id
     total
   }
 }

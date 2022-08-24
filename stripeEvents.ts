@@ -2,7 +2,10 @@ import type { Stripe } from "stripe";
 
 type StripeWebhookEventTypes = Stripe.WebhookEndpointCreateParams.EnabledEvent;
 
-type StripeWebhookEvent<EventType extends StripeWebhookEventTypes, Payload> = {
+export type StripeWebhookEvent<
+  EventType extends StripeWebhookEventTypes,
+  Payload
+> = {
   type: EventType;
   data: {
     object: Payload;

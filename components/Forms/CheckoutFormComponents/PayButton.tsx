@@ -1,4 +1,4 @@
-import type { PaymentState } from "../../../util/stripeElementsHelpers";
+import type { PaymentState } from "../../../util/stripeHelpers";
 import {
   ExclamationIcon,
   GiftIcon,

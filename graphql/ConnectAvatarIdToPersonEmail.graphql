@@ -1,0 +1,12 @@
+mutation ConnectAvatarIdToPersonEmail($id: ID!, $email: String!) {
+  updatePerson(
+    where: { email: $email }
+    data: { avatar: { connect: { id: $id } } }
+  ) {
+    avatar {
+      url
+      width
+      height
+    }
+  }
+}

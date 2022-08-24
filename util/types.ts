@@ -1,3 +1,5 @@
+import * as yup from "yup";
+import { addressSchema } from "./yupSchema/addressSchema";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { ProductDetailsFragment } from "../generated/graphql";
 
@@ -19,6 +21,32 @@ export enum PaymentMethods {
   creditCard = "creditCard",
   p24 = "p24",
 }
+
+export type UserAddress = yup.InferType<typeof addressSchema>;
+export interface UserDetails {
+  email: string;
+  avatar: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  address: UserAddress;
+  orders: string[];
+}
+
+export type OrderHistoryItem = {
+  id: string;
+  updatedAt: any;
+  total: number;
+  orderItems: {
+    quantity: number;
+    total: number;
+    product: {
+      name: string;
+      price: number;
+    };
+  }[];
+};
 
 // export type InferGetStaticPathsType<T> = T extends () => Promise<{
 //   paths: Array<{ params: infer R }>;

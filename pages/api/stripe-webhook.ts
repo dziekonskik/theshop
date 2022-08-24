@@ -1,12 +1,11 @@
 import { NextApiHandler } from "next";
 import { buffer } from "micro";
 import { Stripe } from "stripe";
-import { apolloClient } from "../../graphql/apolloClient";
+import { completeOrderWithStripeData } from "../../util/stripeHelpers";
 import {
-  UpdateOrderDocument,
-  UpdateOrderMutation,
-  UpdateOrderMutationVariables,
-} from "../../generated/graphql";
+  getUserOrdersArrayByEmail,
+  updatePersonOrdersByEmail,
+} from "../../util/graphqlHelpers";
 import type { StripeWebhookEvents } from "../../stripeEvents";
 
 export const config = {
@@ -44,22 +43,15 @@ const stripeWebhookHandler: NextApiHandler = async (req, res) => {
 
   switch (event.type) {
     case "charge.succeeded":
-      await apolloClient.mutate<
-        UpdateOrderMutation,
-        UpdateOrderMutationVariables
-      >({
-        mutation: UpdateOrderDocument,
-        variables: {
-          id: {
-            id: event.data.object.metadata.cartId,
-          },
-          data: {
-            stripeCheckoutId: event.data.object.id,
-            email: event.data.object.receipt_email,
-          },
-        },
-      });
-      // TODO: wyślij mailem w załączniku potwiuerdzenie: receipt_url w data object
+      const registeredEmail = event.data.object.metadata.registered_user_email;
+      const newOrderId = await completeOrderWithStripeData(event);
+      if (registeredEmail && newOrderId) {
+        const orderIdsArray = await getUserOrdersArrayByEmail(registeredEmail);
+        updatePersonOrdersByEmail(registeredEmail, [
+          ...orderIdsArray,
+          newOrderId,
+        ]);
+      }
       break;
   }
   res.status(204).end();

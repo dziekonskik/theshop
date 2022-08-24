@@ -16,6 +16,7 @@ module.exports = {
       metal: "#565584",
       platinium: "#E7E7E7",
       sunny: "#F4E13E",
+      happy: "#BDF298",
       morning: "#E3E9E9",
       bermuda: "#A4E3D8",
       "bermuda-intense": "#78DCCA",

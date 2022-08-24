@@ -3,7 +3,7 @@ import Image from "next/image";
 import { CreditCardComponent, P24Component } from "../StripeElements";
 import { PayButton } from "./PayButton";
 import { PaymentMethods } from "../../../util/types";
-import type { PaymentState } from "../../../util/stripeElementsHelpers";
+import type { PaymentState } from "../../../util/stripeHelpers";
 
 interface PaymentDetailsProps {
   selectedPaymentMethod: PaymentMethods;

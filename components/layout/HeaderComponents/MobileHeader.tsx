@@ -1,10 +1,13 @@
 import { useEffect } from "react";
+import Link from "next/link";
 import { useCycle, motion, AnimatePresence } from "framer-motion";
+import { useSession, signIn } from "next-auth/react";
 import { HamburgerButton } from "./HamburgerButton";
 import { Cart } from "../../Cart/Cart";
 import { Portal } from "../../Portal";
 import { NavLink } from "../../ButtonsAndLinks/NavLink";
 import { CartIcon } from "../../Svg";
+import { UserIcon, UserLoggedInIcon } from "../../Svg/Feather";
 import type { NavItem } from "../Header";
 
 interface MobileHeaderProps {
@@ -13,6 +16,7 @@ interface MobileHeaderProps {
 
 export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
   const [open, toggleOpen] = useCycle(false, true);
+  const session = useSession();
 
   useEffect(() => {
     if (open) {
@@ -59,7 +63,20 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
 
   return (
     <section className="relative h-full flex items-center justify-between px-4 md:hidden">
-      <Cart />
+      <div className="flex">
+        <Cart strokeWidth={1} />
+        {session.status === "authenticated" ? (
+          <Link href="/auth/dashboard">
+            <a>
+              <UserLoggedInIcon className="h-6 w-6 ml-5 text-midnight" />
+            </a>
+          </Link>
+        ) : (
+          <button onClick={() => signIn()}>
+            <UserIcon className="h-6 w-6 ml-5 text-midnight" />
+          </button>
+        )}
+      </div>
       <HamburgerButton open={open} toggleOpen={toggleOpen} />
       <AnimatePresence exitBeforeEnter>
         {open && (
@@ -88,7 +105,19 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
                   </motion.li>
                 ))}
               </ul>
-              <div className="flex-1 w-full flex items-center justify-center">
+              <div className="flex-1 w-full flex flex-col items-center justify-center">
+                <NavLink href="/auth/dashboard">
+                  <motion.span
+                    initial="closed"
+                    exit="closed"
+                    variants={listItemVariants}
+                    animate={open ? "open" : "closed"}
+                    className="flex"
+                    onClick={() => toggleOpen()}
+                  >
+                    <span className="ml-2 mb-4">Dashboard</span>
+                  </motion.span>
+                </NavLink>
                 <NavLink href="/cart">
                   <motion.span
                     initial="closed"

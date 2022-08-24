@@ -1,0 +1,11 @@
+query GetPersonDetailsByEmail($email: String!) {
+  person(where: { email: $email }) {
+    address
+    orders
+    avatar {
+      url
+      width
+      height
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import type { Stripe } from "@stripe/stripe-js";
-import type { FormData } from "../../components/Forms/CheckoutForm";
+import type { CheckoutFormData } from "../../components/Forms/CheckoutForm";
 
 export async function handleP24Payment(
   clientSecret: string,
-  data: FormData,
+  data: CheckoutFormData,
   stripe: Stripe
 ) {
   await stripe.confirmP24Payment(clientSecret, {
