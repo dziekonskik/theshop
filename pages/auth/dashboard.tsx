@@ -96,6 +96,7 @@ export const getServerSideProps: GetServerSideProps<
     variables: {
       email: session.user.email,
     },
+    fetchPolicy: "no-cache",
   });
 
   const address = data.person?.address;

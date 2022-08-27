@@ -30,6 +30,7 @@ const SignupHandler: NextApiHandler = async (req, res) => {
     variables: {
       email,
     },
+    fetchPolicy: "no-cache",
   });
 
   if (uxistingUser.data.person?.id) {

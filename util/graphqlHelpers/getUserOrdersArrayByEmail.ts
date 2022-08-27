@@ -12,6 +12,7 @@ export async function getUserOrdersArrayByEmail(email: string) {
   >({
     query: GetPersonOrdersByEmailDocument,
     variables: { email },
+    fetchPolicy: "no-cache",
   });
   return data.person?.orders || [];
 }
