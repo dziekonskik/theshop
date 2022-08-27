@@ -49,7 +49,8 @@ const stripeWebhookHandler: NextApiHandler = async (req, res) => {
       console.log({ place: "webhook", registeredEmail, newOrderId });
       if (registeredEmail && newOrderId) {
         const orderIdsArray = await getUserOrdersArrayByEmail(registeredEmail);
-        updatePersonOrdersByEmail(registeredEmail, [
+        console.log({ orderIdsArray });
+        await updatePersonOrdersByEmail(registeredEmail, [
           ...orderIdsArray,
           newOrderId,
         ]);
