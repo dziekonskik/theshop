@@ -68,6 +68,8 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  console.log({ chekcoutpagesession: session });
+
   const { data } = await personAuthApolloClient.query<
     GetPersonDetailsByEmailQuery,
     GetPersonDetailsByEmailQueryVariables
@@ -76,6 +78,7 @@ export const getServerSideProps: GetServerSideProps<
     variables: {
       email: session.user.email,
     },
+    fetchPolicy: "no-cache",
   });
 
   const address = data.person?.address;

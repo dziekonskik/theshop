@@ -79,7 +79,7 @@ export const getServerSideProps: GetServerSideProps<
     authOptions
   );
 
-  console.log({ session });
+  console.log({ dashboradsession: session });
   if (!session?.user.email) {
     return {
       props: {
@@ -108,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<
     userEmail: session.user.email,
   };
 
-  console.log({ sessionData });
+  console.log({ dashsesiondata: sessionData });
 
   return {
     props: { sessionData },

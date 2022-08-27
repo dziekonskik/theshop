@@ -32,7 +32,7 @@ const CartPage = () => {
         variables: {
           id: cartIdFromStorage,
         },
-        fetchPolicy: "network-only",
+        fetchPolicy: "no-cache",
       })
       .then(({ data }) => {
         const orderItemsArray = data?.order?.orderItems;

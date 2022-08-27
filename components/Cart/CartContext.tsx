@@ -62,7 +62,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         .query<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>({
           query: GetOrderDetailsByIdDocument,
           variables: { id: cartIdFromStorage },
-          fetchPolicy: "network-only",
+          fetchPolicy: "no-cache",
         })
         .then(({ data }) => {
           if (!data.order?.orderItems) return;
