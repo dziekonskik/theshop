@@ -28,6 +28,7 @@ const paymentIntentHandler: NextApiHandler = async (req, res) => {
     variables: {
       id: cartIdFromStrage,
     },
+    fetchPolicy: "network-only",
   });
   const cartItemsRecord: Record<string, number> = {};
   data.order?.orderItems.forEach((cartEntry) => {
@@ -44,6 +45,7 @@ const paymentIntentHandler: NextApiHandler = async (req, res) => {
     });
   }
   const session = await unstable_getServerSession(req, res, authOptions);
+  console.log({ cpi: session });
   const stripe = new Stripe(stripeSecret, { apiVersion: "2020-08-27" });
   const paymentIntent = stripe.paymentIntents.create({
     amount: orderTotal,

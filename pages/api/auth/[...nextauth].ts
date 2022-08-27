@@ -36,6 +36,7 @@ export const authOptions: NextAuthOptions = {
           variables: {
             email: credentials.email,
           },
+          fetchPolicy: "network-only",
         });
 
         console.log({ user: user.data.person?.id });
