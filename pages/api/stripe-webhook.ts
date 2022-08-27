@@ -45,6 +45,7 @@ const stripeWebhookHandler: NextApiHandler = async (req, res) => {
     case "charge.succeeded":
       const registeredEmail = event.data.object.metadata.registered_user_email;
       const newOrderId = await completeOrderWithStripeData(event);
+      console.log({ place: "webhook", registeredEmail, newOrderId });
       if (registeredEmail && newOrderId) {
         const orderIdsArray = await getUserOrdersArrayByEmail(registeredEmail);
         updatePersonOrdersByEmail(registeredEmail, [
