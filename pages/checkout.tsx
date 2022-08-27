@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<
   const address = data.person?.address;
   const avatar = data.person?.avatar;
   const sessionData = { address, avatar, userEmail: session.user.email };
-  console.log({ chekcoutpagesessiondata: sessionData });
+
   return {
     props: { sessionData },
   };

@@ -45,7 +45,6 @@ const paymentIntentHandler: NextApiHandler = async (req, res) => {
     });
   }
   const session = await unstable_getServerSession(req, res, authOptions);
-  console.log("create order intent session", session);
   const stripe = new Stripe(stripeSecret, { apiVersion: "2020-08-27" });
   const paymentIntent = stripe.paymentIntents.create({
     amount: orderTotal,

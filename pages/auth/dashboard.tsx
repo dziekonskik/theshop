@@ -79,7 +79,6 @@ export const getServerSideProps: GetServerSideProps<
     authOptions
   );
 
-  console.log({ dashboradsession: session });
   if (!session?.user.email) {
     return {
       props: {
@@ -108,8 +107,6 @@ export const getServerSideProps: GetServerSideProps<
     orders,
     userEmail: session.user.email,
   };
-
-  console.log({ dashsesiondata: sessionData });
 
   return {
     props: { sessionData },
