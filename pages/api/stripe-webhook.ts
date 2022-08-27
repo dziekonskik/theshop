@@ -41,6 +41,7 @@ const stripeWebhookHandler: NextApiHandler = async (req, res) => {
       .send(`Webhook Error: ${err instanceof Error && err.message}`);
   }
 
+  console.log("webhook fired");
   switch (event.type) {
     case "charge.succeeded":
       const registeredEmail = event.data.object.metadata.registered_user_email;
