@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormInput } from "./FormAtoms/FormInput";
@@ -11,19 +12,31 @@ import { LoginIcon } from "../Svg/Feather";
 import { CubeTransparentIcon } from "../Svg";
 import { registerUserFormSchema } from "../../util/yupSchema/registerUserFormSchema";
 
-type FormData = yup.InferType<typeof registerUserFormSchema>;
+type LoginFormData = yup.InferType<typeof registerUserFormSchema>;
 
 export const LoginForm = () => {
   const [loginError, setLoginError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  const handleLogin = async (data: LoginFormData) => {
+    signIn("credentials", { ...data, redirect: false }).then((response) => {
+      if (response?.ok) {
+        router.push("/auth/dashboard");
+      } else {
+        setLoginError("Incorrect credentials");
+        reset();
+      }
+    });
+  };
+
+  const { mutate, isLoading } = useMutation("login", handleLogin);
 
   const {
     reset,
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormData>({
+  } = useForm<LoginFormData>({
     defaultValues: {
       email: "",
       password: "",
@@ -32,19 +45,7 @@ export const LoginForm = () => {
     mode: "onBlur",
   });
 
-  const onSubmit = handleSubmit(async (data, event) => {
-    setIsLoading(true);
-    signIn("credentials", { ...data, redirect: false }).then((response) => {
-      if (response?.ok) {
-        setIsLoading(false);
-        router.push("/auth/dashboard");
-      } else {
-        setIsLoading(false);
-        setLoginError("Incorrect credentials");
-        reset();
-      }
-    });
-  });
+  const onSubmit = handleSubmit(async (data) => mutate(data));
 
   return (
     <form className="max-w-md mx-auto my-auto w-full mt-20 lg:mt-10">
