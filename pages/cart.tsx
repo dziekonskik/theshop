@@ -24,14 +24,15 @@ const CartPage = () => {
       return;
     }
     apolloClient
-      .mutate<
+      .query<
         GetOrderTotalAndItemsByIdQuery,
         GetOrderTotalAndItemsByIdQueryVariables
       >({
-        mutation: GetOrderTotalAndItemsByIdDocument,
+        query: GetOrderTotalAndItemsByIdDocument,
         variables: {
           id: cartIdFromStorage,
         },
+        fetchPolicy: "network-only",
       })
       .then(({ data }) => {
         const orderItemsArray = data?.order?.orderItems;
