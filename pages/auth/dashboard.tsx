@@ -8,55 +8,33 @@ import {
   GetPersonDetailsByEmailQuery,
   GetPersonDetailsByEmailQueryVariables,
 } from "../../generated/graphql";
-import { usePersonData } from "../../contexts/UserContext";
 import { MenuPanel } from "../../components/Dashboard/MenuPanel";
 import { InformationPanel } from "../../components/Dashboard/InformationPanel";
 import { UserAvatar } from "../../components/Dashboard/UserAvatar";
 import { DashboardNavigation } from "../../components/Dashboard/DashboardNavigation";
 import { AccessDenied } from "../../components/Dashboard/AccessDenied";
+import { useSetPersonAddressToContext } from "../../util/useSetPersonAddress";
 import useMediaQuery from "../../util/useMediaquery";
+import type { FetchedUserData } from "../../util/types";
 
 export type RenderedInfo = "UserDetails" | "ShippingAdddress" | "OrderHIstory";
 
 const DashboardPage = ({
-  sessionData,
+  userData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [renderedInfo, setRenderedInfo] = useState<RenderedInfo>();
   const matches = useMediaQuery("(max-width: 768px)");
-  const { personDetails, setPersonAddress } = usePersonData();
+  useSetPersonAddressToContext(userData);
 
   useEffect(() => {
     if (!matches) setRenderedInfo("UserDetails");
   }, [matches]);
 
-  useEffect(() => {
-    if (sessionData?.address && !personDetails.address.name) {
-      const [
-        name,
-        email,
-        phone,
-        addressLineOne,
-        addressLineTwo,
-        city,
-        postalCode,
-      ] = sessionData?.address;
-      setPersonAddress({
-        name,
-        email,
-        phone,
-        addressLineOne,
-        addressLineTwo,
-        city,
-        postalCode,
-      });
-    }
-  }, [sessionData?.address, personDetails.address.name, setPersonAddress]);
-
-  if (!sessionData) {
+  if (!userData) {
     return <AccessDenied />;
   }
 
-  const { address, userEmail, avatar, orders } = sessionData;
+  const { address, userEmail, avatar, orders } = userData;
   const menuPanelVisible = !matches || (matches && !renderedInfo);
   const userDisplayName = address?.length ? address[0] : userEmail;
   return (
@@ -80,17 +58,7 @@ const DashboardPage = ({
 export default DashboardPage;
 
 interface GetServerSidePropsType {
-  sessionData?: {
-    address: string[] | null;
-    avatar: {
-      url: string;
-      width?: number | null | undefined;
-      height?: number | null | undefined;
-    } | null;
-
-    userEmail: string;
-    orders: string[] | null;
-  } | null;
+  userData?: FetchedUserData;
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -124,7 +92,7 @@ export const getServerSideProps: GetServerSideProps<
   const address = data.person?.address || null;
   const avatar = data.person?.avatar || null;
   const orders = data.person?.orders || null;
-  const sessionData = {
+  const userData = {
     address,
     avatar,
     orders,
@@ -132,6 +100,6 @@ export const getServerSideProps: GetServerSideProps<
   };
 
   return {
-    props: { sessionData },
+    props: { userData },
   };
 };

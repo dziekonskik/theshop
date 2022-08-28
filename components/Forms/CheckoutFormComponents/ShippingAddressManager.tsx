@@ -9,13 +9,13 @@ import { ShippingForm } from "./ShippingForm";
 import { UserAddressDisplay } from "../../Dashboard/UserAddress/UserAddressDislpay";
 import * as yup from "yup";
 import { addressSchema } from "../../../util/yupSchema/addressSchema";
+import { usePersonData } from "../../../contexts/UserContext";
 
 type AddressDataType = yup.InferType<typeof addressSchema>;
 
 interface ShippingAddressManagerProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
-  fetchedUserAddress: string[] | undefined;
   useFetchedAddress: boolean;
   setUseFetchedAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -23,13 +23,14 @@ interface ShippingAddressManagerProps<T extends FieldValues> {
 export const ShippingAddressManager = ({
   errors,
   register,
-  fetchedUserAddress,
   useFetchedAddress,
   setUseFetchedAddress,
 }: ShippingAddressManagerProps<AddressDataType>) => {
+  const { personDetails } = usePersonData();
+  const addressFromContext = personDetails.address;
   return (
     <>
-      {fetchedUserAddress && fetchedUserAddress.length > 0 && (
+      {addressFromContext.name && (
         <Button
           bgColor="#F4F3FF"
           onClick={() => setUseFetchedAddress(!useFetchedAddress)}
@@ -38,8 +39,8 @@ export const ShippingAddressManager = ({
           {useFetchedAddress ? "Use form" : "Use address"}
         </Button>
       )}
-      {fetchedUserAddress?.length && useFetchedAddress ? (
-        <UserAddressDisplay address={fetchedUserAddress} />
+      {addressFromContext.name && useFetchedAddress ? (
+        <UserAddressDisplay address={addressFromContext} />
       ) : (
         <ShippingForm register={register} errors={errors} />
       )}

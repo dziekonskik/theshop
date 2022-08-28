@@ -48,6 +48,17 @@ export type OrderHistoryItem = {
   }[];
 };
 
+export interface FetchedUserData {
+  address: string[] | null;
+  avatar: {
+    url: string;
+    width?: number | null | undefined;
+    height?: number | null | undefined;
+  } | null;
+  userEmail: string;
+  orders: string[] | null;
+}
+
 // export type InferGetStaticPathsType<T> = T extends () => Promise<{
 //   paths: Array<{ params: infer R }>;
 // }>

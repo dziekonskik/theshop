@@ -10,12 +10,14 @@ import {
   GetPersonDetailsByEmailQuery,
   GetPersonDetailsByEmailQueryVariables,
 } from "../generated/graphql";
+import { useSetPersonAddressToContext } from "../util/useSetPersonAddress";
+import type { FetchedUserData } from "../util/types";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!.toString()
 );
 const CheckoutPage = ({
-  sessionData,
+  userData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const stripeElementsConfig: StripeElementsOptions = {
     fonts: [
@@ -26,10 +28,11 @@ const CheckoutPage = ({
     ],
     locale: "en",
   };
+  useSetPersonAddressToContext(userData);
 
   return (
     <Elements stripe={stripePromise} options={stripeElementsConfig}>
-      <CheckoutForm fetchedUserAddress={sessionData?.address} />
+      <CheckoutForm />
     </Elements>
   );
 };
@@ -37,18 +40,7 @@ const CheckoutPage = ({
 export default CheckoutPage;
 
 interface GetServerSidePropsType {
-  sessionData?: {
-    address: string[] | undefined;
-    avatar:
-      | {
-          url: string;
-          width?: number | null | undefined;
-          height?: number | null | undefined;
-        }
-      | null
-      | undefined;
-    userEmail: string;
-  } | null;
+  userData?: FetchedUserData;
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -79,11 +71,17 @@ export const getServerSideProps: GetServerSideProps<
     fetchPolicy: "no-cache",
   });
 
-  const address = data.person?.address;
-  const avatar = data.person?.avatar;
-  const sessionData = { address, avatar, userEmail: session.user.email };
+  const address = data.person?.address || null;
+  const avatar = data.person?.avatar || null;
+  const orders = data.person?.orders || null;
+  const userData = {
+    address,
+    avatar,
+    orders,
+    userEmail: session.user.email,
+  };
 
   return {
-    props: { sessionData },
+    props: { userData },
   };
 };

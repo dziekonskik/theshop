@@ -25,13 +25,11 @@ import {
   getCartIdFromStorage,
 } from "../../util/cartHelpers/cartUtilFunctions";
 import { useCartState } from "../Cart/CartContext";
+import { usePersonData } from "../../contexts/UserContext";
 
 export type CheckoutFormData = yup.InferType<typeof addressSchema>;
-interface CheckoutFormProps {
-  fetchedUserAddress: string[] | undefined;
-}
 
-export const CheckoutForm = ({ fetchedUserAddress }: CheckoutFormProps) => {
+export const CheckoutForm = () => {
   const matches = useMediaQuery("(max-width: 768px)");
   const [currentStep, setCurrentStep] = useState<"ship" | "pay" | "ship&pay">();
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
@@ -41,6 +39,7 @@ export const CheckoutForm = ({ fetchedUserAddress }: CheckoutFormProps) => {
   });
   const [useFetchedAddress, setUseFetchedAddress] = useState(false);
   const { resetCartState } = useCartState();
+  const { personDetails } = usePersonData();
   const router = useRouter();
   const elements = useElements();
   const stripe = useStripe();
@@ -91,16 +90,8 @@ export const CheckoutForm = ({ fetchedUserAddress }: CheckoutFormProps) => {
 
     if (!stripe || !elements || !clientSecret) return;
 
-    if (useFetchedAddress && fetchedUserAddress) {
-      data = {
-        name: fetchedUserAddress[0],
-        email: fetchedUserAddress[1],
-        phone: fetchedUserAddress[2],
-        addressLineOne: fetchedUserAddress[3],
-        addressLineTwo: fetchedUserAddress[4],
-        city: fetchedUserAddress[5],
-        postalCode: fetchedUserAddress[6],
-      };
+    if (useFetchedAddress && personDetails.address) {
+      data = personDetails.address;
     }
 
     switch (selectedPaymentMethod) {
@@ -137,7 +128,6 @@ export const CheckoutForm = ({ fetchedUserAddress }: CheckoutFormProps) => {
                 <ShippingAddressManager
                   register={register}
                   errors={errors}
-                  fetchedUserAddress={fetchedUserAddress}
                   useFetchedAddress={useFetchedAddress}
                   setUseFetchedAddress={setUseFetchedAddress}
                 />
