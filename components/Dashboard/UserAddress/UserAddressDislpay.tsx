@@ -1,15 +1,21 @@
 import { AddressUnit } from "./AddressUnit";
+import { usePersonData } from "../../../contexts/UserContext";
 
 interface UserAddressDisplayProps {
   address: string[];
   aside?: React.ReactNode;
 }
-export const UserAddressDisplay = ({
-  address,
-  aside,
-}: UserAddressDisplayProps) => {
-  const [name, email, phone, addressLineOne, addressLineTwo, city, postalCode] =
-    address;
+export const UserAddressDisplay = ({ aside }: UserAddressDisplayProps) => {
+  const { personDetails } = usePersonData();
+  const {
+    name,
+    email,
+    phone,
+    addressLineOne,
+    addressLineTwo,
+    city,
+    postalCode,
+  } = personDetails.address;
   return (
     <div className="flex justify-between items-end">
       <article>

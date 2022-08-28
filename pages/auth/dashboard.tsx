@@ -8,6 +8,7 @@ import {
   GetPersonDetailsByEmailQuery,
   GetPersonDetailsByEmailQueryVariables,
 } from "../../generated/graphql";
+import { usePersonData } from "../../contexts/UserContext";
 import { MenuPanel } from "../../components/Dashboard/MenuPanel";
 import { InformationPanel } from "../../components/Dashboard/InformationPanel";
 import { UserAvatar } from "../../components/Dashboard/UserAvatar";
@@ -22,10 +23,34 @@ const DashboardPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [renderedInfo, setRenderedInfo] = useState<RenderedInfo>();
   const matches = useMediaQuery("(max-width: 768px)");
+  const { personDetails, setPersonAddress } = usePersonData();
 
   useEffect(() => {
     if (!matches) setRenderedInfo("UserDetails");
   }, [matches]);
+
+  useEffect(() => {
+    if (sessionData?.address && !personDetails.address.name) {
+      const [
+        name,
+        email,
+        phone,
+        addressLineOne,
+        addressLineTwo,
+        city,
+        postalCode,
+      ] = sessionData?.address;
+      setPersonAddress({
+        name,
+        email,
+        phone,
+        addressLineOne,
+        addressLineTwo,
+        city,
+        postalCode,
+      });
+    }
+  }, [sessionData?.address, personDetails.address.name, setPersonAddress]);
 
   if (!sessionData) {
     return <AccessDenied />;

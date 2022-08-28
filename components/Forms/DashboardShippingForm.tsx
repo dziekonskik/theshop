@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useMediaQuery from "../../util/useMediaquery";
 import { ShippingForm } from "./CheckoutFormComponents/ShippingForm";
 import { addressSchema } from "../../util/yupSchema/addressSchema";
+import { usePersonData } from "../../contexts/UserContext";
 import { ButtonWithIcon } from "../ButtonsAndLinks/ButtonWithIcon";
 import { Button } from "../ButtonsAndLinks/Button";
 import { ArrowDownIcon, CubeTransparentIcon, ExclamationIcon } from "../Svg";
@@ -25,6 +26,7 @@ export const DashboardShippingForm = ({
 }: DashboardShippingFormProps) => {
   const matches = useMediaQuery("(max-width: 768px)");
   const session = useSession();
+  const { setPersonAddress } = usePersonData();
   const registeredUserEmail = session.data?.user.email;
 
   const {
@@ -56,6 +58,7 @@ export const DashboardShippingForm = ({
     });
 
     if (response.ok) {
+      setPersonAddress(data);
       reset();
     }
     if (!response.ok) {

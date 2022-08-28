@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useMutation } from "react-query";
 import { UploadButton } from "../ButtonsAndLinks/UploadButton";
+import { usePersonData } from "../../contexts/UserContext";
 
 export function isAvatarData(
   response: any
@@ -36,6 +37,7 @@ export const UserAvatar = ({ avatar, displayName }: UserAvatarProps) => {
     string | undefined
   >();
   const { data: sessionData } = useSession();
+  const { personDetails } = usePersonData();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedImage = e.target.files && e.target.files[0];
@@ -62,7 +64,7 @@ export const UserAvatar = ({ avatar, displayName }: UserAvatarProps) => {
   );
 
   return (
-    <article className="flex flex-col ">
+    <article className="flex flex-col">
       <div className="w-full items-center h-full flex">
         <span
           className="border-[3px] border-midnight rounded-full w-32 h-32 relative overflow-hidden cursor-pointer mx-6"
@@ -94,7 +96,7 @@ export const UserAvatar = ({ avatar, displayName }: UserAvatarProps) => {
         />
       </div>
       <span className="font-anonymous text-start mt-2 ml-5 text-midnight">
-        Hello {displayName}!
+        Hello {personDetails?.address?.name || displayName}!
       </span>
     </article>
   );
