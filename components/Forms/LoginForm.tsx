@@ -19,14 +19,12 @@ export const LoginForm = () => {
   const router = useRouter();
 
   const handleLogin = async (data: LoginFormData) => {
-    signIn("credentials", { ...data, redirect: false }).then((response) => {
-      if (response?.ok) {
-        router.push("/auth/dashboard");
-      } else {
+    signIn("credentials", { ...data, callbackUrl: "/auth/dashboard" }).catch(
+      () => {
         setLoginError("Incorrect credentials");
         reset();
       }
-    });
+    );
   };
 
   const { mutate, isLoading } = useMutation("login", handleLogin);
