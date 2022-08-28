@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Button } from "../ButtonsAndLinks/Button";
-import useMediaQuery from "../../util/useMediaquery";
 import { NothingHere } from "../NothingHere";
 import { UserAddressDisplay } from "./UserAddress/UserAddressDislpay";
+import { usePersonData } from "../../contexts/UserContext";
+import useMediaQuery from "../../util/useMediaquery";
 import dataOkPicture from "../../public/assets/shapes/data_ok.svg";
 import type { RenderedInfo } from "../../pages/auth/dashboard";
 
@@ -10,12 +11,14 @@ interface UserDetailsProps {
   setRenderedInfo: React.Dispatch<
     React.SetStateAction<RenderedInfo | undefined>
   >;
-  address: string[] | undefined;
 }
 
-export const UserDetails = ({ setRenderedInfo, address }: UserDetailsProps) => {
+export const UserDetails = ({ setRenderedInfo }: UserDetailsProps) => {
   const matches = useMediaQuery("(max-width: 768px)");
-  if (!address?.length) {
+  const { personDetails } = usePersonData();
+  const addressFromContext = personDetails.address;
+
+  if (!addressFromContext.name) {
     return (
       <NothingHere
         setRenderedInfo={setRenderedInfo}
@@ -31,7 +34,7 @@ export const UserDetails = ({ setRenderedInfo, address }: UserDetailsProps) => {
         Personal data
       </h1>
       <UserAddressDisplay
-        address={address}
+        address={addressFromContext}
         aside={
           <aside className="hidden lg:block">
             <Image

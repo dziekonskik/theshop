@@ -70,10 +70,7 @@ export const DashboardShippingForm = ({
     handleUpdateAddress
   );
 
-  const onSubmit = handleSubmit(async (data) => {
-    if (!registeredUserEmail) return;
-    mutate(data);
-  });
+  const onSubmit = handleSubmit(async (data) => mutate(data));
 
   let iconToDisplay = <ArrowDownIcon />;
   let textToDiplay = "Save";

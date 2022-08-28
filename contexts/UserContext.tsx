@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import type { UserDetails } from "../util/types";
 
 interface UserContext {
@@ -34,9 +34,9 @@ const initialState: UserDetails = {
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [personDetails, setPersonDetails] = useState<UserDetails>(initialState);
 
-  const setPersonAddress = (address: UserDetails["address"]) => {
-    setPersonDetails({ ...personDetails, address });
-  };
+  const setPersonAddress = useCallback((address: UserDetails["address"]) => {
+    setPersonDetails((prevDetails) => ({ ...prevDetails, address }));
+  }, []);
 
   return (
     <UserContext.Provider value={{ personDetails, setPersonAddress }}>
