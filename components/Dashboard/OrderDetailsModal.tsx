@@ -53,14 +53,14 @@ export const OrderDetailsModal = ({
                   <li key={product.name} className="text-platinium">
                     <div>
                       <span className="font-bold">{product.name}</span> x{" "}
-                      {quantity} - {total}
+                      {quantity} - {total / 100}
                       <EuroIcon className="inline ml-1" />
                     </div>
                   </li>
                 ))}
               </ul>
               <div className="text-xl text-platinium mt-4">
-                Total: {total}
+                Total: {total / 100}
                 <EuroIcon className="inline ml-1" />
               </div>
             </div>
