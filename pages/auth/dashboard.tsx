@@ -81,17 +81,15 @@ export default DashboardPage;
 
 interface GetServerSidePropsType {
   sessionData?: {
-    address: string[] | undefined;
-    avatar:
-      | {
-          url: string;
-          width?: number | null | undefined;
-          height?: number | null | undefined;
-        }
-      | null
-      | undefined;
+    address: string[] | null;
+    avatar: {
+      url: string;
+      width?: number | null | undefined;
+      height?: number | null | undefined;
+    } | null;
+
     userEmail: string;
-    orders: string[] | undefined;
+    orders: string[] | null;
   } | null;
 }
 
@@ -123,9 +121,9 @@ export const getServerSideProps: GetServerSideProps<
     fetchPolicy: "no-cache",
   });
 
-  const address = data.person?.address;
-  const avatar = data.person?.avatar;
-  const orders = data.person?.orders;
+  const address = data.person?.address || null;
+  const avatar = data.person?.avatar || null;
+  const orders = data.person?.orders || null;
   const sessionData = {
     address,
     avatar,

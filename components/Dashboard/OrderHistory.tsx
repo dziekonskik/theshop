@@ -13,7 +13,7 @@ interface OrderHistoryProps {
   setRenderedInfo: React.Dispatch<
     React.SetStateAction<RenderedInfo | undefined>
   >;
-  orderIds: string[] | undefined;
+  orderIds: string[] | null;
 }
 
 export const OrderHistory = ({

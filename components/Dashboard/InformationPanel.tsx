@@ -8,8 +8,8 @@ interface InformationPanelProps {
     React.SetStateAction<RenderedInfo | undefined>
   >;
   renderedInfo: RenderedInfo | undefined;
-  address: string[] | undefined;
-  orders: string[] | undefined;
+  address: string[] | null;
+  orders: string[] | null;
 }
 
 export const InformationPanel = (props: InformationPanelProps) => {
@@ -18,7 +18,7 @@ export const InformationPanel = (props: InformationPanelProps) => {
   return (
     <section className="flex-1 flex flex-col lg:max-h-[550px] overflow-y-auto scrollbar">
       {renderedInfo === "UserDetails" && (
-        <UserDetails setRenderedInfo={setRenderedInfo} address={address} />
+        <UserDetails setRenderedInfo={setRenderedInfo} />
       )}
       {renderedInfo === "ShippingAdddress" && (
         <DashboardShippingForm setRenderedInfo={setRenderedInfo} />
