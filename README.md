@@ -23,8 +23,9 @@
 - Secure and custom paymemt flow with Stripe Elements 💰
 - Messages sent via contact form delivered with AWS SES 📦
 - To store Newsletter email I use Mailer Lite 📩
-
-### Next Deploy - user area 🙋 🙋‍♂️
+- Register and login thanks to the Next Auth 🙋 🙋‍♂️
+- Nice dashboard for you to feel like home dear user ✌️
+- Passwords are secured with bcrypt 🛡️
 
 <h2 style="margin-top: 40px;" >💬 Let's talk!</h2>
 
