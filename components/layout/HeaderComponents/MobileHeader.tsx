@@ -20,12 +20,12 @@ export const MobileHeader = ({ navItems }: MobileHeaderProps) => {
 
   useEffect(() => {
     if (open) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflowY = "hidden";
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflowY = "scroll";
     }
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflowY = "scroll";
     };
   }, [open]);
 
