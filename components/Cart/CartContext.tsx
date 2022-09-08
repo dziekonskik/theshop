@@ -57,6 +57,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   });
 
   useEffect(() => {
+    console.log(cartIdFromStorage);
+    console.log(router.query.redirect_status);
     if (cartIdFromStorage && !router.query.redirect_status) {
       apolloClient
         .query<GetOrderDetailsByIdQuery, GetOrderDetailsByIdQueryVariables>({

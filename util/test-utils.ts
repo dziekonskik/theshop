@@ -30,3 +30,15 @@ export const aliasMutation = (
     req.alias = `${operationName}`;
   }
 };
+
+// Stripe test helpers
+
+export const getIframeInternals = (iframe: JQuery<HTMLIFrameElement>) => {
+  return cy
+    .wrap(iframe)
+    .its("0.contentDocument")
+    .should("exist")
+    .its("body")
+    .should("not.be.undefined")
+    .then(cy.wrap);
+};
