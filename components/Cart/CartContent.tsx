@@ -83,6 +83,7 @@ export const CartContent = () => {
         ref={cartIemsListRef}
         className="my-7 pt-7 overflow-y-auto scrollbar"
         style={{ height: cartIemsListHeight - listMagrinY }}
+        data-testid="cart-list"
       >
         <AnimatePresence>
           {cartItems.map((cartItem) => {
@@ -137,7 +138,11 @@ const SummaryBottomWidgetMobile = forwardRef(
           </div>
         </summary>
         <article className="flex justify-center items-center w-1/2 md:w-1/3">
-          <BigLink bgColor="#6C63FF" href="/checkout">
+          <BigLink
+            bgColor="#6C63FF"
+            href="/checkout"
+            dataTestId="checkout-link"
+          >
             checkout
           </BigLink>
         </article>

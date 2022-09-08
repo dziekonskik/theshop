@@ -9,6 +9,7 @@ interface ButtonWithIconProps {
   bgColor: "#6C63FF" | "#F4E13E";
   fullWidth?: boolean;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const ButtonWithIcon = ({
@@ -19,10 +20,12 @@ export const ButtonWithIcon = ({
   bgColor,
   fullWidth,
   disabled,
+  dataTestId,
 }: ButtonWithIconProps) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <button
+      data-testid={dataTestId}
       onClick={onClick}
       disabled={disabled}
       className="px-10 py-5 font-comfortaa text-lg uppercase shadow-xl hover:shadow-lg hover:brightness-110 flex items-center justify-center"

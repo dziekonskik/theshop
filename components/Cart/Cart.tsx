@@ -11,7 +11,9 @@ export const Cart = ({ strokeWidth }: CartProps) => {
   return (
     <Link href={"/cart"}>
       <a className="flex items-center">
-        <span className="mr-1">{cartItems.length > 0 && cartItems.length}</span>
+        <span data-testid="cart-icon" className="mr-1">
+          {cartItems.length > 0 && cartItems.length}
+        </span>
         <CartIcon strokeWidth={strokeWidth} className="text-midnight" />
       </a>
     </Link>

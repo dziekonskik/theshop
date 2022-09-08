@@ -136,9 +136,11 @@ export const CheckoutForm = () => {
                 <ButtonWithIcon
                   bgColor="#6C63FF"
                   type="button"
+                  dataTestId="checkout-step-button"
+                  disabled={!isValid}
                   onClick={(e) => {
                     e.preventDefault();
-                    currentStep === "ship" && isValid
+                    currentStep === "ship"
                       ? setCurrentStep("pay")
                       : setCurrentStep("ship");
                   }}
@@ -152,7 +154,7 @@ export const CheckoutForm = () => {
                     )
                   }
                 >
-                  Next
+                  {currentStep === "ship" ? "Next" : "Back"}
                 </ButtonWithIcon>
               </span>
             </div>

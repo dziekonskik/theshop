@@ -7,7 +7,7 @@ interface P24ComponentProps {
 
 export const P24Component = ({ setPaymentState }: P24ComponentProps) => {
   return (
-    <section className="w-full">
+    <section data-testid="p24" className="w-full">
       <P24BankElement
         onChange={({ complete }) => {
           complete && setPaymentState({ type: "ReadyToSubmit" });

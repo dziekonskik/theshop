@@ -81,7 +81,7 @@ export const CreditCardComponent = ({
       <h3 className="font-anonymous capitalize text-center text-midnight">
         enter payment details
       </h3>
-      <section className="w-full">
+      <section className="w-full" data-testid="credit-card">
         <span className="relative flex items-center justify-between">
           <ChipIcon className="h-9 w-9 text-midnight" strokeWidth={1} />
           <RssIcon className="rotate-90 text-midnight" />

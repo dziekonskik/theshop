@@ -32,7 +32,7 @@ export const CartSummary = () => {
         </summary>
       </div>
       <div className="mt-7">
-        <BigLink bgColor="#6C63FF" href="/checkout">
+        <BigLink bgColor="#6C63FF" href="/checkout" dataTestId="checkout-link">
           checkout
         </BigLink>
       </div>

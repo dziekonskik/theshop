@@ -23,6 +23,7 @@ export const CartContentListItem = ({
       layout
       className="mb-20 md:mb-24 bg-silver bg-opacity-70 grid grid-cols-12 h-20 md:h-24 relative w-full"
       key={cartItem.product.slug}
+      data-testid="cart-item"
     >
       <div className="h-24 w-24 md:h-32 md:w-32 bg-bubble-gum p-5 -translate-y-2 md:-translate-y-4 col-span-2 z-10">
         <span className="drop-shadow-md">
@@ -80,7 +81,10 @@ const QuantityButtons = ({
               <ArrowUpIcon strokeWidth={2} className="h-5 w-5" />
             </span>
           </button>
-          <span className="text-purple font-comfortaa md:text-lg translate-y-2.5 md:translate-y-4">
+          <span
+            data-testid="cart-item-quantity"
+            className="text-purple font-comfortaa md:text-lg translate-y-2.5 md:translate-y-4"
+          >
             {cartItem.quantity}
           </span>
           <button

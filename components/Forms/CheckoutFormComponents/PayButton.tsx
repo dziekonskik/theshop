@@ -19,7 +19,7 @@ export const PayButton = ({ handleSubmit, paymentState }: PayButtonProps) => {
     paymentState.type === "LeadingState" ||
     paymentState.type === "ReadyToSubmit";
   return (
-    <>
+    <div data-testid="pay-button-wrapper">
       {paymentInProgress && (
         <DefaultStateButton
           handleSubmit={handleSubmit}
@@ -38,7 +38,7 @@ export const PayButton = ({ handleSubmit, paymentState }: PayButtonProps) => {
           paymentState={paymentState}
         />
       )}
-    </>
+    </div>
   );
 };
 

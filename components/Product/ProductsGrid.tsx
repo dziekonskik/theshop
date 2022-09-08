@@ -28,7 +28,10 @@ export const ProductsGrid = ({
 
   return (
     <section className="mx-auto w-full py-7 px-4 lg:px-0">
-      <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
+      <ul
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7"
+        data-tesid="product-list"
+      >
         {productsData.map((product) => (
           <ProductLstItem
             key={product.slug}

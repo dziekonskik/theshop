@@ -4,6 +4,7 @@ interface BigButtonProps extends LinkProps {
   children: React.ReactNode;
   bgColor: "#6C63FF" | "#F4E13E";
   fullWidth?: boolean;
+  dataTestId?: string;
 }
 
 export const BigLink = ({
@@ -11,10 +12,12 @@ export const BigLink = ({
   children,
   bgColor,
   fullWidth,
+  dataTestId,
 }: BigButtonProps) => {
   return (
     <NextLink href={href}>
       <a
+        data-testid={dataTestId}
         className={`px-10 py-5 font-comfortaa uppercase shadow-xl hover:shadow-lg hover:brightness-110 text-center`}
         style={{
           backgroundColor: bgColor,

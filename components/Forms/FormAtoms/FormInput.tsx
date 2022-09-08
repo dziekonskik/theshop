@@ -36,6 +36,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
           rows={5}
           cols={50}
           placeholder={placeholder}
+          data-testid={label.toLowerCase()}
           {...register(label)}
         />
       ) : (
@@ -44,6 +45,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
           type={type}
           className="w-full p-3 shadow-sm bg-transparent border border-b-purple border-l-purple text-midnight focus:bg-white"
           placeholder={placeholder}
+          data-testid={label.toLowerCase()}
           {...register(label)}
         />
       )}

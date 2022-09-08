@@ -6,6 +6,7 @@ interface AddToCartButtonProps {
   svgMarkup?: React.ReactNode;
   bgColor: "#77aaFF" | "#F4F3FF";
   fullWidth?: boolean;
+  dataTestId?: string;
 }
 
 export const Button = ({
@@ -16,12 +17,14 @@ export const Button = ({
   bgColor,
   type,
   fullWidth,
+  dataTestId,
 }: AddToCartButtonProps) => {
   return (
     <button
       type={type}
       disabled={disabled}
       onClick={onClick}
+      data-testid={dataTestId}
       className="inline-flex items-center px-6 py-2 font-comfortaa uppercase shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
       style={{
         backgroundColor: bgColor,

@@ -78,6 +78,7 @@ export const ProductLstItem = ({ product }: ProductListItemProps) => {
             onClick={() => addItemToCart(orderItem)}
             type="button"
             bgColor="#77aaFF"
+            dataTestId="add-to-cart-button"
           >
             <CartIcon
               className={`${addToCartDisabled ? "animate-wiggle" : ""}`}
